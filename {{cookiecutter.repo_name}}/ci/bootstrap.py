@@ -4,8 +4,8 @@ import pathlib
 import subprocess
 import sys
 
-base_path: pathlib.Path = pathlib.Path(__file__).resolve().parent.parent
-templates_path = base_path / "ci" / "templates"
+project_root: pathlib.Path = pathlib.Path(__file__).resolve().parent.parent
+templates = project_root / "ci" / "templates"
 
 
 def check_call(args):
@@ -14,7 +14,15 @@ def check_call(args):
 
 
 def exec_in_env():
-    env_path = base_path / ".tox" / "bootstrap"
+    """Creates a virtual environment from which to run `main`
+
+    This function is called in `post_gen_project.py` if the required
+    dependencies (e.g., `tox`, `jinja2`) are not installed after the project is
+    created. A virtual environment is created (either via `venv` or
+    `virtualenv`), the required dependencies are installed, and then the
+    module is run via a `python ci/bootstrap.py` command.
+    """
+    env_path = project_root / ".tox" / "bootstrap"
     if sys.platform == "win32":
         bin_path = env_path / "Scripts"
     else:
@@ -44,31 +52,37 @@ def exec_in_env():
 def main():
     import jinja2
 
-    print(f"Project path: {base_path}")
+    print(f"Project root: {project_root}")
 
     jinja = jinja2.Environment(
-        loader=jinja2.FileSystemLoader(str(templates_path)),
+        loader=jinja2.FileSystemLoader(str(templates)),
         trim_blocks=True,
         lstrip_blocks=True,
         keep_trailing_newline=True,
     )
-    tox_environments = [
-        line.strip()
-        # 'tox' need not be installed globally, but must be importable
-        # by the Python that is running this script.
-        # This uses sys.executable the same way that the call in
-        # cookiecutter-pylibrary/hooks/post_gen_project.py
-        # invokes this bootstrap.py itself.
-        for line in subprocess.check_output([sys.executable, "-m", "tox", "--listenvs"], universal_newlines=True).splitlines()
-    ]
-    tox_environments = [line for line in tox_environments if line.startswith("py")]
-    for template in templates_path.rglob("*"):
+    # `tox` need not be installed globally, but must be importable
+    # by the Python that is running this script.
+    # This uses sys.executable the same way that the call in
+    # cookiecutter-pylibrary/hooks/post_gen_project.py
+    # invokes this bootstrap.py itself.
+    # Collect python testing environments
+    tox_environments = []
+    lines = subprocess.check_output(
+        [sys.executable, "-m", "tox", "--listenvs"], universal_newlines=True
+    ).splitlines()
+    for line in lines:
+        line = line.strip()
+        if line.startswith('py'):
+            tox_environments.append(line)
+
+    # Render CI/CD Templates
+    for template in templates.rglob("*"):
         if template.is_file():
-            template_path = template.relative_to(templates_path).as_posix()
-            destination = base_path / template_path
-            destination.parent.mkdir(parents=True, exist_ok=True)
-            destination.write_text(jinja.get_template(template_path).render(tox_environments=tox_environments))
-            print(f"Wrote {template_path}")
+            template = template.relative_to(templates).as_posix().strip('.jinja')
+            template_destination = project_root / template
+            template_destination.parent.mkdir(parents=True, exist_ok=True)
+            template_destination.write_text(jinja.get_template(template).render(tox_environments=tox_environments))
+            print(f"Wrote {template}")
     print("DONE.")
 
 
