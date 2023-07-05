@@ -35,31 +35,23 @@ if __name__ == "__main__":
     cwd.joinpath('.readthedocs.yml').unlink()
 {% endif %}
 
-
 {%- if cookiecutter.command_line_interface == 'no' %}
     src.joinpath('{{ cookiecutter.package_name }}', '__main__.py').unlink()
     src.joinpath('{{ cookiecutter.package_name }}', 'cli.py').unlink()
 {% endif %}
 
-    ci.joinpath('templates', 'tox.ini').unlink(missing_ok=True)
-
 {%- if cookiecutter.allow_tests_inside_package == 'no' %}
     shutil.rmtree(src / '{{ cookiecutter.package_name }}' / 'tests')
 {% endif %}
 
-    ci.joinpath('appveyor-bootstrap.py').unlink(missing_ok=True)
-    ci.joinpath('appveyor-download.py').unlink(missing_ok=True)
-    ci.joinpath('appveyor-with-compiler.cmd').unlink(missing_ok=True)
-    ci.joinpath('templates', '.appveyor.yml').unlink(missing_ok=True)
-    ci.joinpath('templates', 'appveyor.yml').unlink(missing_ok=True)
-    ci.joinpath('templates', '.travis.yml').unlink(missing_ok=True)
-    cwd.joinpath('.appveyor.yml').unlink(missing_ok=True)
-    cwd.joinpath('appveyor.yml').unlink(missing_ok=True)
-    cwd.joinpath('.travis.yml').unlink(missing_ok=True)
-
 {%- if cookiecutter.github_actions == 'no' %}
     ci.joinpath('templates', '.github', 'workflows', 'github-actions.yml').unlink()
     cwd.joinpath('.github', 'workflows', 'github-actions.yml').unlink(missing_ok=True)
+{% endif %}
+
+{%- if cookiecutter.gitlab_ci_cd == 'no' %}
+    ci.joinpath('templates', '.gitlab-ci.yml').unlink()
+    cwd.joinpath('.gitlab-ci.yml').unlink(missing_ok=True)
 {% endif %}
 
 {%- if cookiecutter.repo_hosting == 'no' %}
