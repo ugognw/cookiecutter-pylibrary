@@ -1,13 +1,124 @@
-[build-system]
-requires = [
-    "setuptools>=30.3.0",
-{%- if cookiecutter.setup_py_uses_setuptools_scm == 'yes' %}
-    "setuptools_scm>=3.3.1",
+[tool.poetry]
+name = "{{ cookiecutter.distribution_name }}"
+version = "{{ cookiecutter.version }}"
+description = "{{ cookiecutter.project_short_description }}"
+authors = [
+    "{{ cookiecutter.full_name }}"
+    ]
+license = "{{ cookiecutter.license }}"
+readme = "README.rst"
+repository = "https://{{ cookiecutter.repo_hosting_domain }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}"
+{%- if cookiecutter.sphinx_docs == 'yes' %}
+documentation = "{{ cookiecutter.sphinx_docs_hosting }}"
 {%- endif %}
-{%- if cookiecutter.c_extension_support == 'cffi' %}
-    "cffi>=1.0.0",
+keywords = [
+    {% for keyword in cookiecutter.keywords.split(',') %}
+    {{ keyword }},
+    {{% endif }}
+]
+packages = [
+    { include = "{{ cookiecutter.package_name }}", from = "src" }
+]
+include = [
+    "AUTHORS.rst",
+    "CHANGELOG.rst",
+    "CONTRIBUTING.rst",
+    "LICENSE",
+    "README.rst",
+{% if cookiecutter.version_manager == 'bump2version' -%}
+    ".bumpversion.cfg",
+{% endif -%}
+    ".cookiecutterrc.",
+    ".coveragerc.",
+    ".editorconfig",
+{% if cookiecutter.github_actions == 'yes' -%}
+    ".github/workflows/github-actions.yml",
+{% endif -%}
+{% if cookiecutter.gitlab_ci_cd == 'yes' -%}
+    "gitlab-ci.yml",
+{% endif -%}
+{% if cookiecutter.pre_commit == "yes" -%}
+    ".pre-commit-config.yaml",
+{% endif -%}
+{% if cookiecutter.sphinx_docs == 'yes' and 'readthedocs' in cookiecutter.sphinx_docs_hosting -%}
+    ".readthedocs.yml",
+{% endif -%}
+    "tox.ini"
+    ]
+classifiers = [
+        # complete classifier list: http://pypi.python.org/pypi?%3Aaction=list_classifiers
+        "Development Status :: 5 - Production/Stable",
+        "Intended Audience :: Developers",
+{%- if cookiecutter.license == "no" %}
+{%- elif cookiecutter.license in ["BSD 2-Clause License", "BSD 3-Clause License"] %}
+        "License :: OSI Approved :: BSD License",
+{%- elif cookiecutter.license == "MIT license" %}
+        "License :: OSI Approved :: MIT License",
+{%- elif cookiecutter.license == "ISC license" %}
+        "License :: OSI Approved :: ISC License (ISCL)",
+{%- elif cookiecutter.license == "Apache Software License 2.0" %}
+        "License :: OSI Approved :: Apache Software License",
+{%- elif "LGPLv3+" in cookiecutter.license %}
+        "License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)"
+{%- elif "LGPLv3" in cookiecutter.license %}
+        "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)"
+{%- elif "LGPLv2" in cookiecutter.license %}
+        "License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)"
+{%- elif "LGPLv2" in cookiecutter.license %}
+        "License :: OSI Approved :: GNU Lesser General Public License v2 (LGPLv2)"
+{%- endif %}
+        "Operating System :: Unix",
+        "Operating System :: POSIX",
+        "Operating System :: Microsoft :: Windows",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3 :: Only",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: Implementation :: CPython",
+        "Programming Language :: Python :: Implementation :: PyPy",
+        # uncomment if you test on these interpreters:
+        # "Programming Language :: Python :: Implementation :: IronPython",
+        # "Programming Language :: Python :: Implementation :: Jython",
+        # "Programming Language :: Python :: Implementation :: Stackless",
+        "Topic :: Utilities",
+{%- if cookiecutter.pypi_disable_upload == "yes" %}
+        "Private :: Do Not Upload",
 {%- endif %}
 ]
+{%- if cookiecutter.command_line_interface != "no" %}
+
+[tool.poetry.scripts]
+{{ cookiecutter.command_line_interface_bin_name }} = '{{ cookiecutter.package_name }}.cli:main'
+{%- endif %}
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+
+[build-system]
+requires = [
+    "poetry-core>=1.0.0",
+{% if cookiecutter.c_extension_support == 'cffi' %}
+    "cffi>=1.0.0",
+{% endif %}
+]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+black = "*"
+pylint = "^2.15.0"
+ruff = "*"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.1.2"
+tox = "^3.26.0"
+coverage = "^7.2.7"
+
+[tool.poetry.group.test]
+optional = true
 
 [tool.ruff.per-file-ignores]
 "ci/*" = ["S"]
@@ -43,7 +154,7 @@ select = [
     "W", # pycodestyle warnings
 ]
 src = ["src", "tests"]
-target-version = "py37"
+target-version = "py311"
 
 [tool.ruff.flake8-pytest-style]
 fixture-parentheses = false
@@ -54,8 +165,8 @@ forced-separate = ["conftest"]
 force-single-line = true
 
 [tool.black]
-line-length = 140
-target-version = ["py37"]
+line-length = 79
+target-version = ["py311"]
 {%- if cookiecutter.formatter_quote_style == "single" %}
 skip-string-normalization = true
 
