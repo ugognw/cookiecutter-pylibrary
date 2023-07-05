@@ -24,6 +24,8 @@ Removed
 ~~~~~~~
 
 * C-extension support
+* Optional tests inside of packagement
+* Optional coverage testing separate from tests
 
 `0.0.1`_ (2023-06-24)
 ------------------
