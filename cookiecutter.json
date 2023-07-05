@@ -54,8 +54,6 @@
     "github_actions_osx": ["yes", "no"],
     "github_actions_windows": ["yes", "no"],
     "gitlab_ci_cd": ["yes", "no"],
-    "__test_matrix_separate_coverage_options": {"yes":  true, "no":  false},
-    "__setup_py_uses_setuptools_scm_options": {"yes":  true, "no":  false},
     "__pypi_badge_options":  {"yes":  true, "no":  false},
     "__pypi_disable_upload_options": {"yes":  true, "no":  false},
     "__coveralls_options":  {"yes":  true, "no":  false},
