@@ -22,7 +22,6 @@ else:
             secho(line, fg="green", bold=True)
 
 
-
 if __name__ == "__main__":
     cwd = pathlib.Path().resolve()
     src = cwd / 'src'
@@ -40,10 +39,6 @@ if __name__ == "__main__":
     src.joinpath('{{ cookiecutter.package_name }}', 'cli.py').unlink()
 {% endif %}
 
-{%- if cookiecutter.allow_tests_inside_package == 'no' %}
-    shutil.rmtree(src / '{{ cookiecutter.package_name }}' / 'tests')
-{% endif %}
-
 {%- if cookiecutter.github_actions == 'no' %}
     ci.joinpath('templates', '.github', 'workflows', 'github-actions.yml').unlink()
     cwd.joinpath('.github', 'workflows', 'github-actions.yml').unlink(missing_ok=True)
@@ -56,12 +51,7 @@ if __name__ == "__main__":
 
 {%- if cookiecutter.repo_hosting == 'no' %}
     cwd.joinpath('CONTRIBUTING.rst').unlink()
-{% endif %}
-
-{%- if cookiecutter.setup_py_uses_setuptools_scm == 'yes' %}
-    cwd.joinpath('MANIFEST.in').unlink()
-{%- else %}
-    src.joinpath('{{ cookiecutter.package_name }}', '_version.py').unlink(missing_ok=True)
+    cwd.joinpath('docs', 'source', 'contributing.rst').unlink()
 {% endif %}
 
 {%- if cookiecutter.version_manager == 'bump2version' %}
@@ -73,15 +63,13 @@ if __name__ == "__main__":
 {%- if cookiecutter.license == "no" %}
     cwd.joinpath('LICENSE').unlink()
 {% endif %}
-    cwd.joinpath('setup.cfg').unlink(missing_ok=True)
-
     width = min(140, shutil.get_terminal_size(fallback=(140, 0)).columns)
     note(" Generating CI configuration ".center(width, "#"))
     try:
         subprocess.check_call(['tox', '-e', 'bootstrap', '--sitepackages'])
     except Exception:
         try:
-            subprocess.check_call([sys.executable, '-mtox', '-e', 'bootstrap', '--sitepackages'])
+            subprocess.check_call([sys.executable, '-m', 'tox', '-e', 'bootstrap', '--sitepackages'])
         except Exception:
             subprocess.check_call([sys.executable, ci / 'bootstrap.py'])
     note(' Setting up pre-commit '.center(width, "#"))
