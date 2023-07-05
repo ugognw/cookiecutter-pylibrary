@@ -34,12 +34,13 @@ This is an "all inclusive" sort of template.
 
   * isort_
   * bumpversion_ (bump2version_ required)
-
-* Support for C extensions (including coverage measurement for the C code). See c_extension_support_.
-* Packaging and code quality checks. This template comes with a tox environment (``check``) that will:
-
-  * Check if your ``README.rst`` is valid.
-  * Check if the ``MANIFEST.in`` has any issues.
+  * pytest
+  * pylint
+  * pre-commit
+  * black
+  * bandit
+  * autoflake
+  * coverage
 
 Requirements
 ------------
@@ -48,6 +49,18 @@ Projects using this template have these minimal dependencies:
 
 * Cookiecutter_ - just for creating the project
 * Tox_ - for running the tests
+* Poetry_ - for managing the virtual environment and building and publishing the package
+* Pytest_ - for testing
+* Coverage_ - for code coverage analysis
+* Black_ - for code formating
+* Isort_ - for import sorting
+* Flake8_ - for static checks
+* Pylint_ - for dynamic checks
+* Bandit_ - for security checks
+* Pyupgrade_ - for updating Python syntax
+* Autoflake_ - for removing unecessary code
+* Pre-commit_ - for running pre-commit git hooks
+* Sphinx_ - for building documentation
 * Setuptools_ - for building the package, wheels etc. Now-days Setuptools is widely available, it shouldn't pose a
   problem :)
 
@@ -84,7 +97,7 @@ You will be asked for these fields:
     * - ``full_name``
       - .. code:: python
 
-            "Ionel Cristian Maries"
+            "Ugochukwu Nwosu"
       - Main author of this library or application (used in ``AUTHORS.rst`` and ``setup.py``).
 
         Can be set in your ``~/.cookiecutterrc`` config file.
@@ -92,7 +105,7 @@ You will be asked for these fields:
     * - ``email``
       - .. code:: python
 
-            "contact@ionelmc.ro"
+            "ugognw@gmail.com"
       - Contact email of the author (used in ``AUTHORS.rst`` and ``setup.py``).
 
         Can be set in your ``~/.cookiecutterrc`` config file.
@@ -100,7 +113,7 @@ You will be asked for these fields:
     * - ``website``
       - .. code:: python
 
-            "https://blog.ionelmc.ro"
+            "https://www.law-two.com"
       - Website of the author (used in ``AUTHORS.rst``).
 
         Can be set in your ``~/.cookiecutterrc`` config file.
@@ -108,7 +121,7 @@ You will be asked for these fields:
     * - ``repo_username``
       - .. code:: python
 
-            "ionelmc"
+            "ugognw"
       - GitHub user name of this project (used for GitHub link).
 
         Can be set in your ``~/.cookiecutterrc`` config file.
@@ -165,27 +178,9 @@ You will be asked for these fields:
     * - ``version``
       - .. code:: python
 
-            "0.1.0"
+            "0.0.1"
       - Release version (see ``.bumpversion.cfg`` and in Sphinx ``conf.py``).
 
-    * - ``c_extension_support``
-      - .. code:: python
-
-            "no"
-      - .. _c_extension_support:
-
-        Support C extensions (will slightly change the outputted ``setup.py``). Available options:
-
-        * ``"yes"`` - to generate a Python C extension
-        * ``"cffi"`` - to generate CFFI bindings against a C library
-        * ``"cython"`` - to generate a Cython extension
-
-
-    * - ``c_extension_optional``
-      - .. code:: python
-
-            "no"
-      - Make C extensions optional (will allow your package to install even if extensions can't be compiled)
     * - ``test_matrix_separate_coverage``
       - .. code:: python
 
