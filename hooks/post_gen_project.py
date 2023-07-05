@@ -47,24 +47,6 @@ if __name__ == "__main__":
     shutil.rmtree(src / '{{ cookiecutter.package_name }}' / 'tests')
 {% endif %}
 
-{%- if cookiecutter.c_extension_support == 'no' %}
-    src.joinpath('{{ cookiecutter.package_name }}', '{{ cookiecutter.c_extension_module }}.c').unlink()
-    src.joinpath('{{ cookiecutter.package_name }}', '{{ cookiecutter.c_extension_module }}.pyx').unlink()
-    src.joinpath('{{ cookiecutter.package_name }}', '{{ cookiecutter.c_extension_module }}_build.py').unlink()
-{%- elif cookiecutter.c_extension_support == 'cffi' %}
-    src.joinpath('{{ cookiecutter.package_name }}', '{{ cookiecutter.c_extension_module }}.pyx').unlink()
-{%- elif cookiecutter.c_extension_support == 'cython' %}
-    src.joinpath('{{ cookiecutter.package_name }}', '{{ cookiecutter.c_extension_module }}.c').unlink()
-    src.joinpath('{{ cookiecutter.package_name }}', '{{ cookiecutter.c_extension_module }}_build.py').unlink()
-    try:
-        subprocess.check_call(['tox', '-e', 'cythonize'])
-    except Exception:
-        subprocess.check_call([sys.executable, '-mtox', '-e', 'cythonize'])
-{%- else %}
-    src.joinpath('{{ cookiecutter.package_name }}', '{{ cookiecutter.c_extension_module }}.pyx').unlink()
-    src.joinpath('{{ cookiecutter.package_name }}', '{{ cookiecutter.c_extension_module }}_build.py').unlink()
-{%- endif %}
-
     ci.joinpath('appveyor-bootstrap.py').unlink(missing_ok=True)
     ci.joinpath('appveyor-download.py').unlink(missing_ok=True)
     ci.joinpath('appveyor-with-compiler.cmd').unlink(missing_ok=True)
