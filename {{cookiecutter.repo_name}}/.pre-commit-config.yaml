@@ -18,13 +18,5 @@ repos:
     rev: main
     hooks:
       - id: trailing-whitespace
-{%- if cookiecutter.c_extension_support == 'cython' %}
-        exclude_types:
-          - c
-{%- endif %}
       - id: end-of-file-fixer
-{%- if cookiecutter.c_extension_support == 'cython' %}
-        exclude_types:
-          - c
-{%- endif %}
       - id: debug-statements
