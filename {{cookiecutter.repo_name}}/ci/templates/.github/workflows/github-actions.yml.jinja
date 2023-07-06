@@ -82,6 +82,21 @@ jobs:
         tox -e {{ '${{ matrix.tox_env }}' }} -v
 {%- endraw %}
 {%- if cookiecutter.coveralls == 'yes' %}
+    - uses: coverallsapp/github-action@v2
+      if: {{ "{{ '${{ always() }}' }}" }}
+      continue-on-error: true
+      with:
+        parallel: true
+        flag-name: {{ "{{ '${{ matrix.tox_env }}' }}" }}
+{%- endif %}
+{%- if cookiecutter.codecov == 'yes' %}
+    - uses: codecov/codecov-action@v3
+      if: {{ "{{ '${{ always() }}' }}" }}
+      with:
+        verbose: true
+        flags: {{ "{{ '${{ matrix.tox_env }}' }}" }}
+{%- endif %}
+{%- if cookiecutter.coveralls == 'yes' %}
   finish:
     needs: test
     if: {{ "{{ '${{ always() }}' }}" }}
