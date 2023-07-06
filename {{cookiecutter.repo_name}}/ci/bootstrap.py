@@ -65,13 +65,13 @@ def main():
     # This uses sys.executable the same way that the call in
     # cookiecutter-pylibrary/hooks/post_gen_project.py
     # invokes this bootstrap.py itself.
-    # Collect python testing environments
+    # Collect only python testing environments
     tox_environments = []
     lines = subprocess.check_output(
         [sys.executable, "-m", "tox", "--listenvs"], universal_newlines=True
     ).splitlines()
     for line in lines:
-        line = line.strip()
+        line = line.split()[0]
         if line.startswith('py'):
             tox_environments.append(line)
 
