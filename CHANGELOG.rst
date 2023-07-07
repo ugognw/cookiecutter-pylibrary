@@ -14,11 +14,13 @@ Added
 * Coveralls integration for GitLab or GitHub
 * Default GitHub actions and GitLab pipelines for changelog generation
 * Optional markdown docs with Sphinx
+* Organized development dependencies in `pyproject.toml`
 
 Changed
 ~~~~~~~
 
 * setuptools -> Poetry for packagement management and building
+* Transition from `setup.py` to `pyproject.toml`
 
 Removed
 ~~~~~~~
