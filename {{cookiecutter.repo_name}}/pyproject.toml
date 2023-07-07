@@ -100,6 +100,9 @@ black = "*"
 pylint = "^2.15.0"
 ruff = "*"
 
+[tool.poetry.group.dev]
+optional = true
+
 [tool.poetry.group.test.dependencies]
 coverage = "^7.2.7"
 pytest = "^7.1.2"
@@ -114,6 +117,9 @@ pytest-xdist = "^3.2.1"
 {%- endif %}
 tox = "^3.26.0"
 
+[tool.poetry.group.test]
+optional = true
+
 [tool.poetry.group.vcs.dependencies]
 {%- if cookiecutter.pre_commit == "yes" %}
 pre-commit = "^2.20.0"
@@ -126,6 +132,9 @@ tbump = "^6.10.0"
 {%- if cookiecutter.gitchangelog == "yes" %}
 gitchangelog = "^3.0.4"
 {%- endif %}
+
+[tool.poetry.group.vcs]
+optional = true
 
 [tool.poetry.group.docs.dependencies]
 sphinx = "^7.0.1"
