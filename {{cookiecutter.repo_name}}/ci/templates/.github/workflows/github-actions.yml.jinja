@@ -3,12 +3,31 @@ name: build
 on: [push, pull_request]
 jobs:
   test:
-    name: {{ '${{ matrix.name }}' }}
+    name: {{ '${{ matrix.tox_env }} (${{ matrix.os }})' }}
     runs-on: {{ '${{ matrix.os }}' }}
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
+        tox_env: {{ tox_environments }}
+        os: [
+{%- for os in [
+    'ubuntu',
+{%- endraw %}
+{%- if cookiecutter.github_actions_windows == 'yes' %}
+    'windows',
+{%- endif %}
+{%- if cookiecutter.github_actions_osx == 'yes' %}
+    'macos',
+{%- endif %}
+{%- raw %}
+] %}
+'{{ os }}',
+{%- endfor -%}
+]
+        python: [{% for env in tox_environments%}'{{ env[2] }}.{{ env[3:] }}',{% endfor %}]
+        toxpython: {{ 'python${{ matrix.python }}' }}
+        python_arch: 'x64'
         include:
           - name: 'check'
             python: '3.11'
@@ -24,36 +43,8 @@ jobs:
             os: 'ubuntu-latest'
 {%- endif %}
 {%- raw %}
-{% for env in tox_environments %}
-{% set python %}{{ env[2] }}.{{ env[3:] }}{% endset %}
-{% set toxpython %}python{{ python }}{% endset %}
-{%- endraw %}
-{%- raw %}
-{% for os, python_arch in [
-    ['ubuntu', 'x64'],
-{%- endraw %}
-{%- if 'yes' in [cookiecutter.github_actions_windows, cookiecutter.gitlab_ci_cd_windows] %}
-    ['windows', 'x64'],
-{%- endif %}
-{%- if 'yes' in [cookiecutter.github_actions_osx, cookiecutter.gitlab_ci_cd_osx] %}
-    ['macos', 'x64'],
-{%- endif %}
-{%- raw %}
-] %}
-          - name: '{{ env }} ({{ os }})'
-            python: '{{ python }}'
-            toxpython: '{{ toxpython }}'
-            python_arch: '{{ python_arch }}'
-            tox_env: '{{ env }}'
-            os: '{{ os }}-latest'
-{% endfor %}
-{% endfor %}
     steps:
-{%- endraw %}
-{%- raw %}
     - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
     - uses: actions/setup-python@v4
       with:
         python-version: {{ '${{ matrix.python }}' }}
