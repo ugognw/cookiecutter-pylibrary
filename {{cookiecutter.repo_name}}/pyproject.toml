@@ -210,6 +210,14 @@ forced-separate = ["conftest"]
 force-single-line = true
 
 [tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+    "-ra",
+    "--strict-markers",
+    "--doctest-modules",
+    "--doctest-glob=*.rst",
+    "--tb=short"
+]
 filterwarnings = "error"
 norecursedirs = "migrations"
 python_files = [
@@ -218,4 +226,3 @@ python_files = [
     "tests.py"
 ]
 testpaths = "tests"
-addopts = "--import-mode=importlib -ra --strict-markers --doctest-modules --doctest-glob=*.rst --tb=short"
