@@ -16,9 +16,8 @@ Overview
         | {%- if cookiecutter.coveralls == 'yes' %} |coveralls|{% endif -%}
           {%- if cookiecutter.codecov == 'yes' %} |codecov|{% endif -%}
         {{ '' }}
-        {%- if cookiecutter.scrutinizer == 'yes' or cookiecutter.codacy == 'yes' or cookiecutter.codeclimate == 'yes' %}
-        | {%- if cookiecutter.scrutinizer == 'yes' %} |scrutinizer|{% endif -%}
-          {%- if cookiecutter.codacy == 'yes' %} |codacy|{% endif -%}
+        {%- if cookiecutter.codacy == 'yes' or cookiecutter.codeclimate == 'yes' %}
+        | {%- if cookiecutter.codacy == 'yes' %} |codacy|{% endif -%}
           {%- if cookiecutter.codeclimate == 'yes' %} |codeclimate|{% endif -%}
         {%- endif -%}
 {{ '' }}
@@ -86,11 +85,6 @@ Overview
 .. |commits-since| image:: https://img.shields.io/github/commits-since/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/v{{ cookiecutter.version }}.svg
     :alt: Commits since latest release
     :target: https://{{ cookiecutter.repo_hosting_domain }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/compare/v{{ cookiecutter.version }}...{{ cookiecutter.repo_main_branch }}
-{% endif %}
-{% if cookiecutter.scrutinizer == 'yes' %}
-.. |scrutinizer| image:: https://img.shields.io/scrutinizer/quality/g/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/{{ cookiecutter.repo_main_branch }}.svg
-    :alt: Scrutinizer Status
-    :target: https://scrutinizer-ci.com/g/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/
 {% endif %}
 
 .. end-badges
