@@ -34,6 +34,11 @@ repos:
       - id: black
   - repo: local
     hooks:
+      - id: pylint
+        name: pylint
+        entry: pylint
+        language: system
+        types: [python]
       - id: pytest-check
         name: pytest-check
         entry: pytest
