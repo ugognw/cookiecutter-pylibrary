@@ -18,6 +18,7 @@
     "keywords": "",
     "version": "0.0.0",
     "version_manager": ["bump2version", "tbump"],
+    "gitchangelog": ["yes", "no"],
     "license": [
         "BSD 2-Clause License",
         "BSD 3-Clause License",
@@ -56,6 +57,9 @@
     "gitlab_ci_cd": ["yes", "no"],
     "gitlab_ci_cd_osx": ["yes", "no"],
     "gitlab_ci_cd_windows": ["yes", "no"],
+    "pytest_cov": ["yes", "no"],
+    "pytest_datadir": ["yes", "no"],
+    "pytest_xdist": ["yes", "no"],
     "__pypi_badge_options":  {"yes":  true, "no":  false},
     "__pypi_disable_upload_options": {"yes":  true, "no":  false},
     "__coveralls_options":  {"yes":  true, "no":  false},
@@ -67,6 +71,7 @@
     "__github_actions_options":  {"yes":  true, "no":  false},
     "__github_actions_osx_options": {"yes":  true, "no":  false},
     "__github_actions_windows_options":  {"yes":  true, "no":  false},
+    "__repo_url": "https://{{ cookiecutter.repo_hosting_domain }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}",
     "_extensions": [
         "pylibrary.JsonQuoteExtension",
         "jinja2_time.TimeExtension"
