@@ -16,7 +16,7 @@
     "year_to": "{% now 'utc', '%Y' %}",
     "__date": "{% now 'utc', '%Y-%m-%d' %}",
     "keywords": "",
-    "version": "0.0.1",
+    "version": "0.0.0",
     "version_manager": ["bump2version", "tbump"],
     "license": [
         "BSD 2-Clause License",
