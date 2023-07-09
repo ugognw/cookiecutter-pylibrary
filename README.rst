@@ -35,10 +35,11 @@ This is an "all inclusive" sort of template.
 * Mypy_ for dynamic checks not covered by Ruff_
 * Virtual environment management and package building/publishing with Poetry_ (with the option to install Poetry)
 * CI/CD configuration for testing and building with GitHub Actions or GitLab CI/CD
+* Version managing with bump2version_
 * GitHub actions:
   - testing code functionality
   - testing documentation builds, links, docstrings
-  - checking license compatability (using `pip-licenses`)
+  - checking license compatability (using `pip-licenses`) whenever the `pyproject.toml` is changed
   - publishing tagged versions to PyPI (you must store a PyPI token as a secret in order for this to work)
 * Configurations for:
 
@@ -148,31 +149,17 @@ You will be asked for these fields:
 
         Can be set in your ``~/.cookiecutterrc`` config file.
 
-    * - ``repo_username``
-      - .. code:: python
-
-            "ugognw"
-      - GitHub user name of this project (used for GitHub link).
-
-        Can be set in your ``~/.cookiecutterrc`` config file.
-
     * - ``project_name``
       - .. code:: python
 
             "Nameless"
       - Verbose project name, used in headings (docs, readme, etc).
 
-    * - ``repo_hosting_domain``
+    * - ``project_short_description``
       - .. code:: python
 
-            "github.com"
-      - Use ``"no"`` for no hosting (various links will disappear). You can also use ``"gitlab.com"``. If you desire CI/CD configuration, this should be consistent with the values for `github_actions` and `gitlab_ci_cd`.
-
-    * - ``repo_name``
-      - .. code:: python
-
-            "python-nameless"
-      - Repository name on GitHub (and project's root directory name).
+            "An example package [...]"
+      - One line description of the project (used in ``README.rst`` and ``pyproject.toml``).
 
     * - ``package_name``
       - .. code:: python
@@ -186,11 +173,30 @@ You will be asked for these fields:
             "nameless"
       - PyPI distribution name (what you would ``pip install``).
 
-    * - ``project_short_description``
+    * - ``repo_name``
       - .. code:: python
 
-            "An example package [...]"
-      - One line description of the project (used in ``README.rst`` and ``pyproject.toml``).
+            "python-nameless"
+      - Repository name on GitHub or GitLab (and project's root directory name).
+
+    * - ``repo_hosting``
+      - .. code:: python
+
+            "github.com"
+      - You can also use ``"gitlab.com"``. If you desire CI/CD configuration, this should be consistent with the values for `github_actions` and `gitlab_ci_cd`.
+
+    * - ``repo_username``
+      - .. code:: python
+
+            "ugognw"
+      - GitHub or GitLab user name of this project (used for GitHub/GitLab link).
+
+        Can be set in your ``~/.cookiecutterrc`` config file.
+    
+    * - ``repo_main_branch``
+      - .. code:: python
+            "main"
+      - The name of the default branch for this project.
 
     * - ``release_date``
       - .. code:: python
@@ -198,11 +204,23 @@ You will be asked for these fields:
             "today"
       - Release date of the project (ISO 8601 format) default to today (used in ``CHANGELOG.rst``).
 
-    * - ``year``
+    * - ``year_from``
       - .. code:: python
 
             "now"
-      - Copyright year (used in Sphinx ``conf.py``).
+      - Copyright start year (used in Sphinx ``conf.py``).
+
+    * - ``year_to``
+      - .. code:: python
+
+            "now"
+      - Copyright end year (used in Sphinx ``conf.py``).
+
+    * - ``keywords``
+      - .. code:: python
+
+            "now"
+      - List of comma-separated keywords to use in `pyproject.toml` (e.g., `physics,math,chemistry`).
 
     * - ``version``
       - .. code:: python
@@ -210,18 +228,19 @@ You will be asked for these fields:
             "0.0.1"
       - Release version (see ``.bumpversion.cfg`` and in Sphinx ``conf.py``).
 
-    * - ``test_matrix_separate_coverage``
+    * - ``license``
       - .. code:: python
 
-            "no"
-      - Enable this to have a separate env for measuring coverage. Indicated if you want to run doctests or collect tests
-        from ``src`` with pytest.
-    * - ``setup_py_uses_setuptools_scm``
-      - .. code:: python
+            "BSD license"
+      - License to use. Available options:
 
-            "no"
-      - Enables the use of `setuptools-scm <https://pypi.org/project/setuptools-scm/>`_. You can continue using
-        bumpversion_ with this enabled.
+        * BSD license
+        * MIT license
+        * ISC license
+        * Apache Software License 2.0
+
+        What license to pick? https://choosealicense.com/
+
     * - ``command_line_interface``
       - .. code:: python
 
@@ -237,48 +256,108 @@ You will be asked for these fields:
       - .. code:: python
 
             "nameless"
-      - Name of the CLI bin/executable file (set the console script name in ``pyproject.toml``).
+      - Name of the CLI bin/executable file (verify that the console script name in ``pyproject.toml`` matches your desired implementation; see `here <https://python-poetry.org/docs/pyproject/#scripts>`_).
 
-    * - ``license``
+    * - ``pypi_badge``
       - .. code:: python
 
-            "BSD license"
-      - License to use. Available options:
+            "yes"
+      - By default, this will insert links to your project's page on PyPI.org.
+        Note that if your package is not (yet) on PyPI, this will cause tox -e docs to fail.
+        If you choose "no", then these links will not be created.
 
-        * BSD license
-        * MIT license
-        * ISC license
-        * Apache Software License 2.0
+    * - ``pypi_disable_upload``
+      - .. code:: python
 
-        What license to pick? https://choosealicense.com/
+            "no"
+      - If you specifically want to be sure your package will never be
+        accidentally uploaded to PyPI, you can pick "yes".
 
     * - ``coveralls``
       - .. code:: python
 
             "yes"
-      - Enable pushing coverage data to Coveralls_ and add badge in ``README.rst``.
+      - Enable pushing coverage data to Coveralls_ and add badge in ``README.rst``. Don't forget to add your repo on `https://coveralls.io <https://coveralls.io>`_!
 
     * - ``codecov``
       - .. code:: python
 
             "yes"
-      - Enable pushing coverage data to Codecov_ and add badge in ``README.rst``.
-
-        **Note:** Doesn't support pushing C extension coverage yet.
+      - Enable pushing coverage data to Codecov_ and add badge in ``README.rst``. Don't forget to add your repo on `https://about.codecov.io <https://about.codecov.io>`_!
 
     * - ``codacy``
       - .. code:: python
 
             "yes"
-      - Enable Codacy_ in your chosen CI/CD pipeline and add a corresponding badge in ``README.rst``.
+      - Enable Codacy_ in your chosen CI/CD pipeline and add a corresponding badge in ``README.rst``. Don't forget to import your project on `https://www.codacy.com <https://www.codacy.com>`_! 
 
-        **Note:** After importing the project in Codacy, find the hexadecimal project ID from settings and replace it in badge URL
+        **Note:** Displaying the Codacy badge is contingent on your project ID. If you don't input your project ID during the cookiecutter configuration step, you can still fill in your hexadecimal project ID in the badge URL in the `README.rst`.
+
+    * - ``codacy_projectid``
+      - .. code:: python
+
+            "[Get ID from https://app.codacy.com/gh/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/settings]"
+      - Your Codacy_ hexadecimal project ID.
 
     * - ``codeclimate``
       - .. code:: python
 
             "yes"
       - Enable the Velocity GitHub Action by CodeClimate_ and a corresponding badge in ``README.rst``. **Note:** This will not be implemented if you select "gitlab.com"" as your repo hosting domain. Further, you will have to set the `VELOCITY_DEPLOYMENT_TOKEN` as a secret on your repo hosting site in order for CI/CD integration to work correctly.
+
+    * - ``gitchangelog``
+      - .. code:: python
+
+            "yes"
+      - Whether or not to include gitchangelog_ as a dependency.
+
+    * - ``github_actions``
+      - .. code:: python
+
+            "yes"
+      - Whether or not to use GitHub Actions as your CI/CD framework.
+
+    * - ``gitlab_ci_cd``
+      - .. code:: python
+
+            "yes"
+      - Whether or not to use GitLab CI/CD as your CI/CD framework.
+
+    * - ``test_on_osx``
+      - .. code:: python
+
+            "yes"
+      - Whether or not to test your package on OSX in addition to Linux in CI/CD.
+
+    * - ``test_on_windows``
+      - .. code:: python
+
+            "yes"
+      - Whether or not to test your package on Windows in addition to Linux in CI/CD.
+
+    * - ``pre_commit``
+      - .. code:: python
+
+            "yes"
+      - Whether or not to enable pre-commit_.
+
+    * - ``install_precommit_hooks``
+      - .. code:: python
+
+            "yes"
+      - Whether or not to install pre-commit_ hooks. Requires that a .git repository exists in the current working directory.
+
+    * - ``pytest_datadir``
+      - .. code:: python
+
+            "yes"
+      - Whether or not to install pytest-datadir_ as a testing dependency.
+
+    * - ``pytest_xdist``
+      - .. code:: python
+
+            "yes"
+      - Whether or not to install pytest-xdist_ as a testing dependency.
 
     * - ``sphinx_docs``
       - .. code:: python
@@ -289,7 +368,7 @@ You will be asked for these fields:
     * - ``sphinx_theme``
       - .. code:: python
 
-            "sphinx-rtd-theme"
+            "furo"
       - What Sphinx_ theme to use.
 
         Suggested alternative: `sphinx-py3doc-enhanced-theme <https://pypi.org/project/sphinx_py3doc_enhanced_theme>`__
@@ -312,20 +391,23 @@ You will be asked for these fields:
         If your documentation will be hosted elsewhere (such as GitHub Pages or GitLab Pages),
         enter the top-level URL.
 
-    * - ``pypi_badge``
+    * - ``initialize_git_repository``
       - .. code:: python
 
             "yes"
-      - By default, this will insert links to your project's page on PyPI.org.
-        Note that if your package is not (yet) on PyPI, this will cause tox -e docs to fail.
-        If you choose "no", then these links will not be created.
+      - Whether or not to initialize a Git repository using `git init`.
 
-    * - ``pypi_disable_upload``
+    * - ``install_package``
       - .. code:: python
 
-            "no"
-      - If you specifically want to be sure your package will never be
-        accidentally uploaded to PyPI, you can pick "yes".
+            "yes"
+      - Whether or not to include install the newly created package via poetry. If a virtual environment is not already active, this will create a new virtual environment in which to install the current package.
+
+    * - ``activate_virtual_environment``
+      - .. code:: python
+
+            "yes"
+      - Whether or not to include activate the virtual environment and install package upon project creation.
 
 Developing the project
 ``````````````````````
@@ -408,21 +490,8 @@ Changelog
 
 See `CHANGELOG.rst <https://github.com/ionelmc/cookiecutter-pylibrary/blob/master/CHANGELOG.rst>`_.
 
-Questions & answers
+FAQs
 -------------------
-
-There's no Makefile?
-
-  Sorry, no ``Makefile`` yet. The Tox_ environments stand for whatever you'd have in a ``Makefile``.
-
-Why does ``tox.ini`` have a ``passenv = *``?
-
-  Tox 2.0 changes the way it runs subprocesses - it no longer passes all the environment variables by default. This causes
-  all sorts of problems if you want to run/use any of these with Tox: SSH Agents, Browsers (for Selenium), Appengine SDK,
-  VC Compiler and so on.
-
-  `cookiecutter-pylibrary` errs on the side of convenience here. You can always remove ``passenv = *`` if you like
-  the strictness.
 
 Why is the version stored in several files (``pkg/__init__.py``, ``pyproject.toml``, ``docs/conf.py``)?
 
