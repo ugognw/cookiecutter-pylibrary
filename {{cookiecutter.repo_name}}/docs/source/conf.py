@@ -63,7 +63,7 @@ html_sidebars = {
     "**": ["searchbox.html", "globaltoc.html", "sourcelink.html"],
 }
 html_theme_options = {
-    "githuburl": "https://{{ cookiecutter.repo_hosting_domain }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/",
+    "githuburl": "https://{{ cookiecutter.repo_hosting }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/",
 }
 {%- elif cookiecutter.sphinx_theme == "sphinx-py3doc-enhanced-theme" %}
 
@@ -71,7 +71,7 @@ html_theme_options = {
 
 {%- elif cookiecutter.sphinx_theme == "furo" %}
 html_theme_options = {
-    'source_repository': 'https://{{ cookiecutter.repo_hosting_domain }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}',
+    'source_repository': 'https://{{ cookiecutter.repo_hosting }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}',
     'source_branch': '{{ cookiecutter.repo_main_branch }}',
     'source_directory': 'docs/source',
 }
