@@ -19,9 +19,9 @@ jobs:
       matrix:
         python-version: ["pypy-3.10", "3.10", "3.11"]
         os: ['ubuntu-latest'
-{%- if cookiecutter.github_actions_windows == 'yes' %}, 'windows-latest'
+{%- if cookiecutter.test_on_windows == 'yes' %}, 'windows-latest'
 {%- endif %}
-{%- if cookiecutter.github_actions_osx == 'yes' %}, 'macos-latest'
+{%- if cookiecutter.test_on_osx == 'yes' %}, 'macos-latest'
 {%- endif -%}
 ]
     steps:
@@ -113,10 +113,10 @@ jobs:
       with:
         parallel-finished: true
         carryforward: "pypy-3.10-ubuntu-latest,3.10-ubuntu-latest,3.11-ubuntu-latest
-{%- if cookiecutter.github_actions_windows == 'yes' -%}
+{%- if cookiecutter.test_on_windows == 'yes' -%}
 ,pypy-3.10-windows-latest,3.10-windows-latest,3.11-windows-latest
 {%- endif -%}
-{%- if cookiecutter.github_actions_osx == 'yes' -%}
+{%- if cookiecutter.test_on_osx == 'yes' -%}
 ,pypy-3.10-macos-latest,3.10-macos-latest,3.11-macos-latest
 {%- endif -%}
 "
