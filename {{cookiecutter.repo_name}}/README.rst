@@ -1,17 +1,21 @@
 ========
 Overview
 ========
-{% if cookiecutter.repo_hosting_domain == "github.com" %}
 .. start-badges
 
 .. list-table::
     :stub-columns: 1
 {% if cookiecutter.sphinx_docs == "yes" %}
+    * - code
+      - |black| |mypy| |ruff|
     * - docs
       - |docs|
 {%- endif %}
     * - tests
-      - | {%- if cookiecutter.github_actions == 'yes' %} |github-actions|{% endif -%}
+      - |
+      {%- if cookiecutter.github_actions == 'yes' %} |github-actions|
+      {%- elif cookiecutter.gitlab_ci_cd == 'yes' %} |gitlab-ci/cd|
+      {%- endif -%}
         {{ '' }}
         | {%- if cookiecutter.coveralls == 'yes' %} |coveralls|{% endif -%}
           {%- if cookiecutter.codecov == 'yes' %} |codecov|{% endif -%}
@@ -23,36 +27,54 @@ Overview
 {{ '' }}
 {%- if cookiecutter.pypi_badge == "yes" or cookiecutter.repo_hosting_domain == "github.com" %}
     * - package
-      - {% if cookiecutter.pypi_badge == "yes" %}| |version| |wheel| |supported-versions| |supported-implementations|
+      - | |poetry| {% if cookiecutter.pypi_badge == "yes" %} |version| |wheel| |supported-versions| |supported-implementations|
         {{ '' }}{% endif %}
         {%- if cookiecutter.repo_hosting_domain == "github.com" %}| |commits-since|{% endif %}
 {%- endif %}
 {{ '' }}
+.. |black| image:: https://img.shields.io/badge/%20style-black-000000.svg
+    :target: https://github.com/psf/black
+    :alt: Black
+.. |mypy| image:: https://www.mypy-lang.org/static/mypy_badge.svg
+    :target: https://mypy-lang.org/
+    :alt: Mypy
+.. |ruff| image:: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/charliermarsh/ruff/main/assets/badge/v2.json
+    :target: https://github.com/astral-sh/ruff
+    :alt: Ruff
 {%- if cookiecutter.sphinx_docs == "yes" -%}
 {%- if 'readthedocs' in cookiecutter.sphinx_docs_hosting -%}
 .. |docs| image:: https://readthedocs.org/projects/{{ cookiecutter.repo_name }}/badge/?style=flat
     :target: https://{{ cookiecutter.repo_name|replace('.', '') }}.readthedocs.io/
     :alt: Documentation Status
 {%- elif 'gitlab' in cookiecutter.sphinx_docs_hosting and 'gitlab' in cookiecutter.repo_hosting_domain -%}
-.. |docs| image:: https://{{ cookiecutter.repo_hosting_domain }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/badges/{{ cookiecutter.repo_main_branch }}/pipeline.svg
-    :target: https://{{ cookiecutter.repo_hosting_domain }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name|replace('.', '') }}/commits/{{ cookiecutter.repo_main_branch }}
+.. |docs| image:: {{ cookiecutter.__repo_url }}/badges/{{ cookiecutter.repo_main_branch }}/pipeline.svg
+    :target: {{ cookiecutter.__repo_url }}/commits/{{ cookiecutter.repo_main_branch }}
     :alt: Documentation Status
 {% endif %}
 {% endif %}
 {%- if cookiecutter.github_actions == 'yes' %}
-.. |github-actions| image:: https://github.com/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/actions/workflows/github-actions.yml/badge.svg
+.. |github-actions| image:: {{ cookiecutter.__repo_url }}/actions/workflows/github-actions.yml/badge.svg
     :alt: GitHub Actions Build Status
-    :target: https://github.com/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/actions
+    :target: {{ cookiecutter.__repo_url }}/actions
+{%- elif cookiecutter.gitlab_ci_cd == 'yes' %}
+.. |gitlab-ci/cd| image:: https://gitlab.com/%{project_path}/badges/%{default_branch}/pipeline.svg
+    :alt: GitLab CI/CD Pipeline Status
+    :target: https://gitlab.com/%{project_path}/-/commits/%{default_branch}
 {% endif %}
-{%- if cookiecutter.coveralls == 'yes' %}
-.. |coveralls| image:: https://coveralls.io/repos/github/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/badge.svg?branch={{ cookiecutter.repo_main_branch }}
+{%- if cookiecutter.coveralls == 'yes'%}
+.. |coveralls| image:: https://coveralls.io/repos/{{ cookiecutter.repo_hosting | trim('.com') }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/badge.svg?branch={{ cookiecutter.repo_main_branch }}
     :alt: Coverage Status
-    :target: https://coveralls.io/github/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}?branch={{ cookiecutter.repo_main_branch }}
+    :target: https://coveralls.io/{{ cookiecutter.repo_hosting | trim('.com') }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}?branch={{ cookiecutter.repo_main_branch }}
 {% endif %}
 {%- if cookiecutter.codecov == 'yes' %}
-.. |codecov| image:: https://codecov.io/gh/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/branch/{{ cookiecutter.repo_main_branch }}/graphs/badge.svg?branch={{ cookiecutter.repo_main_branch }}
+{%- if cookiecutter.repo_hosting == 'github.com' %}
+{% set repo_abbrev = 'gh' %}
+{%- elif cookiecutter.repo_hosting == 'gitlab.com'  %}
+{% set repo_abbrev = 'gl' %}
+{%- endif %}
+.. |codecov| image:: https://codecov.io/{{ repo_abbrev }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/branch/{{ cookiecutter.repo_main_branch }}/graphs/badge.svg?branch={{ cookiecutter.repo_main_branch }}
     :alt: Coverage Status
-    :target: https://app.codecov.io/github/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}
+    :target: https://app.codecov.io/{{ cookiecutter.repo_hosting | trim('.com') }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}
 {% endif %}
 {%- if cookiecutter.codacy == 'yes' %}
 .. |codacy| image:: https://img.shields.io/codacy/grade/{{ cookiecutter.codacy_projectid }}.svg
@@ -86,9 +108,11 @@ Overview
     :alt: Commits since latest release
     :target: https://{{ cookiecutter.repo_hosting_domain }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/compare/v{{ cookiecutter.version }}...{{ cookiecutter.repo_main_branch }}
 {% endif %}
+.. |poetry| image:: https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json
+    :alt: Poetry
+    :target: https://python-poetry.org/
 
 .. end-badges
-{% endif %}
 {{ cookiecutter.project_short_description|wordwrap(119) }}
 {% if cookiecutter.license != "no" %}
 * Free software: {{ cookiecutter.license }}
