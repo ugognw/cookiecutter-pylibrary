@@ -24,48 +24,71 @@ Features
 This is an "all inclusive" sort of template.
 
 * Choice of various licenses.
-* Tox_ for managing test environments for Python 2.7, 3.7+, PyPy etc.
-* Pytest_ or Nose_ for testing Python 2.7, 3.7+, PyPy etc.
+* Tox_ for managing test environments for Python 3.10 and 3.11
+* Pytest_for testing Python 3.10 and 3.11
 * *Optional* support for creating a tests matrix out of dependencies and python versions.
-* Travis-CI_ and AppVeyor_ for continuous testing.
-* Coveralls_ or Codecov_ for coverage tracking (using Tox_).
+* Codacy_, CodeClimate_, Coveralls_ or Codecov_ for coverage tracking (using Tox_).
 * Documentation with Sphinx_, ready for ReadTheDocs_.
+* Ruff_ for static checks (so much faster than Flake8_!)
+* Mypy_ for dynamic checks not covered by Ruff_
+* Virtual environment management and package building/publishing with Poetry_ (with the option to install Poetry)
+* CI/CD configuration for testing and building with GitHub Actions or GitLab CI/CD
 * Configurations for:
 
-  * isort_
   * bumpversion_ (bump2version_ required)
-  * pytest
-  * pylint
-  * pre-commit
-  * black
-  * bandit
-  * autoflake
-  * coverage
+  * gitchangelog_
+  * Pytest_
+  * Mypy_
+  * pre-commit_
+  * black_
+  * coverage_
+  * Ruff_
 
 Requirements
 ------------
 
-Projects using this template have these minimal dependencies:
+Projects using this template have the following minimal dependencies:
 
-* Cookiecutter_ - just for creating the project
-* Tox_ - for running the tests
 * Poetry_ - for managing the virtual environment and building and publishing the package
-* Pytest_ - for testing
-* Coverage_ - for code coverage analysis
-* Black_ - for code formating
-* Isort_ - for import sorting
-* Flake8_ - for static checks
-* Pylint_ - for dynamic checks
-* Bandit_ - for security checks
-* Pyupgrade_ - for updating Python syntax
-* Autoflake_ - for removing unecessary code
-* Pre-commit_ - for running pre-commit git hooks
-* Sphinx_ - for building documentation
-* Setuptools_ - for building the package, wheels etc. Now-days Setuptools is widely available, it shouldn't pose a
-  problem :)
+* Click_ or Argparse_ - for the command-line interface
 
-To get quickly started on a new system, just `install setuptools
-<https://pypi.org/project/setuptools#installation-instructions>`_ and then `install pip
+The following dependencies belong to optional dependency groups and may be removed during configuration via your responses to the `cookiecutter` prompts. The dependencies are grouped in the `pyproject.toml` by use:
+
+dev
+~~~
+
+* Black_ - for code formating
+* Ruff_ - for static checks (including those made by Isort_, Flake8_, Bandit_, Pyupgrade_, and Autoflake_)
+* Pylint_ - for dynamic checks
+* Cookiecutter_ - just for creating the project
+
+test
+~~~~
+
+* Coverage_ - for code coverage analysis
+* Pytest_ - for testing
+  * with optional extensions `pytest-cov`, `pytest-datadir`, and `pytest-xdist`
+* Tox_ - for running the tests in isolated environments
+
+vcs
+~~~
+
+* Pre-commit_ - for running pre-commit git hooks (optional)
+* bump2version_ - for updating version strings within the package (optional)
+* gitchangelog_ - for auto-populating changelogs (optional)
+
+docs
+~~~~
+
+* Sphinx_ - for building documentation
+* sphinx-rtd-theme_, python-docs-theme_, sphinx-py3doc-enhanced-theme_, sphinx-book-theme_, furo_, or pydata-sphinx-theme_ - for documentation theming
+
+Note that `poetry install` will not install the above dependencies. In order to install a particular group of dependencies along with the package, you must run::
+  $ poetry install --with=<group>[,<group>]
+
+where `<group>` is one of `dev`, `test`, `vcs`, or `docs`.
+
+To get quickly started on a new system, just `install pip
 <https://pip.pypa.io/en/latest/installing.html>`_. That's the bare minimum to required install Tox_ and Cookiecutter_. To install
 them, just run this in your shell or command prompt::
 
@@ -79,7 +102,7 @@ This template is more involved than the regular `cookiecutter-pypackage
 
 First generate your project::
 
-  cookiecutter gh:ionelmc/cookiecutter-pylibrary
+  cookiecutter gh:ugognw/cookiecutter-pylibrary
 
 You will be asked for these fields:
 
@@ -98,7 +121,7 @@ You will be asked for these fields:
       - .. code:: python
 
             "Ugochukwu Nwosu"
-      - Main author of this library or application (used in ``AUTHORS.rst`` and ``setup.py``).
+      - Main author of this library or application (used in ``AUTHORS.rst`` and ``pyproject.toml``).
 
         Can be set in your ``~/.cookiecutterrc`` config file.
 
@@ -106,7 +129,7 @@ You will be asked for these fields:
       - .. code:: python
 
             "ugognw@gmail.com"
-      - Contact email of the author (used in ``AUTHORS.rst`` and ``setup.py``).
+      - Contact email of the author (used in ``AUTHORS.rst`` and ``pyproject.toml``).
 
         Can be set in your ``~/.cookiecutterrc`` config file.
 
@@ -136,8 +159,7 @@ You will be asked for these fields:
       - .. code:: python
 
             "github.com"
-      - Use ``"no"`` for no hosting (various links will disappear). You can also use ``"gitlab.com"`` and such but various
-        things will be broken (like Travis configuration).
+      - Use ``"no"`` for no hosting (various links will disappear). You can also use ``"gitlab.com"``. If you desire CI/CD configuration, this should be consistent with the values for `github_actions` and `gitlab_ci_cd`.
 
     * - ``repo_name``
       - .. code:: python
@@ -149,7 +171,7 @@ You will be asked for these fields:
       - .. code:: python
 
             "nameless"
-      - Python package name (whatever you would import).
+      - Python package name (whatever you would import via a Python `import` statement).
 
     * - ``distribution_name``
       - .. code:: python
@@ -161,7 +183,7 @@ You will be asked for these fields:
       - .. code:: python
 
             "An example package [...]"
-      - One line description of the project (used in ``README.rst`` and ``setup.py``).
+      - One line description of the project (used in ``README.rst`` and ``pyproject.toml``).
 
     * - ``release_date``
       - .. code:: python
@@ -215,7 +237,7 @@ You will be asked for these fields:
       - .. code:: python
 
             "nameless"
-      - Name of the CLI bin/executable file (set the console script name in ``setup.py``).
+      - Name of the CLI bin/executable file (set the console script name in ``pyproject.toml``).
 
     * - ``license``
       - .. code:: python
@@ -408,7 +430,7 @@ Why does ``tox.ini`` have a ``passenv = *``?
   `cookiecutter-pylibrary` errs on the side of convenience here. You can always remove ``passenv = *`` if you like
   the strictness.
 
-Why is the version stored in several files (``pkg/__init__.py``, ``setup.py``, ``docs/conf.py``)?
+Why is the version stored in several files (``pkg/__init__.py``, ``pyproject.toml``, ``docs/conf.py``)?
 
   We cannot use a metadata/version file [#]_ because this template is to be used with both distributions of packages (dirs
   with ``__init__.py``) and modules (simple ``.py`` files that go straight in ``site-packages``). There's no good place
@@ -427,20 +449,19 @@ No way, this is the best. :stuck_out_tongue_winking_eye:
 
 If you have criticism or suggestions please open up an Issue or Pull Request.
 
-.. _Travis-CI: http://travis-ci.com/
 .. _Tox: https://tox.wiki/
 .. _Sphinx: http://sphinx-doc.org/
 .. _Coveralls: https://coveralls.io/
 .. _ReadTheDocs: https://readthedocs.org/
-.. _Setuptools: https://pypi.org/project/setuptools
 .. _Pytest: http://pytest.org/
-.. _AppVeyor: http://www.appveyor.com/
+.. _Pylint: https://pylint.readthedocs.io/en/latest/
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
-.. _Nose: http://nose.readthedocs.org/
-.. _isort: https://pypi.org/project/isort
 .. _bumpversion: https://pypi.org/project/bump2version
 .. _bump2version: https://github.com/c4urself/bump2version
 .. _Codecov: http://codecov.io/
-.. _Scrutinizer: https://scrutinizer-ci.com/
 .. _Codacy: https://codacy.com/
 .. _CodeClimate: https://codeclimate.com/
+.. _Poetry: https://python-poetry.org
+.. _gitchangelog: https://github.com/vaab/gitchangelog
+.. _pre-commit: https://pre-commit.com
+.. _Ruff: https://beta.ruff.rs/docs/
