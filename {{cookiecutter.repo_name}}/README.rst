@@ -12,8 +12,7 @@ Overview
       - |docs|
 {%- endif %}
     * - tests
-      - |
-      {%- if cookiecutter.github_actions == 'yes' %} |github-actions|
+      - | |nox|{% if cookiecutter.github_actions == 'yes' %} |github-actions|
       {%- elif cookiecutter.gitlab_ci_cd == 'yes' %} |gitlab-ci/cd|
       {%- endif -%}
         {{ '' }}
@@ -27,7 +26,7 @@ Overview
 {{ '' }}
 {%- if cookiecutter.pypi_badge == "yes" or cookiecutter.repo_hosting == "github.com" %}
     * - package
-      - | |poetry| {% if cookiecutter.pypi_badge == "yes" %} |version| |wheel| |supported-versions| |supported-implementations|
+      - | |poetry|{% if cookiecutter.pypi_badge == "yes" %} |version| |wheel| |supported-versions| |supported-implementations|
         {{ '' }}{% endif %}
         {%- if cookiecutter.repo_hosting == "github.com" %}| |commits-since|{% endif %}
 {%- endif %}
@@ -52,6 +51,9 @@ Overview
     :alt: Documentation Status
 {% endif %}
 {% endif %}
+.. |nox|: image:: https://img.shields.io/badge/%F0%9F%A6%8A-Nox-D85E00.svg
+    :alt: nox
+    :target: https://github.com/wntrblm/nox
 {%- if cookiecutter.github_actions == 'yes' %}
 .. |github-actions| image:: {{ cookiecutter.__repo_url }}/actions/workflows/github-actions.yml/badge.svg
     :alt: GitHub Actions Build Status
