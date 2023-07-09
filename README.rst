@@ -35,6 +35,11 @@ This is an "all inclusive" sort of template.
 * Mypy_ for dynamic checks not covered by Ruff_
 * Virtual environment management and package building/publishing with Poetry_ (with the option to install Poetry)
 * CI/CD configuration for testing and building with GitHub Actions or GitLab CI/CD
+* GitHub actions:
+  - testing code functionality
+  - testing documentation builds, links, docstrings
+  - checking license compatability (using `pip-licenses`)
+  - publishing tagged versions to PyPI (you must store a PyPI token as a secret in order for this to work)
 * Configurations for:
 
   * bumpversion_ (bump2version_ required)
