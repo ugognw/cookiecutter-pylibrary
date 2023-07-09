@@ -1,8 +1,9 @@
 name: publish
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - '*'
 
 env:
   POETRY_VERSION: "1.5.1"
