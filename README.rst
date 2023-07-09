@@ -24,7 +24,9 @@ Features
 This is an "all inclusive" sort of template.
 
 * Choice of various licenses.
-* Tox_ for managing test environments for Python 3.10 and 3.11
+* src/package directory structure
+* tests outside of package
+* nox_ for managing test environments for PyPy-3.10, Python 3.10, and 3.11
 * Pytest_for testing Python 3.10 and 3.11
 * *Optional* support for creating a tests matrix out of dependencies and python versions.
 * Codacy_, CodeClimate_, Coveralls_ or Codecov_ for coverage tracking (using Tox_).
@@ -215,13 +217,6 @@ You will be asked for these fields:
             "no"
       - Enables the use of `setuptools-scm <https://pypi.org/project/setuptools-scm/>`_. You can continue using
         bumpversion_ with this enabled.
-    * - ``allow_tests_inside_package``
-      - .. code:: python
-
-            "no"
-      - Collect tests that are inside the package (in other works, tests that are installed with the package).
-
-        The outside of package `tests` directory will still exist and be collected.
     * - ``command_line_interface``
       - .. code:: python
 
@@ -255,7 +250,7 @@ You will be asked for these fields:
     * - ``coveralls``
       - .. code:: python
 
-            "no"
+            "yes"
       - Enable pushing coverage data to Coveralls_ and add badge in ``README.rst``.
 
     * - ``codecov``
@@ -266,25 +261,19 @@ You will be asked for these fields:
 
         **Note:** Doesn't support pushing C extension coverage yet.
 
-    * - ``scrutinizer``
-      - .. code:: python
-
-            "no"
-      - Add a Scrutinizer_ badge in ``README.rst``.
-
     * - ``codacy``
       - .. code:: python
 
-            "no"
-      - Add a Codacy_ badge in ``README.rst``.
+            "yes"
+      - Enable Codacy_ in your chosen CI/CD pipeline and add a corresponding badge in ``README.rst``.
 
         **Note:** After importing the project in Codacy, find the hexadecimal project ID from settings and replace it in badge URL
 
     * - ``codeclimate``
       - .. code:: python
 
-            "no"
-      - Add a CodeClimate_ badge in ``README.rst``.
+            "yes"
+      - Enable the Velocity GitHub Action by CodeClimate_ and a corresponding badge in ``README.rst``. **Note:** This will not be implemented if you select "gitlab.com"" as your repo hosting domain. Further, you will have to set the `VELOCITY_DEPLOYMENT_TOKEN` as a secret on your repo hosting site in order for CI/CD integration to work correctly.
 
     * - ``sphinx_docs``
       - .. code:: python
