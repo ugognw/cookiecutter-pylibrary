@@ -21,7 +21,7 @@ Overview
           {%- if cookiecutter.codecov == 'yes' %} |codecov|{% endif -%}
         {{ '' }}
         {%- if cookiecutter.codacy == 'yes' or cookiecutter.codeclimate == 'yes' %}
-        | {%- if cookiecutter.codacy == 'yes' %} |codacy|{% endif -%}
+        | {%- if cookiecutter.codacy == 'yes' and cookiecutter.repo_hosting == 'github.com' %} |codacy|{% endif -%}
           {%- if cookiecutter.codeclimate == 'yes' %} |codeclimate|{% endif -%}
         {%- endif -%}
 {{ '' }}
@@ -76,7 +76,7 @@ Overview
     :alt: Coverage Status
     :target: https://app.codecov.io/{{ cookiecutter.repo_hosting | trim('.com') }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}
 {% endif %}
-{%- if cookiecutter.codacy == 'yes' %}
+{%- if cookiecutter.codacy == 'yes' and cookiecutter.repo_hosting == 'github.com' %}
 .. |codacy| image:: https://img.shields.io/codacy/grade/{{ cookiecutter.codacy_projectid }}.svg
     :target: https://www.codacy.com/app/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}
     :alt: Codacy Code Quality Status
