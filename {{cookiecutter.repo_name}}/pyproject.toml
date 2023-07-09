@@ -88,37 +88,35 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.12"
+{% if cookiecutter.command_line_interface in ["argparse", "click"] -%}
+{{ cookiecutter.command_line_interface }} = "*"
+{%- endif %}
+
+[tool.poetry.group.nox.dependencies]
+nox-poetry = "*"
 
 [build-system]
-requires = [
-    "poetry-core>=1.0.0",
-]
+requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.group.dev.dependencies]
-black = "*"
-pylint = "^2.15.0"
-ruff = "*"
-
-[tool.poetry.group.dev]
-optional = true
-
-[tool.poetry.group.test.dependencies]
-coverage = "^7.2.7"
-pytest = "^7.1.2"
-{%- if cookiecutter.pytest_cov %}
-pytest-cov = "^4.1.0"
-{%- endif %}
+pytest = "*"
+pytest-cov = "*"
 {%- if cookiecutter.pytest_datadir %}
-pytest-datadir = "^1.4.1"
+pytest-datadir = "*"
 {%- endif %}
 {%- if cookiecutter.pytest_xdist %}
-pytest-xdist = "^3.2.1"
+pytest-xdist = ""*"
 {%- endif %}
-tox = "^3.26.0"
 
-[tool.poetry.group.test]
-optional = true
+[tool.poetry.group.type_check.dependencies]
+mypy = "*"
+
+[tool.poetry.group.lint.dependencies]
+ruff = "*"
+
+[tool.poetry.group.format.dependencies]
+black = "*"
 
 [tool.poetry.group.vcs.dependencies]
 {%- if cookiecutter.pre_commit == "yes" %}
@@ -133,15 +131,9 @@ tbump = "^6.10.0"
 gitchangelog = "^3.0.4"
 {%- endif %}
 
-[tool.poetry.group.vcs]
-optional = true
-
 [tool.poetry.group.docs.dependencies]
 sphinx = "^7.0.1"
 {{ cookiecutter.sphinx_theme }} = "*"
-
-[tool.poetry.group.docs]
-optional = true
 
 [tool.black]
 line-length = 79
@@ -158,20 +150,6 @@ source =[
 
 [tool.coverage.run]
 branch = true
-command_line = 'pytest'
-source = [
-    '{{ cookiecutter.package_name }}',
-    'tests'
-]
-parallel = true
-
-[tool.coverage.report]
-show_missing = true
-precision = 2
-omit = ['*migrations*']
-
-[tool.ruff.per-file-ignores]
-"ci/*" = ["S"]
 
 [tool.ruff]
 extend-exclude = ["static", "ci/templates"]
@@ -191,6 +169,7 @@ select = [
     "F", # pyflakes
     "I", # isort
     "INT", # flake8-gettext
+    "N", # pep8-naming
     "PIE", # flake8-pie
     "PLC", # pylint convention
     "PLE", # pylint errors
@@ -200,6 +179,8 @@ select = [
     "RSE", # flake8-raise
     "RUF", # ruff-specific rules
     "S", # flake8-bandit
+    "SIM", # flake8-simplify
+    "TID", # flake8-tidy-imports
     "UP", # pyupgrade
     "W", # pycodestyle warnings
 ]
@@ -214,9 +195,17 @@ mark-parentheses = false
 inline-quotes = "single"
 {%- endif %}
 
+[tool.ruff.flake8-tidy-imports]
+ban-relative-imports = "all"
+
 [tool.ruff.isort]
 forced-separate = ["conftest"]
 force-single-line = true
+force-sort-within-sections = true
+split-on-trailing-comma = false
+
+[tool.ruff.per-file-ignores]
+"ci/*" = ["S"]
 
 [tool.pytest.ini_options]
 addopts = [
