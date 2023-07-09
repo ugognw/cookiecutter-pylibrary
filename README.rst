@@ -30,6 +30,7 @@ This is an "all inclusive" sort of template.
 * tests outside of package
 * nox_ for managing test environments for PyPy-3.10, Python 3.10, and 3.11
 * Pytest_for testing Python 3.10 and 3.11
+* Automated dependency updates with Dependabot_
 * Documentation with Sphinx_, ready for ReadTheDocs_.
 * Ruff_ for static checks (so much faster than Flake8_!)
 * Codacy_, CodeClimate_, Coveralls_ or Codecov_ for coverage tracking (using Tox_).
@@ -246,6 +247,8 @@ You will be asked for these fields:
 
         * ``plain`` - a very simple command.
         * ``argparse`` - a command implemented with ``argparse``.
+        * ``fire`` - a command implemented with ``Fire``.
+        * ``typer`` - a command implemented with ``Typer``.
         * ``click`` - a command implemented with `click <http://click.pocoo.org/>`_ - which you can use to build more complex commands.
         * ``no`` - no CLI at all.
 
