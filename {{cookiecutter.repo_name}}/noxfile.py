@@ -65,9 +65,11 @@ def docs_check_urls(s: Session) -> None:
     s.run("sphinx-build", "--color", "-W", "-b", "linkcheck")
 
 
+{%- if cookiecutter.sphinx_doctest % == 'yes' %}
 @session(venv_backend="none")
 def docs_test(s: Session) -> None:
     s.run("sphinx-build", "--color", "-W", "-b", "doctest")
+{%- endif %}
 
 
 # Note: This reuse_venv does not yet have affect due to:
