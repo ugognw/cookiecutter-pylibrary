@@ -8,11 +8,12 @@ Cookiecutter_ template for a Python library.
 
 * This is largely designed to address this `blog post about packaging python
   libraries <https://blog.ionelmc.ro/2014/05/25/python-packaging/>`_.
-
   * ... and it will save you from `packaging pitfalls
     <https://blog.ionelmc.ro/2014/06/25/python-packaging-pitfalls/>`_.
+* Although this cookiecutter is based off of that of `ionelmc <https://github.com/ionelmc/cookiecutter-pylibrary>`_, it also takes inspiration from `python-blueprint <https://github.com/johnthagen/python-blueprint/tree/main>`_ and `cookiecutter-hypermodern-python <https://github.com/cjolowicz/cookiecutter-hypermodern-python/tree/main>`_
+
 * There's a bare library using this template (if you're curious about the final
-  result): https://github.com/ionelmc/python-nameless.
+  result): https://github.com/ugognw/python-nameless.
 * If you have a web application (not a library) you might want to take a look at
   `django-docker <https://github.com/evozon/django-docker>`_.
 
@@ -24,25 +25,26 @@ Features
 This is an "all inclusive" sort of template.
 
 * Choice of various licenses.
-* src/package directory structure
+* Configuration to match your choice of hosting on GitHub or GitLab
+* `src/package_name` directory structure
 * tests outside of package
 * nox_ for managing test environments for PyPy-3.10, Python 3.10, and 3.11
 * Pytest_for testing Python 3.10 and 3.11
-* *Optional* support for creating a tests matrix out of dependencies and python versions.
-* Codacy_, CodeClimate_, Coveralls_ or Codecov_ for coverage tracking (using Tox_).
 * Documentation with Sphinx_, ready for ReadTheDocs_.
 * Ruff_ for static checks (so much faster than Flake8_!)
-* Mypy_ for dynamic checks not covered by Ruff_
-* Virtual environment management and package building/publishing with Poetry_ (with the option to install Poetry)
+* Codacy_, CodeClimate_, Coveralls_ or Codecov_ for coverage tracking (using Tox_).
+* Mypy_ for type-checks to supplement Ruff_
+* Virtual environment management and package building/publishing with Poetry_
 * CI/CD configuration for testing and building with GitHub Actions or GitLab CI/CD
 * Version managing with bump2version_
+* *Optional* support for testing across different platforms
+* *Optional* command-line interface via argparse_ or click_
 * GitHub actions:
   - testing code functionality
   - testing documentation builds, links, docstrings
   - checking license compatability (using `pip-licenses`) whenever the `pyproject.toml` is changed
   - publishing tagged versions to PyPI (you must store a PyPI token as a secret in order for this to work)
 * Configurations for:
-
   * bumpversion_ (bump2version_ required)
   * gitchangelog_
   * Pytest_
@@ -89,18 +91,13 @@ docs
 ~~~~
 
 * Sphinx_ - for building documentation
-* sphinx-rtd-theme_, python-docs-theme_, sphinx-py3doc-enhanced-theme_, sphinx-book-theme_, furo_, or pydata-sphinx-theme_ - for documentation theming
-
-Note that `poetry install` will not install the above dependencies. In order to install a particular group of dependencies along with the package, you must run::
-  $ poetry install --with=<group>[,<group>]
-
-where `<group>` is one of `dev`, `test`, `vcs`, or `docs`.
+* furo_, sphinx-rtd-theme_, python-docs-theme_, sphinx-py3doc-enhanced-theme_, sphinx-book-theme_, or pydata-sphinx-theme_ - for documentation theming
 
 To get quickly started on a new system, just `install pip
-<https://pip.pypa.io/en/latest/installing.html>`_. That's the bare minimum to required install Tox_ and Cookiecutter_. To install
-them, just run this in your shell or command prompt::
+<https://pip.pypa.io/en/latest/installing.html>`_. That's the bare minimum to required install Cookiecutter_. To install
+, just run this in your shell or command prompt::
 
-  pip install tox cookiecutter
+  pip install cookiecutter
 
 Usage and options
 -----------------
