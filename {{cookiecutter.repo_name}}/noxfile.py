@@ -55,39 +55,19 @@ def type_check(s: Session) -> None:
     s.run("mypy", "src", "tests", "noxfile.py")
 
 
-# Edit for necessary environment variables for sphinx-build (source/destination)
-doc_env = {
-    "PYTHONPATH": "src",
-    "BUILDDIR": "docs/build"}
-
-
 @session(venv_backend="none")
 def docs(s: Session) -> None:
-    s.run("sphinx-build", "-E", "-a", "--color", "-W", "-b", "doctest", env=doc_env)
-    s.run("sphinx-build", "-E", "-a", "--color", "-W", "-b", "html", env=doc_env)
-    s.run("sphinx-build","-b", "--color", "linkcheck", env=doc_env)
+    s.run("sphinx-build", "--color", "-W", "-b", "html", "docs/source", "docs/build")
 
 
 @session(venv_backend="none")
 def docs_check_urls(s: Session) -> None:
-    # TODO: Replace dict merge with d1 | d2 when dropping support for Python 3.8.
-    s.run("mkdocs", "build", env={**doc_env, **{"HTMLPROOFER_VALIDATE_EXTERNAL_URLS": str(True)}})
+    s.run("sphinx-build", "--color", "-W", "-b", "linkcheck")
 
 
 @session(venv_backend="none")
-def docs_offline(s: Session) -> None:
-    # TODO: Replace dict merge with d1 | d2 when dropping support for Python 3.8.
-    s.run("mkdocs", "build", env={**doc_env, **{"MKDOCS_MATERIAL_OFFLINE": str(True)}})
-
-
-@session(venv_backend="none")
-def docs_serve(s: Session) -> None:
-    s.run("mkdocs", "serve", env=doc_env)
-
-
-@session(venv_backend="none")
-def docs_github_pages(s: Session) -> None:
-    s.run("mkdocs", "gh-deploy", "--force", env=doc_env)
+def docs_test(s: Session) -> None:
+    s.run("sphinx-build", "--color", "-W", "-b", "doctest")
 
 
 # Note: This reuse_venv does not yet have affect due to:
