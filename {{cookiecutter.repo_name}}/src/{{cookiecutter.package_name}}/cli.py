@@ -18,17 +18,32 @@ Why does this file exist, and why not put this in __main__?
 import click
 {%- elif cookiecutter.command_line_interface == "argparse" %}
 import argparse
+{%- elif cookiecutter.command_line_interface == "fire" %}
+import fire
+{%- elif cookiecutter.command_line_interface == "typer" %}
+from typing import Annotated
+
+from rich.console import Console
+from typer import Argument, Typer
 {%- else %}
 import sys
 {%- endif %}
 {%- if cookiecutter.command_line_interface == "click" %}
 
 
-@click.command()
-@click.argument("names", nargs=-1)
-def main(names):
-    click.echo(repr(names))
+@click.command(name='{{ cookiecutter.command_line_interface_bin_name }}', invoke_without_command=True)
+@click.option(
+    '-v',
+    '--version',
+    is_flag=True,
+    default=False,
+    help='Show the version and exit.',
+)
+def main(version):
+    if version:
+        click.echo(f'{{ cookiecutter.command_line_interface_bin_name }}-{{{ cookiecutter.command_line_interface_bin_name }}.__version__}')
 {%- elif cookiecutter.command_line_interface == "argparse" %}
+
 
 parser = argparse.ArgumentParser(description="Command description.")
 parser.add_argument(
@@ -42,6 +57,29 @@ parser.add_argument(
 def main(args=None):
     args = parser.parse_args(args=args)
     print(args.names)
+{%- elif cookiecutter.command_line_interface == "fire" %}
+
+
+def help():
+    print("{{ cookiecutter.command_line_interface_bin_name }}")
+    print("=" * len("{{ cookiecutter.command_line_interface_bin_name }}"))
+    print("{{ cookiecutter.project_short_description }}")
+
+def main():
+    fire.Fire({
+        "help": help
+    })
+{%- elif cookiecutter.command_line_interface == "typer" %}
+
+
+app = Typer(add_completion=False)
+
+
+@app.command()
+def main(n: Annotated[int, Argument(min=0, help="{{ cookiecutter.project_short_description }}")]) -> None:
+    """{{ cookiecutter.project_short_description }}"""
+
+    Console().print(f'{{ cookiecutter.command_line_interface_bin_name }}-{{{ cookiecutter.command_line_interface_bin_name }}.__version__}')
 {%- else %}
 
 
