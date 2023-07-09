@@ -11,17 +11,17 @@ env:
 
 jobs:
   test:
-    name: {{ '${{ matrix.tox_env }} (${{ matrix.os }})' }}
+    name: {{ '${{ matrix.python-version }} (${{ matrix.os }})' }}
     runs-on: {{ '${{ matrix.os }}' }}
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
         python-version: ["pypy-3.10", "3.10", "3.11"]
-        os: ['ubuntu'
-{%- if cookiecutter.github_actions_windows == 'yes' %}, 'windows'
+        os: ['ubuntu-latest'
+{%- if cookiecutter.github_actions_windows == 'yes' %}, 'windows-latest'
 {%- endif %}
-{%- if cookiecutter.github_actions_osx == 'yes' %}, 'macos'
+{%- if cookiecutter.github_actions_osx == 'yes' %}, 'macos-latest'
 {%- endif -%}
 ]
     steps:
@@ -47,7 +47,7 @@ jobs:
         uses: coverallsapp/github-action@v2
         continue-on-error: true
         with:
-          flag-name: {{ '${{ matrix.python-version }}-${{ matrix.os }}' }}
+          flag-name: {{ '${{ matrix.python-version }}-${{ matrix.os }}-latest' }}
           parallel: true
 {%- endif %}
 {%- if cookiecutter.codecov == 'yes' %}
@@ -56,14 +56,14 @@ jobs:
         with:
           fail_ci_if_error: true
           verbose: true
-          flags: {{ '${{ matrix.tox_env }}' }}
+          flags: {{ '${{ matrix.python-version }}-${{ matrix.os }}-latest' }}
 {%- endif %}
 {%- if cookiecutter.codacy == 'yes' %}
       - name: Run Codacy Analysis CLI
         uses: codacy/codacy-analysis-cli-action@master
         with:
           verbose: true
-          flags: {{ '${{ matrix.tox_env }}' }}
+          flags: {{ '${{ matrix.python-version }}-${{ matrix.os }}-latest' }}
 {%- endif %}
   quality:
     runs-on: ubuntu-22.04
@@ -112,12 +112,12 @@ jobs:
       uses: coverallsapp/github-action@v2
       with:
         parallel-finished: true
-        carryforward: "pypy-3.10-ubuntu,3.10-ubuntu,3.11-ubuntu
+        carryforward: "pypy-3.10-ubuntu-latest,3.10-ubuntu-latest,3.11-ubuntu-latest
 {%- if cookiecutter.github_actions_windows == 'yes' -%}
-,pypy-3.10-windows,3.10-windows,3.11-windows
+,pypy-3.10-windows-latest,3.10-windows-latest,3.11-windows-latest
 {%- endif -%}
 {%- if cookiecutter.github_actions_osx == 'yes' -%}
-,pypy-3.10-macos,3.10-macos,3.11-macos
+,pypy-3.10-macos-latest,3.10-macos-latest,3.11-macos-latest
 {%- endif -%}
 "
 {%- endif %}
