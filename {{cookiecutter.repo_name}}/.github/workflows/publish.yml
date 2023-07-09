@@ -23,12 +23,15 @@ jobs:
       - name: Build package
         run: |
           poetry build
+      - name: Upload distribution files
+        uses: actions/upload-artifact@v3
+        with:
+          name: distribution-files
+          path: dist/
       - name: Publish package on PyPI
         run: |
+          poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
           poetry publish
-      - name: Trigger ReadTheDocs build
-        run: |
-          echo "Triggering ReadTheDocs build"
   {%- if cookiecutter.codeclimate == 'yes' %}
       - name: Send Velocity deployment
         uses: codeclimate/velocity-deploy-action@master
