@@ -22,7 +22,7 @@ jobs:
       - name: Install Nox and doc dependencies
         run: poetry install --only nox,docs
       - name: Summarize licenses
-        run: poetry run nox -s licenses--from=all --no-version --format=html --output-file=licenses.html
+        run: poetry run nox -s licenses--from=all --no-version --format=html --output-file=licenses-summary.html
       - name: Upload licenses summary
         uses: actions/upload-artifact@v3
         with:
