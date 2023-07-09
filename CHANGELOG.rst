@@ -15,12 +15,15 @@ Added
 * Default GitHub actions and GitLab pipelines for changelog generation
 * Optional markdown docs with Sphinx
 * Organized development dependencies in `pyproject.toml`
+* Optional development dependencies for testing, VCS control, and documentation
 
 Changed
 ~~~~~~~
 
 * setuptools -> Poetry for packagement management and building
 * Transition from `setup.py` to `pyproject.toml`
+* Tox -> Nox for managing test environments
+* Replace pylint with Mypy for type-checking
 
 Removed
 ~~~~~~~
@@ -28,6 +31,7 @@ Removed
 * C-extension support
 * Optional tests inside of packagement
 * Optional coverage testing separate from tests
+* Support for hosting domains other than `github.com` and `gitlab.com`
 
 `0.0.1`_ (2023-06-24)
 ------------------
