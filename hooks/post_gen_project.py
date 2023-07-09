@@ -25,10 +25,9 @@ else:
 if __name__ == "__main__":
     cwd = pathlib.Path().resolve()
     src = cwd / 'src'
-    ci = cwd / 'ci'
 
 {% if cookiecutter.sphinx_docs == "no" %}
-    shutil.rmtree(cwd / 'docs')
+    shutil.rmtree(cwd / 'docs', ignore_errors=True)
     cwd.joinpath('.readthedocs.yml').unlink()
 {%- elif 'readthedocs' not in cookiecutter.sphinx_docs_hosting %}
     cwd.joinpath('.readthedocs.yml').unlink()
@@ -39,19 +38,13 @@ if __name__ == "__main__":
     src.joinpath('{{ cookiecutter.package_name }}', 'cli.py').unlink()
 {% endif %}
 
-{%- if cookiecutter.github_actions == 'no' %}
-    ci.joinpath('templates', '.github', 'workflows', 'github-actions.yml').unlink()
-    cwd.joinpath('.github', 'workflows', 'github-actions.yml').unlink(missing_ok=True)
-{% endif %}
-
-{%- if cookiecutter.gitlab_ci_cd == 'no' %}
-    ci.joinpath('templates', '.gitlab-ci.yml').unlink()
+{%- if 'yes' not in [cookiecutter.github_actions, cookiecutter.gitlab_ci_cd]%}
+    shutil.rmtree(cwd.joinpath('.github'), ignore_errors=True)
     cwd.joinpath('.gitlab-ci.yml').unlink(missing_ok=True)
-{% endif %}
-
-{%- if cookiecutter.repo_hosting == 'no' %}
-    cwd.joinpath('CONTRIBUTING.rst').unlink()
-    cwd.joinpath('docs', 'source', 'contributing.rst').unlink()
+{%- elif cookiecutter.github_actions == 'no' %}
+    shutil.rmtree(cwd.joinpath('.github', 'workflows', 'github-actions.yml'), ignore_errors=True)
+{%- elif cookiecutter.gitlab_ci_cd == 'no' %}
+    cwd.joinpath('.gitlab-ci.yml').unlink(missing_ok=True)
 {% endif %}
 
 {%- if cookiecutter.version_manager == 'bump2version' %}
@@ -64,14 +57,6 @@ if __name__ == "__main__":
     cwd.joinpath('LICENSE').unlink()
 {% endif %}
     width = min(140, shutil.get_terminal_size(fallback=(140, 0)).columns)
-    note(" Generating CI configuration ".center(width, "#"))
-    try:
-        subprocess.check_call(['tox', '-e', 'bootstrap', '--sitepackages'])
-    except Exception:
-        try:
-            subprocess.check_call([sys.executable, '-m', 'tox', '-e', 'bootstrap', '--sitepackages'])
-        except Exception:
-            subprocess.check_call([sys.executable, ci / 'bootstrap.py'])
     note(' Setting up pre-commit '.center(width, "#"))
     if cwd.joinpath('.git').exists():
         subprocess.check_call(['pre-commit', 'install', '--install-hooks'])
