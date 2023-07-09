@@ -25,11 +25,11 @@ Overview
           {%- if cookiecutter.codeclimate == 'yes' %} |codeclimate|{% endif -%}
         {%- endif -%}
 {{ '' }}
-{%- if cookiecutter.pypi_badge == "yes" or cookiecutter.repo_hosting_domain == "github.com" %}
+{%- if cookiecutter.pypi_badge == "yes" or cookiecutter.repo_hosting == "github.com" %}
     * - package
       - | |poetry| {% if cookiecutter.pypi_badge == "yes" %} |version| |wheel| |supported-versions| |supported-implementations|
         {{ '' }}{% endif %}
-        {%- if cookiecutter.repo_hosting_domain == "github.com" %}| |commits-since|{% endif %}
+        {%- if cookiecutter.repo_hosting == "github.com" %}| |commits-since|{% endif %}
 {%- endif %}
 {{ '' }}
 .. |black| image:: https://img.shields.io/badge/%20style-black-000000.svg
@@ -46,7 +46,7 @@ Overview
 .. |docs| image:: https://readthedocs.org/projects/{{ cookiecutter.repo_name }}/badge/?style=flat
     :target: https://{{ cookiecutter.repo_name|replace('.', '') }}.readthedocs.io/
     :alt: Documentation Status
-{%- elif 'gitlab' in cookiecutter.sphinx_docs_hosting and 'gitlab' in cookiecutter.repo_hosting_domain -%}
+{%- elif 'gitlab' in cookiecutter.sphinx_docs_hosting and 'gitlab' in cookiecutter.repo_hosting -%}
 .. |docs| image:: {{ cookiecutter.__repo_url }}/badges/{{ cookiecutter.repo_main_branch }}/pipeline.svg
     :target: {{ cookiecutter.__repo_url }}/commits/{{ cookiecutter.repo_main_branch }}
     :alt: Documentation Status
@@ -103,10 +103,10 @@ Overview
     :alt: Supported implementations
     :target: https://pypi.org/project/{{ cookiecutter.distribution_name }}
 {% endif %}
-{%- if cookiecutter.repo_hosting_domain == "github.com" %}
+{%- if cookiecutter.repo_hosting == "github.com" %}
 .. |commits-since| image:: https://img.shields.io/github/commits-since/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/v{{ cookiecutter.version }}.svg
     :alt: Commits since latest release
-    :target: https://{{ cookiecutter.repo_hosting_domain }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/compare/v{{ cookiecutter.version }}...{{ cookiecutter.repo_main_branch }}
+    :target: https://{{ cookiecutter.repo_hosting }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/compare/v{{ cookiecutter.version }}...{{ cookiecutter.repo_main_branch }}
 {% endif %}
 .. |poetry| image:: https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json
     :alt: Poetry
@@ -125,12 +125,12 @@ Installation
     pip install {{ cookiecutter.distribution_name }}
 
 You can also install the in-development version with::
-{% if cookiecutter.repo_hosting_domain == "github.com" %}
+{% if cookiecutter.repo_hosting == "github.com" %}
     pip install https://github.com/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/archive/{{ cookiecutter.repo_main_branch }}.zip
-{% elif cookiecutter.repo_hosting_domain == "gitlab.com" %}
+{% elif cookiecutter.repo_hosting == "gitlab.com" %}
     pip install https://gitlab.com/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/-/archive/{{ cookiecutter.repo_main_branch }}/{{ cookiecutter.repo_name }}-{{ cookiecutter.repo_main_branch }}.zip
 {% else %}
-    pip install git+ssh://git@{{ cookiecutter.repo_hosting_domain }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}.git@{{ cookiecutter.repo_main_branch }}
+    pip install git+ssh://git@{{ cookiecutter.repo_hosting }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}.git@{{ cookiecutter.repo_main_branch }}
 {%- endif %}
 
 Documentation
