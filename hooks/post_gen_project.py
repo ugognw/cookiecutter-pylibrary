@@ -47,15 +47,32 @@ if __name__ == "__main__":
     cwd.joinpath('.gitlab-ci.yml').unlink(missing_ok=True)
 {% endif %}
 
-{%- if cookiecutter.version_manager == 'bump2version' %}
-    cwd.joinpath('tbump.toml').unlink()
-{%- elif cookiecutter.version_manager == 'tbump' %}
-    cwd.joinpath('.bumpversion.cfg').unlink()
-{% endif %}
+{%- if cookiecutter.pypi_disable_upload == 'yes' %}
+    cwd.joinpath('.github', 'workflows', 'publish.yml').unlink()
+{%- endif %}
 
 {%- if cookiecutter.license == "no" %}
     cwd.joinpath('LICENSE').unlink()
-{% endif %}
+{%- endif %}
+
+{%- if cookiecutter.initialize_git_repository %}
+    note(' Initializing Git repository '.center(width, "#"))
+    subprocess.check_call(['git', 'init'])
+{%- endif %}
+
+{%- if cookiecutter.install_package %}
+    note(' Installing package and dependencies '.center(width, "#"))
+    subprocess.check_call(['poetry', 'install'])
+{%- endif %}
+
+{%- if cookiecutter.activate_virtual_environment %}
+    note(' Activating virtual environment '.center(width, "#"))
+    subprocess.check_call(['source', '"$(poetry env info --path)"/bin/activate'])
+{%- endif %}
+
+{%- if cookiecutter.pre_commit == 'no' %}
+    cwd.joinpath('.pre-commit-config.yaml').unlink()
+{%- elif cookiecutter.install_precommit_hooks %}
     width = min(140, shutil.get_terminal_size(fallback=(140, 0)).columns)
     note(' Setting up pre-commit '.center(width, "#"))
     if cwd.joinpath('.git').exists():
@@ -63,6 +80,7 @@ if __name__ == "__main__":
         subprocess.check_call(['pre-commit', 'autoupdate'])
     else:
         print('Skipping precommit install.')
+{%- endif %}
     success(' Successfully created `{{ cookiecutter.repo_name }}` '.center(width, "#"))
     print('See .cookiecutterrc for instructions on regenerating the project.')
     note('To get started run these:')
@@ -74,7 +92,7 @@ pre-commit autoupdate
 git add --all
 git commit -m "Add initial project skeleton."
 git tag v{{ cookiecutter.version }}
-git remote add origin git@{{ cookiecutter.repo_hosting_domain }}:{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}.git
+git remote add origin git@{{ cookiecutter.repo_hosting }}:{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}.git
 git push -u origin {{ cookiecutter.repo_main_branch }} v{{ cookiecutter.version }}
 ''')
     command_line_interface_bin_name = '{{ cookiecutter.command_line_interface_bin_name }}'
