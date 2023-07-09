@@ -7,7 +7,7 @@ authors = [
     ]
 license = "{{ cookiecutter.license }}"
 readme = "README.rst"
-repository = "https://{{ cookiecutter.repo_hosting_domain }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}"
+repository = "https://{{ cookiecutter.repo_hosting }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}"
 {%- if cookiecutter.sphinx_docs == 'yes' %}
 documentation = "{{ cookiecutter.sphinx_docs_hosting }}"
 {%- endif %}
@@ -25,9 +25,7 @@ include = [
     "CONTRIBUTING.rst",
     "LICENSE",
     "README.rst",
-{% if cookiecutter.version_manager == 'bump2version' -%}
     ".bumpversion.cfg",
-{% endif -%}
     ".cookiecutterrc.",
     ".coveragerc.",
     ".editorconfig",
@@ -122,11 +120,7 @@ black = "*"
 {%- if cookiecutter.pre_commit == "yes" %}
 pre-commit = "^2.20.0"
 {%- endif %}
-{%- if cookiecutter.version_manager == 'bump2version' %}
 bump2version = "^1.0.1"
-{%- else %}
-tbump = "^6.10.0"
-{%- endif %}
 {%- if cookiecutter.gitchangelog == "yes" %}
 gitchangelog = "^3.0.4"
 {%- endif %}
@@ -138,9 +132,7 @@ sphinx = "^7.0.1"
 [tool.black]
 line-length = 79
 target-version = ["py311"]
-{%- if cookiecutter.formatter_quote_style == "single" %}
 skip-string-normalization = true
-{%- endif %}
 
 [tool.coverage.paths]
 source =[
