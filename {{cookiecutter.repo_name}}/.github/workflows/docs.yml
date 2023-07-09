@@ -21,5 +21,14 @@ jobs:
           cache: poetry
       - name: Install Nox and doc dependencies
         run: poetry install --only nox,docs
-      - name: Publish Docs
+      - name: Run doctests
+        run: poetry run nox -s docs_test
+      - name: Check links
+        run: poetry run nox -s docs_check_urls
+      - name: Build Docs
         run: poetry run nox -s docs
+      - name: Upload documentation
+        uses: actions/upload-artifact@v3
+        with:
+          name: documentation
+          path: docs/build
