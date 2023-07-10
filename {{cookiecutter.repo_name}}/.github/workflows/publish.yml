@@ -19,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
+          python-version: {{ '${{ env.PYTHON_VERSION }}' }}
           cache: poetry
       - name: Build package
         run: |
@@ -31,7 +31,7 @@ jobs:
           path: dist/
       - name: Publish package on PyPI
         run: |
-          poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
+          poetry config pypi-token.pypi {{ '${{ secrets.PYPI_TOKEN }}' }}
           poetry publish
   {%- if cookiecutter.codeclimate == 'yes' %}
       - name: Send Velocity deployment
