@@ -8,10 +8,14 @@ Cookiecutter_ template for a Python library.
 
 * This is largely designed to address this `blog post about packaging python
   libraries <https://blog.ionelmc.ro/2014/05/25/python-packaging/>`_.
-  - ... and it will save you from `packaging pitfalls
-    <https://blog.ionelmc.ro/2014/06/25/python-packaging-pitfalls/>`_.
-* Although this cookiecutter is based off of that of `ionelmc <https://github.com/ionelmc/cookiecutter-pylibrary>`_, it also takes inspiration from `python-blueprint <https://github.com/johnthagen/python-blueprint/tree/main>`_ and `cookiecutter-hypermodern-python <https://github.com/cjolowicz/cookiecutter-hypermodern-python/tree/main>`_
 
+  * ... and it will save you from `packaging pitfalls
+    <https://blog.ionelmc.ro/2014/06/25/python-packaging-pitfalls/>`_.
+
+* Although this cookiecutter is based off of that of
+`ionelmc <https://github.com/ionelmc/cookiecutter-pylibrary>`_, it also takes
+inspiration from `python-blueprint <https://github.com/johnthagen/python-blueprint/tree/main>`_
+and `cookiecutter-hypermodern-python <https://github.com/cjolowicz/cookiecutter-hypermodern-python/tree/main>`_
 * There's a bare library using this template (if you're curious about the final
   result): https://github.com/ugognw/python-nameless.
 * If you have a web application (not a library) you might want to take a look at
@@ -25,35 +29,65 @@ Features
 This is an "all inclusive" sort of template.
 
 * Choice of various licenses.
+
 * Configuration to match your choice of hosting on GitHub or GitLab
+
 * `src/package_name` directory structure
+
 * tests outside of package
+
 * Nox_ and nox-poetry_ for managing test environments for PyPy-3.10, Python 3.10, and 3.11
+
 * pytest_ for testing (with `Coverage.py`_ for coverage analysis)
+
 * Automated dependency updates with Dependabot_ (if hosting with GitHub)
+
 * Documentation with Sphinx_, ready for ReadTheDocs_.
+
 * Black_ - for code formating
+
 * Ruff_ for static checks and import sorting
+
 * mypy_ for type-checks to supplement Ruff_
+
 * pre-commit_ - for running pre-commit git hooks (optional)
+
 * Coveralls_, Codecov_ Codacy_, and/or `Code Climate`_ integration for coverage tracking
+
 * Virtual environment management and package building/publishing with Poetry_
+
 * CI/CD configuration for testing and building with GitHub Actions or GitLab CI/CD
-  - testing code functionality
-  - testing documentation builds, links, docstrings
-  - checking license compatability (using pip-licenses_) whenever the `pyproject.toml` is changed
-  - publishing tagged versions to PyPI (you must store a PyPI token as a secret in order for this to work)
+
+  * testing code functionality
+
+  * testing documentation builds, links, docstrings
+
+  * checking license compatability (using pip-licenses_) whenever the `pyproject.toml` is changed
+
+  * publishing tagged versions to PyPI (you must store a PyPI token as a secret in order for this to work)
+
 * Version managing with bump2version_
+
 * *Optional* support for testing across different platforms
+
 * *Optional* command-line interface via argparse_, click_, `Python Fire`_, or Typer_
+
 * Configurations for:
+
   * bumpversion_ (bump2version_ required)
+
   * gitchangelog_
+
   * pytest_
+
   * mypy_
+
   * pre-commit_
+
   * Black_
+
   * coverage_
+
   * Ruff_
 
 Requirements
@@ -62,7 +96,9 @@ Requirements
 Projects using this template have the following minimal dependencies:
 
 * Poetry_
+
 * click_, `Python Fire`_, or Typer_
+
 * nox_ and nox-poetry_
 
 To get quickly started on a new system, just `install pip
@@ -152,7 +188,8 @@ You will be asked for these fields:
       - .. code:: python
 
             "github.com"
-      - You can also use ``"gitlab.com"``. If you desire CI/CD configuration, this should be consistent with the values for `github_actions` and `gitlab_ci_cd`.
+      - You can also use ``"gitlab.com"``. If you desire CI/CD configuration, this
+      should be consistent with the values for `github_actions` and `gitlab_ci_cd`.
 
     * - ``repo_username``
       - .. code:: python
@@ -227,7 +264,9 @@ You will be asked for these fields:
       - .. code:: python
 
             "nameless"
-      - Name of the CLI bin/executable file (verify that the console script name in ``pyproject.toml`` matches your desired implementation; see `here <https://python-poetry.org/docs/pyproject/#scripts>`_).
+      - Name of the CLI bin/executable file (verify that the console script name in
+      ``pyproject.toml`` matches your desired implementation; see
+      `here <https://python-poetry.org/docs/pyproject/#scripts>`_).
 
     * - ``pypi_badge``
       - .. code:: python
@@ -248,33 +287,42 @@ You will be asked for these fields:
       - .. code:: python
 
             "yes"
-      - Enable pushing coverage data to Coveralls_ and add badge in ``README.rst``. Don't forget to add your repo on `https://coveralls.io <https://coveralls.io>`_!
+      - Enable pushing coverage data to Coveralls_ and add badge in ``README.rst``. Don't forget
+      to add your repo on `https://coveralls.io <https://coveralls.io>`_!
 
     * - ``codecov``
       - .. code:: python
 
             "yes"
-      - Enable pushing coverage data to Codecov_ and add badge in ``README.rst``. Don't forget to add your repo on `https://about.codecov.io <https://about.codecov.io>`_!
+      - Enable pushing coverage data to Codecov_ and add badge in ``README.rst``. Don't forget
+      to add your repo on `https://about.codecov.io <https://about.codecov.io>`_!
 
     * - ``codacy``
       - .. code:: python
 
             "yes"
-      - Enable Codacy_ in your chosen CI/CD pipeline and add a corresponding badge in ``README.rst``. Don't forget to import your project on `https://www.codacy.com <https://www.codacy.com>`_! 
+      - Enable Codacy_ in your chosen CI/CD pipeline and add a corresponding badge in ``README.rst``.
+      Don't forget to import your project on `https://www.codacy.com <https://www.codacy.com>`_! 
 
-        **Note:** Displaying the Codacy badge is contingent on your project ID. If you don't input your project ID during the cookiecutter configuration step, you can still fill in your hexadecimal project ID in the badge URL in the `README.rst`.
+        **Note:** Displaying the Codacy badge is contingent on your project ID. If you don't
+        input your project ID during the cookiecutter configuration step, you can still fill
+        in your hexadecimal project ID in the badge URL in the `README.rst`.
 
     * - ``codacy_projectid``
       - .. code:: python
 
-            "[Get ID from https://app.codacy.com/gh/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/settings]"
-      - Your Codacy_ hexadecimal project ID.
+            ""
+      - Your Codacy_ hexadecimal project ID. Get ID from
+      https://app.codacy.com/gh/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/settings.
 
     * - ``codeclimate``
       - .. code:: python
 
             "yes"
-      - Enable the Velocity GitHub Action by `Code Climate`_ and a corresponding badge in ``README.rst``. **Note:** This will not be implemented if you select "gitlab.com"" as your repo hosting domain. Further, you will have to set the `VELOCITY_DEPLOYMENT_TOKEN` as a secret on your repo hosting site in order for CI/CD integration to work correctly.
+      - Enable the Velocity GitHub Action by `Code Climate`_ and a corresponding badge in
+      ``README.rst``. **Note:** This will not be implemented if you select "gitlab.com""
+      as your repo hosting domain. Further, you will have to set the `VELOCITY_DEPLOYMENT_TOKEN`
+      as a secret on your repo hosting site in order for CI/CD integration to work correctly.
 
     * - ``gitchangelog``
       - .. code:: python
@@ -316,7 +364,8 @@ You will be asked for these fields:
       - .. code:: python
 
             "yes"
-      - Whether or not to install pre-commit_ hooks. Requires that a .git repository exists in the current working directory.
+      - Whether or not to install pre-commit_ hooks. Requires that a .git repository exists in
+      the current working directory.
 
     * - ``pytest_datadir``
       - .. code:: python
@@ -342,7 +391,8 @@ You will be asked for these fields:
             "furo"
       - What Sphinx_ theme to use.
 
-        Suggested alternative: `sphinx-py3doc-enhanced-theme <https://pypi.org/project/sphinx_py3doc_enhanced_theme>`__
+        Suggested alternative:
+        `sphinx-py3doc-enhanced-theme <https://pypi.org/project/sphinx_py3doc_enhanced_theme>`__
         for a responsive theme based on the Python 3 documentation.
 
     * - ``sphinx_doctest``
@@ -372,13 +422,16 @@ You will be asked for these fields:
       - .. code:: python
 
             "yes"
-      - Whether or not to include install the newly created package via Poetry_. If a virtual environment is not already active, this will create a new virtual environment in which to install the current package.
+      - Whether or not to include install the newly created package via Poetry_.
+      If a virtual environment is not already active, this will create a new virtual environment
+      in which to install the current package.
 
     * - ``activate_virtual_environment``
       - .. code:: python
 
             "yes"
-      - Whether or not to include activate the virtual environment and install package upon project creation.
+      - Whether or not to include activate the virtual environment and install package
+      upon project creation.
 
 Developing the project
 ``````````````````````
@@ -424,8 +477,8 @@ Before building dists make sure you got a clean build area::
 
 Note:
 
-    Dirty ``build`` or ``egg-info`` dirs can cause problems: missing or stale files in the resulting dist or
-    strange and confusing errors. Avoid having them around.
+    Dirty ``build`` or ``egg-info`` dirs can cause problems: missing or stale files in
+    the resulting dist or strange and confusing errors. Avoid having them around.
 
 Then you should check that you got no packaging issues::
 
@@ -435,11 +488,13 @@ And then you can build the ``sdist``, and if possible, the ``bdist_wheel`` too::
 
     poetry build
 
-To make a release of the project on PyPI, assuming you got some distributions in ``dist/``, the most simple usage is::
+To make a release of the project on PyPI, assuming you got some distributions in
+``dist/``, the most simple usage is::
 
     poetry build
 
-You should set your PyPI credentials according to `here <https://python-poetry.org/docs/repositories/#configuring-credentials>`_.
+You should set your PyPI credentials according to
+`here <https://python-poetry.org/docs/repositories/#configuring-credentials>`_.
 
 Changelog
 ---------
@@ -449,11 +504,13 @@ See `CHANGELOG.rst <https://github.com/ionelmc/cookiecutter-pylibrary/blob/maste
 FAQs
 -------------------
 
-Why is the version stored in several files (``pkg/__init__.py``, ``pyproject.toml``, ``docs/conf.py``)?
+Why is the version stored in several files
+(``pkg/__init__.py``, ``pyproject.toml``, ``docs/conf.py``)?
 
-  We cannot use a metadata/version file [#]_ because this template is to be used with both distributions of packages (dirs
-  with ``__init__.py``) and modules (simple ``.py`` files that go straight in ``site-packages``). There's no good place
-  for that extra file if you're distributing modules.
+  We cannot use a metadata/version file [#]_ because this template is to be used with
+  both distributions of packages (dirs with ``__init__.py``) and modules (simple ``.py``
+  files that go straight in ``site-packages``). There's no good place for that extra file
+  if you're distributing modules.
 
   But this isn't so bad - bumpversion_ manages the version string quite
   neatly.
