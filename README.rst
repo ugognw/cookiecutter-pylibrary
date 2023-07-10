@@ -13,9 +13,9 @@ Cookiecutter_ template for a Python library.
     <https://blog.ionelmc.ro/2014/06/25/python-packaging-pitfalls/>`_.
 
 * Although this cookiecutter is based off of that of
-`ionelmc <https://github.com/ionelmc/cookiecutter-pylibrary>`_, it also takes
-inspiration from `python-blueprint <https://github.com/johnthagen/python-blueprint/tree/main>`_
-and `cookiecutter-hypermodern-python <https://github.com/cjolowicz/cookiecutter-hypermodern-python/tree/main>`_
+  `ionelmc <https://github.com/ionelmc/cookiecutter-pylibrary>`_, it also takes
+  inspiration from `python-blueprint <https://github.com/johnthagen/python-blueprint/tree/main>`_
+  and `cookiecutter-hypermodern-python <https://github.com/cjolowicz/cookiecutter-hypermodern-python/tree/main>`_
 * There's a bare library using this template (if you're curious about the final
   result): https://github.com/ugognw/python-nameless.
 * If you have a web application (not a library) you might want to take a look at
@@ -102,8 +102,8 @@ Projects using this template have the following minimal dependencies:
 * nox_ and nox-poetry_
 
 To get quickly started on a new system, just `install pip
-<https://pip.pypa.io/en/latest/installing.html>`_. That's the bare minimum to required install Cookiecutter_. To install
-, just run this in your shell or command prompt::
+<https://pip.pypa.io/en/latest/installing.html>`_. That's the bare minimum to required
+install Cookiecutter_. To install , just run this in your shell or command prompt::
 
   pip install cookiecutter
 
@@ -189,7 +189,7 @@ You will be asked for these fields:
 
             "github.com"
       - You can also use ``"gitlab.com"``. If you desire CI/CD configuration, this
-      should be consistent with the values for `github_actions` and `gitlab_ci_cd`.
+        should be consistent with the values for `github_actions` and `gitlab_ci_cd`.
 
     * - ``repo_username``
       - .. code:: python
@@ -265,8 +265,8 @@ You will be asked for these fields:
 
             "nameless"
       - Name of the CLI bin/executable file (verify that the console script name in
-      ``pyproject.toml`` matches your desired implementation; see
-      `here <https://python-poetry.org/docs/pyproject/#scripts>`_).
+        ``pyproject.toml`` matches your desired implementation; see
+        `here <https://python-poetry.org/docs/pyproject/#scripts>`_).
 
     * - ``pypi_badge``
       - .. code:: python
@@ -288,21 +288,21 @@ You will be asked for these fields:
 
             "yes"
       - Enable pushing coverage data to Coveralls_ and add badge in ``README.rst``. Don't forget
-      to add your repo on `https://coveralls.io <https://coveralls.io>`_!
+        to add your repo on `https://coveralls.io <https://coveralls.io>`_!
 
     * - ``codecov``
       - .. code:: python
 
             "yes"
       - Enable pushing coverage data to Codecov_ and add badge in ``README.rst``. Don't forget
-      to add your repo on `https://about.codecov.io <https://about.codecov.io>`_!
+        to add your repo on `https://about.codecov.io <https://about.codecov.io>`_!
 
     * - ``codacy``
       - .. code:: python
 
             "yes"
       - Enable Codacy_ in your chosen CI/CD pipeline and add a corresponding badge in ``README.rst``.
-      Don't forget to import your project on `https://www.codacy.com <https://www.codacy.com>`_! 
+        Don't forget to import your project on `https://www.codacy.com <https://www.codacy.com>`_! 
 
         **Note:** Displaying the Codacy badge is contingent on your project ID. If you don't
         input your project ID during the cookiecutter configuration step, you can still fill
@@ -313,16 +313,16 @@ You will be asked for these fields:
 
             ""
       - Your Codacy_ hexadecimal project ID. Get ID from
-      https://app.codacy.com/gh/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/settings.
+        https://app.codacy.com/gh/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/settings.
 
     * - ``codeclimate``
       - .. code:: python
 
             "yes"
       - Enable the Velocity GitHub Action by `Code Climate`_ and a corresponding badge in
-      ``README.rst``. **Note:** This will not be implemented if you select "gitlab.com""
-      as your repo hosting domain. Further, you will have to set the `VELOCITY_DEPLOYMENT_TOKEN`
-      as a secret on your repo hosting site in order for CI/CD integration to work correctly.
+        ``README.rst``. **Note:** This will not be implemented if you select "gitlab.com""
+        as your repo hosting domain. Further, you will have to set the `VELOCITY_DEPLOYMENT_TOKEN`
+        as a secret on your repo hosting site in order for CI/CD integration to work correctly.
 
     * - ``gitchangelog``
       - .. code:: python
@@ -365,7 +365,7 @@ You will be asked for these fields:
 
             "yes"
       - Whether or not to install pre-commit_ hooks. Requires that a .git repository exists in
-      the current working directory.
+        the current working directory.
 
     * - ``pytest_datadir``
       - .. code:: python
@@ -423,15 +423,15 @@ You will be asked for these fields:
 
             "yes"
       - Whether or not to include install the newly created package via Poetry_.
-      If a virtual environment is not already active, this will create a new virtual environment
-      in which to install the current package.
+        If a virtual environment is not already active, this will create a new virtual environment
+        in which to install the current package.
 
     * - ``activate_virtual_environment``
       - .. code:: python
 
             "yes"
       - Whether or not to include activate the virtual environment and install package
-      upon project creation.
+        upon project creation.
 
 Developing the project
 ``````````````````````
