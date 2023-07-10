@@ -29,7 +29,7 @@ pip-log.txt
 .coverage.*
 nosetests.xml
 htmlcov
-tests/.github
+test_results/
 
 # Translations
 *.mo
