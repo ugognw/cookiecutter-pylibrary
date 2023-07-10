@@ -48,7 +48,7 @@
     "pytest_xdist": ["yes", "no"],
     "sphinx_docs": ["yes", "no"],
     "sphinx_theme": ["furo", "sphinx-rtd-theme", "python-docs-theme", "sphinx-py3doc-enhanced-theme", "sphinx-book-theme", "pydata-sphinx-theme"],
-    "sphinx_doctest": ["no", "yes"],
+    "sphinx_doctest": ["yes", "no"],
     "sphinx_docs_hosting": "https://{{ cookiecutter.repo_name|replace('.', '') }}.readthedocs.io/",
     "initialize_git_repository": ["yes", "no"],
     "install_package": ["yes", "no"],
