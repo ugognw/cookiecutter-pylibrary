@@ -3,7 +3,7 @@ import pytest
 
 
 @pytest.fixture(name='cookie_config')
-def fixture_cookie_config() -> dict:
+def fixture_cookie_config(request) -> dict:
     return {
         "full_name": "Ugochukwu Nwosu",
         "email": "ugognw@gmail.com",
@@ -13,7 +13,7 @@ def fixture_cookie_config() -> dict:
         "package_name": "nameless",
         "distribution_name": "nameless",
         "repo_name": "python-nameless",
-        "repo_hosting": "gitlab.com",
+        "repo_hosting": request.node.get_closest_marker('repo_hosting').args[0],
         "repo_username": "ugognw",
         "repo_main_branch": "main",
         "release_date": "today",
@@ -23,7 +23,7 @@ def fixture_cookie_config() -> dict:
         "version": "0.0.0",
         "license": "MIT license",
         "command_line_interface": "click",
-        "command_line_interface_bin_name": "nameless",
+        "cli_bin_name": "nameless",
         "pypi_badge": "yes",
         "pypi_disable_upload": "no",
         "coveralls": "yes",
