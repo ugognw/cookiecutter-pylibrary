@@ -15,7 +15,7 @@ Added
 * Default GitHub actions and GitLab pipelines for documentation and changelog generation, package publishing, dependency tracking, and license compatability tracking
 * Automated dependency updates with Dependabot_ (if hosting with GitHub)
 * Additional CLI engine options:
-  * `Python Fire`_ and Typer_
+  * `Python Fire`_ and Typer_ (with rich_)
 * Badges in ``README.rst`` for Poetry_, mypy_, `Code Climate`_, nox_
 * Support for optional `pytest`_ plugins (pytest_datadir_ and pytest_xdist_)
 * Support for optional gitchangelog_
@@ -26,9 +26,10 @@ Changed
 ~~~~~~~
 
 * setuptools_ -> Poetry_ for packagement management and building
-* Transition from `setup.py` to `pyproject.toml`
+* Transition from ``setup.py`` to ``pyproject.toml``
 * Tox_ -> Nox_ + nox-poetry_ for managing test environments
 * Replace Pylint_ with mypy_ for type-checking
+
 
 Removed
 ~~~~~~~
@@ -36,7 +37,9 @@ Removed
 * C-extension support
 * Optional tests inside of packagement
 * Optional coverage testing separate from tests
-* Support for hosting domains other than `github.com` and `gitlab.com`
+* Support for hosting domains other than ``github.com`` and ``gitlab.com``
+* Removed support for version control via tbump_
+* Scrutinizer_ support
 
 `0.0.1`_ (2023-06-24)
 ------------------
@@ -70,3 +73,6 @@ Added
 .. _`Python Fire`: https://github.com/google/python-fire
 .. _Typer: https://typer.tiangolo.com
 .. _gitchangelog: https://github.com/vaab/gitchangelog
+.. _tbump: https://github.com/your-tools/tbump
+.. _Scrutinizer: https://scrutinizer-ci.com
+.. _rich: https://rich.readthedocs.io/
