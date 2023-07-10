@@ -70,7 +70,7 @@ This is an "all inclusive" sort of template.
 
 * *Optional* support for testing across different platforms
 
-* *Optional* command-line interface via argparse_, click_, `Python Fire`_, or Typer_
+* *Optional* command-line interface via argparse_, click_, `Python Fire`_, or Typer_ (and rich_)
 
 * Configurations for:
 
@@ -93,11 +93,7 @@ Requirements
 
 Projects using this template have the following minimal dependencies:
 
-* Poetry_
-
-* click_, `Python Fire`_, or Typer_
-
-* nox_ and nox-poetry_
+* click_, `Python Fire`_, or Typer_ (and rich_)
 
 To get quickly started on a new system, just `install pip
 <https://pip.pypa.io/en/latest/installing.html>`_. That's the bare minimum to required
@@ -254,7 +250,7 @@ You will be asked for these fields:
         * ``plain`` - a very simple command.
         * ``argparse`` - a command implemented with argparse_.
         * ``fire`` - a command implemented with `Python Fire`_.
-        * ``typer`` - a command implemented with Typer_.
+        * ``typer`` - a command implemented with Typer_ (and rich_).
         * ``click`` - a command implemented with click_ - which you can use to build more complex commands.
         * ``no`` - no CLI at all.
 
@@ -547,4 +543,5 @@ If you have criticism or suggestions please open up an Issue or Pull Request.
 .. _click: http://click.pocoo.org/
 .. _`Python Fire`: https://github.com/google/python-fire
 .. _Typer: https://typer.tiangolo.com
+.. _rich: https://rich.readthedocs.io/
 .. _gitchangelog: https://github.com/vaab/gitchangelog
