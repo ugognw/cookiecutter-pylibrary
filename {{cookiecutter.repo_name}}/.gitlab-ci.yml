@@ -1,0 +1,143 @@
+{% raw -%}
+# Change poetry's cache directory to be inside the project directory since we can
+# only cache local items.
+variables:
+  POETRY_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pypoetry"
+  PIPELINE_NAME: 'Pipeline for branch: $CI_COMMIT_BRANCH'
+
+# Edit to allow pipeline to run for branches other than the default branch
+workflow:
+  name: '$PIPELINE_NAME'
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+default:
+  before_script:
+    - python --version ; pip --version  # For debugging
+    - pip install virtualenv
+    - python -m virtualenv .cache/pypoetry/venv
+    - source .cache/pypoetry/venv/bin/activate
+    - echo '----------Installing Poetry----------'
+    - curl -sSL https://install.python-poetry.org | python3
+    - echo '-----Finished Installing Poetry-----'
+    - PATH="/root/.local/bin:$PATH"
+    - poetry --version  # For debugging
+    - poetry env info  # For debugging
+  cache:
+    paths:
+      - "$POETRY_CACHE_DIR"
+  image: python:latest
+stages:
+  - test
+  - document
+  - build
+  - publish
+
+.test: &test
+  - poetry install --with=test
+  - tox -r -e "${CI_JOB_NAME%%-test}"
+{%- endraw %}
+
+{%- raw %}
+{% for env in tox_environments %}
+{% set python %}{{ env[2] }}.{{ env[3:] }}{% endset %}
+{% set toxpython %}python{{ python }}{% endset %}
+{% for os, python_arch in [
+    ['ubuntu', 'x64'],
+{%- endraw %}
+{%- if cookiecutter.gitlab_ci_cd_windows == 'yes' %}
+    ['windows', 'x64'],
+{%- endif %}
+{%- if cookiecutter.gitlab_ci_cd_osx == 'yes' %}
+    ['macos', 'x64'],
+{%- endif %}
+{%- raw %}
+] %}
+py{{ python }}-test:
+  stage: test
+  image: python:{{ python }}
+  script:
+    - *test
+          - name: '{{ env }} ({{ os }})'
+            python: '{{ python }}'
+            toxpython: '{{ toxpython }}'
+            python_arch: '{{ python_arch }}'
+            tox_env: '{{ env }}'
+            os: '{{ os }}-latest'
+{% endfor %}
+{% endfor %}
+    steps:
+{%- endraw %}
+
+py310-test:
+  stage: test
+  image: python:3.10
+  script:
+    - *test
+
+py311-test:
+  stage: test
+  image: python:3.11
+  script:
+    - *test
+  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
+    paths:
+      - .coverage
+
+check-test:
+  stage: test
+  script:
+    - *test
+
+docs-test:
+  stage: test
+  script:
+    - poetry install --no-root --with=docs
+    - sphinx-apidoc -o docs/source/reference src/{{ cookiecutter.package_name}}
+    - *test
+  artifacts:
+    paths:
+      - .tox/docs_out
+
+report-test:
+  stage: document
+  needs: [py311-test]
+  script:
+    - *test
+  artifacts:
+    paths:
+      - htmlcov
+
+build-job:
+  stage: build
+  needs: [py310-test,py311-test,check-test,docs-test,report-test]
+  script:
+    - poetry build
+  artifacts:
+    paths:
+      - "build/*"
+
+publish-job:
+  stage: publish
+  needs: [build-job]
+  rules:
+    - if: $CI_COMMIT_TAG
+      variables:
+        PIPELINE_NAME: '$PIPELINE_NAME (production)'
+  script:
+    - poetry publish
+
+read-the-docs-job:
+  stage: publish
+  needs: [build-job]
+  rules:
+    - if: $CI_COMMIT_TAG
+      variables:
+        PIPELINE_NAME: '$PIPELINE_NAME (production)'
+  script:
+    - echo "" # trigger RTD
