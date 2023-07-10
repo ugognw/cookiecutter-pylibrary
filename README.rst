@@ -32,7 +32,7 @@ This is an "all inclusive" sort of template.
 
 * Configuration to match your choice of hosting on GitHub or GitLab
 
-* `src/package_name` directory structure
+* ``src/package_name`` directory structure
 
 * tests outside of package
 
@@ -50,8 +50,6 @@ This is an "all inclusive" sort of template.
 
 * mypy_ for type-checks to supplement Ruff_
 
-* pre-commit_ - for running pre-commit git hooks (optional)
-
 * Coveralls_, Codecov_ Codacy_, and/or `Code Climate`_ integration for coverage tracking
 
 * Virtual environment management and package building/publishing with Poetry_
@@ -68,6 +66,8 @@ This is an "all inclusive" sort of template.
 
 * Version managing with bump2version_
 
+* *Optional* git hooks via pre-commit_
+
 * *Optional* support for testing across different platforms
 
 * *Optional* command-line interface via argparse_, click_, `Python Fire`_, or Typer_
@@ -75,8 +75,6 @@ This is an "all inclusive" sort of template.
 * Configurations for:
 
   * bumpversion_ (bump2version_ required)
-
-  * gitchangelog_
 
   * pytest_
 
@@ -86,7 +84,7 @@ This is an "all inclusive" sort of template.
 
   * Black_
 
-  * coverage_
+  * `Coverage.py`_
 
   * Ruff_
 
