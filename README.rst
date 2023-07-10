@@ -28,23 +28,24 @@ This is an "all inclusive" sort of template.
 * Configuration to match your choice of hosting on GitHub or GitLab
 * `src/package_name` directory structure
 * tests outside of package
-* nox_ for managing test environments for PyPy-3.10, Python 3.10, and 3.11
-* Pytest_for testing Python 3.10 and 3.11
-* Automated dependency updates with Dependabot_
+* Nox_ and nox-poetry_ for managing test environments for PyPy-3.10, Python 3.10, and 3.11
+* Pytest_ for testing
+* Automated dependency updates with Dependabot_ (if hosting with GitHub)
 * Documentation with Sphinx_, ready for ReadTheDocs_.
-* Ruff_ for static checks (so much faster than Flake8_!)
-* Codacy_, CodeClimate_, Coveralls_ or Codecov_ for coverage tracking (using Tox_).
+* Black_ - for code formating
+* Ruff_ for static checks and import sorting (including those made by Isort_, Flake8_, Bandit_, Pyupgrade_, and Autoflake_)
 * Mypy_ for type-checks to supplement Ruff_
+* Pre-commit_ - for running pre-commit git hooks (optional)
+* Coverage_ and Coveralls_, Codecov_ Codacy_, or CodeClimate_ for coverage tracking
 * Virtual environment management and package building/publishing with Poetry_
 * CI/CD configuration for testing and building with GitHub Actions or GitLab CI/CD
-* Version managing with bump2version_
-* *Optional* support for testing across different platforms
-* *Optional* command-line interface via argparse_ or click_
-* GitHub actions:
   - testing code functionality
   - testing documentation builds, links, docstrings
-  - checking license compatability (using `pip-licenses`) whenever the `pyproject.toml` is changed
+  - checking license compatability (using pip-licenses_) whenever the `pyproject.toml` is changed
   - publishing tagged versions to PyPI (you must store a PyPI token as a secret in order for this to work)
+* Version managing with bump2version_
+* *Optional* support for testing across different platforms
+* *Optional* command-line interface via argparse_, click_, `Python Fire`_, or Typer_
 * Configurations for:
   * bumpversion_ (bump2version_ required)
   * gitchangelog_
@@ -60,39 +61,9 @@ Requirements
 
 Projects using this template have the following minimal dependencies:
 
-* Poetry_ - for managing the virtual environment and building and publishing the package
-* Click_ or Argparse_ - for the command-line interface
-
-The following dependencies belong to optional dependency groups and may be removed during configuration via your responses to the `cookiecutter` prompts. The dependencies are grouped in the `pyproject.toml` by use:
-
-dev
-~~~
-
-* Black_ - for code formating
-* Ruff_ - for static checks (including those made by Isort_, Flake8_, Bandit_, Pyupgrade_, and Autoflake_)
-* Pylint_ - for dynamic checks
-* Cookiecutter_ - just for creating the project
-
-test
-~~~~
-
-* Coverage_ - for code coverage analysis
-* Pytest_ - for testing
-  * with optional extensions `pytest-cov`, `pytest-datadir`, and `pytest-xdist`
-* Tox_ - for running the tests in isolated environments
-
-vcs
-~~~
-
-* Pre-commit_ - for running pre-commit git hooks (optional)
-* bump2version_ - for updating version strings within the package (optional)
-* gitchangelog_ - for auto-populating changelogs (optional)
-
-docs
-~~~~
-
-* Sphinx_ - for building documentation
-* furo_, sphinx-rtd-theme_, python-docs-theme_, sphinx-py3doc-enhanced-theme_, sphinx-book-theme_, or pydata-sphinx-theme_ - for documentation theming
+* Poetry_
+* click_, `Python Fire`_, or Typer_
+* nox_ and nox-poetry_
 
 To get quickly started on a new system, just `install pip
 <https://pip.pypa.io/en/latest/installing.html>`_. That's the bare minimum to required install Cookiecutter_. To install
@@ -246,10 +217,10 @@ You will be asked for these fields:
       - Option to enable a CLI (a bin/executable file). Available options:
 
         * ``plain`` - a very simple command.
-        * ``argparse`` - a command implemented with ``argparse``.
-        * ``fire`` - a command implemented with ``Fire``.
-        * ``typer`` - a command implemented with ``Typer``.
-        * ``click`` - a command implemented with `click <http://click.pocoo.org/>`_ - which you can use to build more complex commands.
+        * ``argparse`` - a command implemented with argparse_.
+        * ``fire`` - a command implemented with `Python Fire`_.
+        * ``typer`` - a command implemented with Typer_.
+        * ``click`` - a command implemented with click_ - which you can use to build more complex commands.
         * ``no`` - no CLI at all.
 
     * - ``command_line_interface_bin_name``
@@ -414,23 +385,23 @@ Developing the project
 
 To run all the tests, just run::
 
-  tox
+  nox
 
 To see all the tox environments::
 
-  tox -l
+  nox -l
 
 To only build the docs::
 
-  tox -e docs
+  nox -e docs
 
 To build and verify that the built package is proper and other code QA checks::
 
-  tox -e check
+  nox -e format,lint
 
 Releasing the project
 `````````````````````
-Before releasing your package on PyPI you should have all the tox environments passing.
+Before releasing your package on PyPI you should have all the nox environments passing.
 
 Version management
 ''''''''''''''''''
@@ -458,32 +429,17 @@ Note:
 
 Then you should check that you got no packaging issues::
 
-    tox -e check
+    nox -e format
 
 And then you can build the ``sdist``, and if possible, the ``bdist_wheel`` too::
 
-    python setup.py clean --all sdist bdist_wheel
+    poetry build
 
 To make a release of the project on PyPI, assuming you got some distributions in ``dist/``, the most simple usage is::
 
-    twine upload --skip-existing dist/*.whl dist/*.gz dist/*.zip
+    poetry build
 
-In ZSH you can use this to upload everything in ``dist/`` that ain't a linux-specific wheel (you may need ``setopt extended_glob``)::
-
-    twine upload --skip-existing dist/*.(whl|gz|zip)~dist/*linux*.whl
-
-For making and uploading `manylinux1 <https://github.com/pypa/manylinux>`_ wheels you can use this contraption::
-
-    docker run --rm -itv $(pwd):/code quay.io/pypa/manylinux1_x86_64 bash -c 'set -eux; cd code; rm -rf wheelhouse; for variant in /opt/python/*; do rm -rf dist build *.egg-info && $variant/bin/python setup.py clean --all bdist_wheel; auditwheel repair dist/*.whl; done; rm -rf dist build *.egg-info'
-    twine upload --skip-existing wheelhouse/*.whl
-    docker run --rm -itv $(pwd):/code quay.io/pypa/manylinux1_i686 bash -c 'set -eux; cd code; rm -rf wheelhouse; for variant in /opt/python/*; do rm -rf dist build *.egg-info && $variant/bin/python setup.py clean --all bdist_wheel; auditwheel repair dist/*.whl; done; rm -rf dist build *.egg-info'
-    twine upload --skip-existing wheelhouse/*.whl
-
-Note:
-
-    `twine <https://pypi.org/project/twine>`_ is a tool that you can use to securely upload your releases to PyPI.
-    You can still use the old ``python setup.py register sdist bdist_wheel upload`` but it's not very secure - your PyPI
-    password will be sent over plaintext.
+You should set your PyPI credentials according to `here <https://python-poetry.org/docs/repositories/#configuring-credentials>`_.
 
 Changelog
 ---------
@@ -512,19 +468,33 @@ No way, this is the best. :stuck_out_tongue_winking_eye:
 
 If you have criticism or suggestions please open up an Issue or Pull Request.
 
-.. _Tox: https://tox.wiki/
-.. _Sphinx: http://sphinx-doc.org/
-.. _Coveralls: https://coveralls.io/
-.. _ReadTheDocs: https://readthedocs.org/
-.. _Pytest: http://pytest.org/
-.. _Pylint: https://pylint.readthedocs.io/en/latest/
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
-.. _bumpversion: https://pypi.org/project/bump2version
-.. _bump2version: https://github.com/c4urself/bump2version
+.. _Nox: https://nox.thea.codes/en/stable/
+.. _nox-poetry: https://nox-poetry.readthedocs.io/en/stable/
+.. _Pytest: http://pytest.org/
+.. _Dependabot: https://github.com/dependabot/dependabot-core
+.. _Sphinx: http://sphinx-doc.org/
+.. _ReadTheDocs: https://readthedocs.org/
+.. _Black:
+.. _Ruff: https://beta.ruff.rs/docs/
+.. _Isort:
+.. _Flake8:
+.. _Bandit:
+.. _Pyupgrade:
+.. _Autoflake:
+.. _Mypy:
+.. _Pre-commit: https://pre-commit.com
+.. _Coverage:
+.. _Coveralls: https://coveralls.io/
 .. _Codecov: http://codecov.io/
 .. _Codacy: https://codacy.com/
 .. _CodeClimate: https://codeclimate.com/
 .. _Poetry: https://python-poetry.org
+.. _pip-licenses:
+.. _bumpversion: https://pypi.org/project/bump2version
+.. _bump2version: https://github.com/c4urself/bump2version
+.. _argparse:
+.. _click: http://click.pocoo.org/
+.. _`Python Fire`:
+.. _Typer:
 .. _gitchangelog: https://github.com/vaab/gitchangelog
-.. _pre-commit: https://pre-commit.com
-.. _Ruff: https://beta.ruff.rs/docs/
