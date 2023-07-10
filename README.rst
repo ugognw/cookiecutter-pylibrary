@@ -8,7 +8,7 @@ Cookiecutter_ template for a Python library.
 
 * This is largely designed to address this `blog post about packaging python
   libraries <https://blog.ionelmc.ro/2014/05/25/python-packaging/>`_.
-  * ... and it will save you from `packaging pitfalls
+  - ... and it will save you from `packaging pitfalls
     <https://blog.ionelmc.ro/2014/06/25/python-packaging-pitfalls/>`_.
 * Although this cookiecutter is based off of that of `ionelmc <https://github.com/ionelmc/cookiecutter-pylibrary>`_, it also takes inspiration from `python-blueprint <https://github.com/johnthagen/python-blueprint/tree/main>`_ and `cookiecutter-hypermodern-python <https://github.com/cjolowicz/cookiecutter-hypermodern-python/tree/main>`_
 
@@ -479,11 +479,11 @@ If you have criticism or suggestions please open up an Issue or Pull Request.
 .. _Ruff: https://beta.ruff.rs/docs/
 .. _mypy: https://mypy.readthedocs.io/
 .. _pre-commit: https://pre-commit.com
-.. _Coverage: https://coverage.readthedocs.io/
+.. _Coverage.py: https://coverage.readthedocs.io/
 .. _Coveralls: https://coveralls.io/
 .. _Codecov: http://codecov.io/
 .. _Codacy: https://codacy.com/
-.. _CodeClimate: https://codeclimate.com/
+.. _Code Climate: https://codeclimate.com/
 .. _Poetry: https://python-poetry.org
 .. _pip-licenses: https://github.com/raimon49/pip-licenses
 .. _bumpversion: https://pypi.org/project/bump2version
