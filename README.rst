@@ -438,7 +438,7 @@ To run all the tests, just run::
 
   nox
 
-To see all the tox environments::
+To see all the nox environments::
 
   nox -l
 
