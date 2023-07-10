@@ -29,14 +29,14 @@ This is an "all inclusive" sort of template.
 * `src/package_name` directory structure
 * tests outside of package
 * Nox_ and nox-poetry_ for managing test environments for PyPy-3.10, Python 3.10, and 3.11
-* Pytest_ for testing
+* pytest_ for testing (with `Coverage.py`_ for coverage analysis)
 * Automated dependency updates with Dependabot_ (if hosting with GitHub)
 * Documentation with Sphinx_, ready for ReadTheDocs_.
 * Black_ - for code formating
-* Ruff_ for static checks and import sorting (including those made by Isort_, Flake8_, Bandit_, Pyupgrade_, and Autoflake_)
-* Mypy_ for type-checks to supplement Ruff_
-* Pre-commit_ - for running pre-commit git hooks (optional)
-* Coverage_ and Coveralls_, Codecov_ Codacy_, or CodeClimate_ for coverage tracking
+* Ruff_ for static checks and import sorting
+* mypy_ for type-checks to supplement Ruff_
+* pre-commit_ - for running pre-commit git hooks (optional)
+* Coveralls_, Codecov_ Codacy_, and/or `Code Climate`_ integration for coverage tracking
 * Virtual environment management and package building/publishing with Poetry_
 * CI/CD configuration for testing and building with GitHub Actions or GitLab CI/CD
   - testing code functionality
@@ -49,10 +49,10 @@ This is an "all inclusive" sort of template.
 * Configurations for:
   * bumpversion_ (bump2version_ required)
   * gitchangelog_
-  * Pytest_
-  * Mypy_
+  * pytest_
+  * mypy_
   * pre-commit_
-  * black_
+  * Black_
   * coverage_
   * Ruff_
 
@@ -274,7 +274,7 @@ You will be asked for these fields:
       - .. code:: python
 
             "yes"
-      - Enable the Velocity GitHub Action by CodeClimate_ and a corresponding badge in ``README.rst``. **Note:** This will not be implemented if you select "gitlab.com"" as your repo hosting domain. Further, you will have to set the `VELOCITY_DEPLOYMENT_TOKEN` as a secret on your repo hosting site in order for CI/CD integration to work correctly.
+      - Enable the Velocity GitHub Action by `Code Climate`_ and a corresponding badge in ``README.rst``. **Note:** This will not be implemented if you select "gitlab.com"" as your repo hosting domain. Further, you will have to set the `VELOCITY_DEPLOYMENT_TOKEN` as a secret on your repo hosting site in order for CI/CD integration to work correctly.
 
     * - ``gitchangelog``
       - .. code:: python
@@ -372,7 +372,7 @@ You will be asked for these fields:
       - .. code:: python
 
             "yes"
-      - Whether or not to include install the newly created package via poetry. If a virtual environment is not already active, this will create a new virtual environment in which to install the current package.
+      - Whether or not to include install the newly created package via Poetry_. If a virtual environment is not already active, this will create a new virtual environment in which to install the current package.
 
     * - ``activate_virtual_environment``
       - .. code:: python
@@ -470,31 +470,26 @@ If you have criticism or suggestions please open up an Issue or Pull Request.
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _Nox: https://nox.thea.codes/en/stable/
-.. _nox-poetry: https://nox-poetry.readthedocs.io/en/stable/
-.. _Pytest: http://pytest.org/
+.. _nox-poetry: https://nox-poetry.readthedocs.io/
+.. _pytest: http://pytest.org/
 .. _Dependabot: https://github.com/dependabot/dependabot-core
 .. _Sphinx: http://sphinx-doc.org/
 .. _ReadTheDocs: https://readthedocs.org/
-.. _Black:
+.. _Black: https://black.readthedocs.io/
 .. _Ruff: https://beta.ruff.rs/docs/
-.. _Isort:
-.. _Flake8:
-.. _Bandit:
-.. _Pyupgrade:
-.. _Autoflake:
-.. _Mypy:
-.. _Pre-commit: https://pre-commit.com
-.. _Coverage:
+.. _mypy: https://mypy.readthedocs.io/
+.. _pre-commit: https://pre-commit.com
+.. _Coverage: https://coverage.readthedocs.io/
 .. _Coveralls: https://coveralls.io/
 .. _Codecov: http://codecov.io/
 .. _Codacy: https://codacy.com/
 .. _CodeClimate: https://codeclimate.com/
 .. _Poetry: https://python-poetry.org
-.. _pip-licenses:
+.. _pip-licenses: https://github.com/raimon49/pip-licenses
 .. _bumpversion: https://pypi.org/project/bump2version
 .. _bump2version: https://github.com/c4urself/bump2version
-.. _argparse:
+.. _argparse: https://docs.python.org/3/library/argparse.html
 .. _click: http://click.pocoo.org/
-.. _`Python Fire`:
-.. _Typer:
+.. _`Python Fire`: https://github.com/google/python-fire
+.. _Typer: https://typer.tiangolo.com
 .. _gitchangelog: https://github.com/vaab/gitchangelog
