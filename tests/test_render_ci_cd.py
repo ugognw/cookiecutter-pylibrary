@@ -33,7 +33,7 @@ class TestGithub:
     @pytest.mark.repo_hosting('github.com')
     def test_render(cookie_config: dict, environment: Environment, template_names: list[str]):
         for template_name in template_names:
-            filename = pathlib.Path('tests/.github/workflows') / template_name
+            filename = pathlib.Path('test_results/.github/workflows') / template_name
             template = environment.get_template(template_name)
             with open(filename, mode='w', encoding='utf-8') as file:
                 file.write(
@@ -49,7 +49,7 @@ class TestGitlab:
     def test_render(cookie_config: dict, environment: Environment, template_names: list[str]):
 
         for template_name in template_names:
-            filename = pathlib.Path('tests') / template_name
+            filename = pathlib.Path('test_results') / template_name
             template = environment.get_template(template_name)
             with open(filename, mode='w', encoding='utf-8') as file:
                 file.write(
