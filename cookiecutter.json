@@ -29,7 +29,7 @@
         "no"
     ],
     "command_line_interface": ["click", "plain", "argparse", "fire", "typer", "no"],
-    "command_line_interface_bin_name": "{{ cookiecutter.package_name }}",
+    "cli_bin_name": "{{ cookiecutter.package_name }}",
     "pypi_badge": ["yes", "no"],
     "pypi_disable_upload": ["no", "yes"],
     "coveralls": ["yes", "no"],

@@ -31,7 +31,7 @@ import sys
 {%- if cookiecutter.command_line_interface == "click" %}
 
 
-@click.command(name='{{ cookiecutter.command_line_interface_bin_name }}', invoke_without_command=True)
+@click.command(name='{{ cookiecutter.cli_bin_name }}', invoke_without_command=True)
 @click.option(
     '-v',
     '--version',
@@ -41,7 +41,7 @@ import sys
 )
 def main(version):
     if version:
-        click.echo(f'{{ cookiecutter.command_line_interface_bin_name }}-{{{ cookiecutter.command_line_interface_bin_name }}.__version__}')
+        click.echo(f'{{ cookiecutter.cli_bin_name }}-{{{ cookiecutter.cli_bin_name }}.__version__}')
 {%- elif cookiecutter.command_line_interface == "argparse" %}
 
 
@@ -61,8 +61,8 @@ def main(args=None):
 
 
 def help():
-    print("{{ cookiecutter.command_line_interface_bin_name }}")
-    print("=" * len("{{ cookiecutter.command_line_interface_bin_name }}"))
+    print("{{ cookiecutter.cli_bin_name }}")
+    print("=" * len("{{ cookiecutter.cli_bin_name }}"))
     print("{{ cookiecutter.project_short_description }}")
 
 def main():
@@ -79,7 +79,7 @@ app = Typer(add_completion=False)
 def main(n: Annotated[int, Argument(min=0, help="{{ cookiecutter.project_short_description }}")]) -> None:
     """{{ cookiecutter.project_short_description }}"""
 
-    Console().print(f'{{ cookiecutter.command_line_interface_bin_name }}-{{{ cookiecutter.command_line_interface_bin_name }}.__version__}')
+    Console().print(f'{{ cookiecutter.cli_bin_name }}-{{{ cookiecutter.cli_bin_name }}.__version__}')
 {%- else %}
 
 

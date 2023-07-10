@@ -95,11 +95,11 @@ git tag v{{ cookiecutter.version }}
 git remote add origin git@{{ cookiecutter.repo_hosting }}:{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}.git
 git push -u origin {{ cookiecutter.repo_main_branch }} v{{ cookiecutter.version }}
 ''')
-    command_line_interface_bin_name = '{{ cookiecutter.command_line_interface_bin_name }}'
-    while command_line_interface_bin_name.endswith('.py'):
-        command_line_interface_bin_name = command_line_interface_bin_name[:-3]
+    cli_bin_name = '{{ cookiecutter.cli_bin_name }}'
+    while cli_bin_name.endswith('.py'):
+        cli_bin_name = cli_bin_name[:-3]
 
-        if command_line_interface_bin_name == '{{ cookiecutter.package_name }}':
+        if cli_bin_name == '{{ cookiecutter.package_name }}':
             warn('''
 ┌───────────────────────────────────────────────────────────────────────┐
 │ ERROR:                                                                │
@@ -114,12 +114,12 @@ git push -u origin {{ cookiecutter.repo_main_branch }} v{{ cookiecutter.version 
 │                                                                       │
 │     To avoid this problem you have two options:                       │
 │                                                                       │
-│     * Remove the ".py" suffix from `command_line_interface_bin_name`. │
+│     * Remove the ".py" suffix from `cli_bin_name`. │
 │                                                                       │
 │     * Use a different `package_name` {1} │
 └───────────────────────────────────────────────────────────────────────┘
 '''.format(
-                '"{{ cookiecutter.command_line_interface_bin_name }}" will shadow your package.'.ljust(65),
-                '(not "{0}").'.format(command_line_interface_bin_name).ljust(32)))
+                '"{{ cookiecutter.cli_bin_name }}" will shadow your package.'.ljust(65),
+                '(not "{0}").'.format(cli_bin_name).ljust(32)))
             sys.exit(1)
         break

@@ -258,7 +258,7 @@ You will be asked for these fields:
         * ``click`` - a command implemented with click_ - which you can use to build more complex commands.
         * ``no`` - no CLI at all.
 
-    * - ``command_line_interface_bin_name``
+    * - ``cli_bin_name``
       - .. code:: python
 
             "nameless"
