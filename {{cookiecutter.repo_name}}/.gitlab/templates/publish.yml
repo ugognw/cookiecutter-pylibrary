@@ -1,0 +1,35 @@
+include:
+  local:
+    '.gitlab-ci.yml'
+
+variables:
+  PIPELINE_NAME: 'Pipeline for branch: $CI_COMMIT_BRANCH'
+  POETRY_VERSION: "1.5.1"
+  PYTHON_VERSION: "3.11"
+  POETRY_HOME: '$CI_PROJECT_DIR/opt/poetry'
+  PATH: '$POETRY_HOME:$PATH'
+
+workflow:
+  name: '$PIPELINE_NAME'
+  rules:
+    - if: $CI_COMMIT_TAG && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+stages:
+  - build
+  - publish
+
+poetry-build:
+  stage: build
+  extends: default
+  script:
+    - poetry build
+  artifacts:
+    path:
+      dist/
+
+poetry-publish:
+  stage: publish
+  extends: default
+  script:
+    - poetry config pypi-token.pypi $PYPI_TOKEN
+    - poetry publish
