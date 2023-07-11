@@ -88,6 +88,8 @@ This is an "all inclusive" sort of template.
 
   * Ruff_
 
+  * Dependabot_ or dependabot-standalone_ (not that on GitLab CI/CD, you will have to schedule the Dependabot pipeline; see `here <https://docs.gitlab.com/ee/ci/pipelines/schedules.html>`_)
+
 Requirements
 ------------
 
@@ -524,6 +526,7 @@ If you have criticism or suggestions please open up an Issue or Pull Request.
 .. _nox-poetry: https://nox-poetry.readthedocs.io/
 .. _pytest: http://pytest.org/
 .. _Dependabot: https://github.com/dependabot/dependabot-core
+.. _dependabot-standalone: https://gitlab.com/dependabot-gitlab/dependabot-standalone
 .. _Sphinx: http://sphinx-doc.org/
 .. _ReadTheDocs: https://readthedocs.org/
 .. _Black: https://black.readthedocs.io/
