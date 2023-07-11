@@ -75,6 +75,8 @@ jobs:
           # type_check needs main and test dependencies for inline type annotations.
           - { nox-session: type_check, poetry-groups: "type_check,main,dev" }
           - { nox-session: docs, poetry-groups: "docs" }
+          - { nox-session: docs_test, poetry-groups: "docs" }
+          - { nox-session: docs_check_urls, poetry-groups: "docs" }
     steps:
       - uses: actions/checkout@v3
       - name: Install poetry
