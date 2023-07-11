@@ -1,0 +1,11 @@
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: "/.gitlab/templates"
+  - package-ecosystem: pip
+    directory: "/docs/source"
+  - package-ecosystem: pip
+    directory: "/"
+    versioning-strategy: lockfile-only
+    allow:
+      - dependency-type: "all"
