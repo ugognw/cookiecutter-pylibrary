@@ -15,7 +15,7 @@ def fixture_environment(request) -> Environment:
     elif request.node.get_closest_marker('repo_hosting').args[0] == 'gitlab.com':
         return Environment(
             loader=FileSystemLoader(
-                '{{cookiecutter.repo_name}}'
+                '{{cookiecutter.repo_name}}/.gitlab/templates'
             ),
         )
 
@@ -23,9 +23,9 @@ def fixture_environment(request) -> Environment:
 @pytest.fixture(name='template_names')
 def fixture_template_names(request):
     if request.node.get_closest_marker('repo_hosting').args[0] == 'github.com':
-        return ('docs.yml', 'licenses.yml', 'publish.yml', 'python.yml')
+        return ('licenses.yml', 'publish.yml', 'python.yml')
     elif request.node.get_closest_marker('repo_hosting').args[0] == 'gitlab.com':
-        return ('.gitlab-ci.yml',)
+        return ('licenses.yml', 'publish.yml', 'python.yml')
 
 
 class TestGithub:
@@ -49,7 +49,7 @@ class TestGitlab:
     def test_render(cookie_config: dict, environment: Environment, template_names: list[str]):
 
         for template_name in template_names:
-            filename = pathlib.Path('test_results') / template_name
+            filename = pathlib.Path('test_results/.gitlab/templates') / template_name
             template = environment.get_template(template_name)
             with open(filename, mode='w', encoding='utf-8') as file:
                 file.write(
