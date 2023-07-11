@@ -1,0 +1,30 @@
+include:
+  local:
+    '.gitlab-ci.yml'
+
+variables:
+  PIPELINE_NAME: 'Pipeline for branch: $CI_COMMIT_BRANCH'
+  POETRY_VERSION: "1.5.1"
+  PYTHON_VERSION: "3.11"
+  POETRY_HOME: '$CI_PROJECT_DIR/opt/poetry'
+  PATH: '$POETRY_HOME:$PATH'
+
+workflow:
+  name: '$PIPELINE_NAME'
+  rules:
+    - if: $CI_COMMIT_BRANCH
+      changes:
+        - pyproject.toml
+
+stages:
+  - license-check
+
+pip-license-check:
+  stage: build
+  extends: default
+  script:
+    - poetry install --only nox,docs
+    - poetry run nox -s licenses--from=all --no-version --format=html --output-file=licenses-summary.html
+  artifacts:
+    path:
+      licenses-summary.html
