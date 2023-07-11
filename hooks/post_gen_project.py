@@ -38,14 +38,16 @@ if __name__ == "__main__":
     src.joinpath('{{ cookiecutter.package_name }}', 'cli.py').unlink()
 {% endif %}
 
-{%- if 'yes' not in [cookiecutter.github_actions, cookiecutter.gitlab_ci_cd]%}
+{%- if cookiecutter.github_actions == 'no' %}
     shutil.rmtree(cwd.joinpath('.github'), ignore_errors=True)
-    cwd.joinpath('.gitlab-ci.yml').unlink(missing_ok=True)
-{%- elif cookiecutter.github_actions == 'no' %}
-    shutil.rmtree(cwd.joinpath('.github', 'workflows', 'github-actions.yml'), ignore_errors=True)
 {%- elif cookiecutter.gitlab_ci_cd == 'no' %}
+    shutil.rmtree(cwd.joinpath('.gitlab'), ignore_errors=True)
     cwd.joinpath('.gitlab-ci.yml').unlink(missing_ok=True)
 {% endif %}
+
+{%- if cookiecutter.codecov == 'yes' %}
+    cwd.joinpath('codecov.yml').unlink(missing_ok=True)
+{%- endif %}
 
 {%- if cookiecutter.pypi_disable_upload == 'yes' %}
     cwd.joinpath('.github', 'workflows', 'publish.yml').unlink()
