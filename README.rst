@@ -289,7 +289,7 @@ You will be asked for these fields:
 
             "yes"
       - Enable pushing coverage data to Codecov_ and add badge in ``README.rst``. Don't forget
-        to add your repo on `https://about.codecov.io <https://about.codecov.io>`_!
+        to add your repo on `https://about.codecov.io <https://about.codecov.io>`_! Note that if you opt for CI/CD with GitLab, you must add your Codecov_ API token as a variable called ``CODECOV_TOKEN`` (see `here <https://docs.codecov.com/docs/gitlab-2-getting-a-codecov-account-and-uploading-coverage#create-a-codecov-account>`_).
 
     * - ``codacy``
       - .. code:: python
@@ -300,7 +300,7 @@ You will be asked for these fields:
 
         **Note:** Displaying the Codacy badge is contingent on your project ID. If you don't
         input your project ID during the cookiecutter configuration step, you can still fill
-        in your hexadecimal project ID in the badge URL in the `README.rst`.
+        in your hexadecimal project ID in the badge URL in the `README.rst`. If you opt for GitLab as your CI/CD platfor, Codacy integration can be enabled by following the steps `here <https://docs.codacy.com/repositories-configure/integrations/gitlab-integration/>`_.
 
     * - ``codacy_projectid``
       - .. code:: python
