@@ -291,7 +291,9 @@ You will be asked for these fields:
 
             "yes"
       - Enable pushing coverage data to Codecov_ and add badge in ``README.rst``. Don't forget
-        to add your repo on `https://about.codecov.io <https://about.codecov.io>`_! Note that if you opt for CI/CD with GitLab, you must add your Codecov_ API token as a variable called ``CODECOV_TOKEN`` (see `here <https://docs.codecov.com/docs/gitlab-2-getting-a-codecov-account-and-uploading-coverage#create-a-codecov-account>`_).
+        to add your repo on `https://about.codecov.io <https://about.codecov.io>`_! Note that if
+        you opt for CI/CD with GitLab, you must add your Codecov_ API token as a variable called
+        ``CODECOV_TOKEN`` (see `here <https://docs.codecov.com/docs/gitlab-2-getting-a-codecov-account-and-uploading-coverage#create-a-codecov-account>`_).
 
     * - ``codacy``
       - .. code:: python
@@ -361,7 +363,8 @@ You will be asked for these fields:
 
             "yes"
       - Whether or not to install pre-commit_ hooks. Requires that a .git repository exists in
-        the current working directory.
+        the current working directory. If pre-commit_ is not already installed, then it will be
+        installed via ``pip``.
 
     * - ``pytest_datadir``
       - .. code:: python
@@ -412,7 +415,9 @@ You will be asked for these fields:
       - .. code:: python
 
             "yes"
-      - Whether or not to initialize a Git repository using `git init`.
+      - Whether or not to initialize a Git repository using `git init`. This also creates an
+        initial commit and an initial tag with the version number specified in ``cookiecutter.version``.
+        Both are pushed to the repository specified in ``cookiecutter.repo_hosting``.
 
     * - ``install_package``
       - .. code:: python
