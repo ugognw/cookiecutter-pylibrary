@@ -61,10 +61,11 @@ if __name__ == "__main__":
     try:
         _ = subprocess.check_call(['git', 'init'])
         _ = subprocess.check_call(['git', 'add', '--all'])
-        _ = subprocess.check_call(['git', 'commit', ' -m', '"Add initial project skeleton."'])
+        _ = subprocess.check_call(['git', 'commit', '-m', '"Add initial project skeleton."'])
         _ = subprocess.check_call(['git', 'tag', 'v{{ cookiecutter.version }}'])
         _ = subprocess.check_call(['git', 'remote', 'add', 'origin', 'git@{{ cookiecutter.repo_hosting }}:{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}.git'])
-        _ = subprocess.check_call(['git', 'push', ' -u', 'origin', '{{ cookiecutter.repo_main_branch }} v{{ cookiecutter.version }}'])
+        _ = subprocess.check_call(['git', 'push', ' -u', 'origin', '{{ cookiecutter.repo_main_branch }}'])
+        _ = subprocess.check_call(['git', 'push', ' -u', 'origin', '{{ cookiecutter.repo_main_branch }}', 'v{{ cookiecutter.version }}'])
     except subprocess.CalledProcessError:
         pass
 {%- endif %}
@@ -101,6 +102,8 @@ if __name__ == "__main__":
         _ = subprocess.check_call(['source', '"$(poetry env info --path)"/bin/activate'])
         venv_activated = True
 {%- endif %}
+    except subprocess.CalledProcessError as err:
+        print(err.args)
     except Exception:
             warn(
                 'Unable to install Poetry.'.center(width, "#")
@@ -116,7 +119,7 @@ if __name__ == "__main__":
     pre_commit_installed = False
 {%- if cookiecutter.pre_commit == 'no' %}
     cwd.joinpath('.pre-commit-config.yaml').unlink()
-{%- elif cookiecutter.install_precommit_hooks %}
+{%- elif cookiecutter.install_precommit_hooks == 'yes' %}
     note(' Setting up pre-commit '.center(width, "#"))
     if cwd.joinpath('.git').exists():
         try:
@@ -161,6 +164,7 @@ if __name__ == "__main__":
             'git commit -m "Add initial project skeleton."',
             'git tag v{{ cookiecutter.version }}',
             'git remote add origin git@{{ cookiecutter.repo_hosting }}:{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}.git',
+            'git push -u origin {{ cookiecutter.repo_main_branch }}',
             'git push -u origin {{ cookiecutter.repo_main_branch }} v{{ cookiecutter.version }}'
         )
     )
