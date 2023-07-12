@@ -99,7 +99,11 @@ if __name__ == "__main__":
         package_installed = True
 {% if cookiecutter.activate_virtual_environment %}
         note(' Activating virtual environment '.center(width, "#"))
-        _ = subprocess.check_call(['source', '"$(poetry env info --path)"/bin/activate'])
+        env_path = subprocess.check_output(
+            ['poetry', 'env', 'info', '--path'],
+            encoding='utf-8'
+        ).strip('\n') + '/bin/activate'
+        _ = subprocess.check_call(['source', env_path])
         venv_activated = True
 {%- endif %}
     except subprocess.CalledProcessError as err:
@@ -123,8 +127,8 @@ if __name__ == "__main__":
     note(' Setting up pre-commit '.center(width, "#"))
     if cwd.joinpath('.git').exists():
         try:
-            _ = subprocess.check_call(['pre-commit', 'install', '--install-hooks'])
-            _ = subprocess.check_call(['pre-commit', 'autoupdate'])
+            _ = subprocess.check_call(['poetry', 'run', 'pre-commit', 'install', '--install-hooks'])
+            _ = subprocess.check_call(['poetry', 'run', 'pre-commit', 'autoupdate'])
             pre_commit_installed = True
         except FileNotFoundError:
             try:
