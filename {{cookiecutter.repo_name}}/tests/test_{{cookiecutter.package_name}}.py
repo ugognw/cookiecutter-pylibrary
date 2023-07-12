@@ -14,7 +14,7 @@ def test_main():
     runner = CliRunner()
     result = runner.invoke(main, [])
 
-    assert result.output == "()\n"
+    assert result.output == ""
     assert result.exit_code == 0
 {%- elif cookiecutter.command_line_interface == "argparse" %}
     main([])
