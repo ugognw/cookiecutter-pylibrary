@@ -149,7 +149,7 @@ if __name__ == "__main__":
     ]
 {% if cookiecutter.pre_commit == 'yes' %}
     if not pre_commit_installed:
-        commands.append(('pre-commit install --install-hooks', 'pre-commit autoupdate'))
+        commands.extend(('pre-commit install --install-hooks', 'pre-commit autoupdate'))
 {% endif %}
     if not package_installed:
         commands.append('poetry install')
