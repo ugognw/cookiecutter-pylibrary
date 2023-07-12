@@ -58,12 +58,15 @@ if __name__ == "__main__":
     width = min(140, shutil.get_terminal_size(fallback=(140, 0)).columns)
 {%- if cookiecutter.initialize_git_repository == 'yes' %}
     note(' Initializing Git repository '.center(width, "#"))
-    _ = subprocess.check_call(['git', 'init'])
-    _ = subprocess.check_call(['git', 'add', '--all'])
-    _ = subprocess.check_call(['git', 'commit', ' -m', '"Add initial project skeleton."'])
-    _ = subprocess.check_call(['git', 'tag', ' -m', 'v{{ cookiecutter.version }}'])
-    _ = subprocess.check_call(['git', 'remote', 'add', 'origin', 'git@{{ cookiecutter.repo_hosting }}:{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}.git'])
-    _ = subprocess.check_call(['git', 'push', ' -u', 'origin', '{{ cookiecutter.repo_main_branch }} v{{ cookiecutter.version }}'])
+    try:
+        _ = subprocess.check_call(['git', 'init'])
+        _ = subprocess.check_call(['git', 'add', '--all'])
+        _ = subprocess.check_call(['git', 'commit', ' -m', '"Add initial project skeleton."'])
+        _ = subprocess.check_call(['git', 'tag', ' -m', 'v{{ cookiecutter.version }}'])
+        _ = subprocess.check_call(['git', 'remote', 'add', 'origin', 'git@{{ cookiecutter.repo_hosting }}:{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}.git'])
+        _ = subprocess.check_call(['git', 'push', ' -u', 'origin', '{{ cookiecutter.repo_main_branch }} v{{ cookiecutter.version }}'])
+    except subprocess.CalledProcessError:
+        pass
 {%- endif %}
     package_installed = False
     venv_activated = False
