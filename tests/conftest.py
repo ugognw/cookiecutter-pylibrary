@@ -29,7 +29,7 @@ def fixture_cookie_config(repo_hosting) -> dict:
         "release_date": "today",
         "year_from": str(datetime.datetime.now().year),
         "year_to": str(datetime.datetime.now().year),
-        "keywords": "",
+        "keywords": "dog,gag",
         "version": "0.0.0",
         "license": "MIT license",
         "command_line_interface": "click",
