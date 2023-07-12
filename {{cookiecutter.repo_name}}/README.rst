@@ -45,12 +45,11 @@ Overview
 .. |docs| image:: https://readthedocs.org/projects/{{ cookiecutter.repo_name }}/badge/?style=flat
     :target: https://{{ cookiecutter.repo_name|replace('.', '') }}.readthedocs.io/
     :alt: Documentation Status
-{% elif 'gitlab' in cookiecutter.sphinx_docs_hosting and 'gitlab' in cookiecutter.repo_hosting -%}
+{% elif 'gitlab' in cookiecutter.sphinx_docs_hosting and 'gitlab' in cookiecutter.repo_hosting %}
 .. |docs| image:: {{ cookiecutter.__repo_url }}/badges/{{ cookiecutter.repo_main_branch }}/pipeline.svg
     :target: {{ cookiecutter.__repo_url }}/commits/{{ cookiecutter.repo_main_branch }}
     :alt: Documentation Status
 {%- endif %}
-
 .. |nox| image:: https://img.shields.io/badge/%F0%9F%A6%8A-Nox-D85E00.svg
     :alt: nox
     :target: https://github.com/wntrblm/nox
@@ -58,13 +57,12 @@ Overview
 .. |github-actions| image:: {{ cookiecutter.__repo_url }}/actions/workflows/github-actions.yml/badge.svg
     :alt: GitHub Actions Build Status
     :target: {{ cookiecutter.__repo_url }}/actions
-{% elif cookiecutter.gitlab_ci_cd == 'yes' %}
+{%- elif cookiecutter.gitlab_ci_cd == 'yes' %}
 .. |gitlab-ci/cd| image:: https://gitlab.com/%{project_path}/badges/%{default_branch}/pipeline.svg
     :alt: GitLab CI/CD Pipeline Status
     :target: https://gitlab.com/%{project_path}/-/commits/%{default_branch}
 {%- endif %}
-
-{% if cookiecutter.coveralls == 'yes'%}
+{% if cookiecutter.coveralls == 'yes' %}
 .. |coveralls| image:: https://coveralls.io/repos/{{ cookiecutter.repo_hosting | trim('.com') }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}/badge.svg?branch={{ cookiecutter.repo_main_branch }}
     :alt: Coverage Status
     :target: https://coveralls.io/{{ cookiecutter.repo_hosting | trim('.com') }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}?branch={{ cookiecutter.repo_main_branch }}
