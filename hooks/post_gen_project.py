@@ -62,7 +62,7 @@ if __name__ == "__main__":
         _ = subprocess.check_call(['git', 'init'])
         _ = subprocess.check_call(['git', 'add', '--all'])
         _ = subprocess.check_call(['git', 'commit', ' -m', '"Add initial project skeleton."'])
-        _ = subprocess.check_call(['git', 'tag', ' -m', 'v{{ cookiecutter.version }}'])
+        _ = subprocess.check_call(['git', 'tag', 'v{{ cookiecutter.version }}'])
         _ = subprocess.check_call(['git', 'remote', 'add', 'origin', 'git@{{ cookiecutter.repo_hosting }}:{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}.git'])
         _ = subprocess.check_call(['git', 'push', ' -u', 'origin', '{{ cookiecutter.repo_main_branch }} v{{ cookiecutter.version }}'])
     except subprocess.CalledProcessError:
@@ -146,13 +146,13 @@ if __name__ == "__main__":
     ]
 {% if cookiecutter.pre_commit == 'yes' %}
     if not pre_commit_installed:
-        commands.extend(('pre-commit install --install-hooks', 'pre-commit autoupdate'))
+        commands.append(('pre-commit install --install-hooks', 'pre-commit autoupdate'))
 {% endif %}
     if not package_installed:
-        commands.extend('poetry install')
+        commands.append('poetry install')
 
     if not venv_activated:
-        commands.extend('source "$(poetry env info --path)"/bin/activate')
+        commands.append('source "$(poetry env info --path)"/bin/activate')
 
 {%- if cookiecutter.initialize_git_repository == 'no' %}
     commands.extend(
