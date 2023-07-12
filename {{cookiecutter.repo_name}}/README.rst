@@ -81,7 +81,7 @@ Overview
 {%- endif %}
 {% if cookiecutter.codacy == 'yes' and cookiecutter.repo_hosting == 'github.com' %}
 .. |codacy| image:: https://img.shields.io/codacy/grade/{{ cookiecutter.codacy_projectid }}.svg
-    :target: https://www.codacy.com/app/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}
+    :target: https://www.codacy.com/{{ repo_abbrev }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}
     :alt: Codacy Code Quality Status
 {%- endif %}
 {% if cookiecutter.codeclimate == 'yes' %}
