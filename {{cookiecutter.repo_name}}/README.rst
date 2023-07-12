@@ -135,12 +135,12 @@ Documentation
 =============
 
 {{ cookiecutter.sphinx_docs_hosting }}
+
 To use the project:
 
 .. code-block:: python
 
     import {{ cookiecutter.package_name }}
-{% endif %}
 
 Development
 ===========
