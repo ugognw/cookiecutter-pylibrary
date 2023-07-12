@@ -4,15 +4,6 @@ import pathlib
 import pytest
 
 
-@pytest.fixture(name='environment')
-def fixture_environment() -> Environment:
-    return Environment(
-        loader=FileSystemLoader(
-            'hooks'
-        ),
-    )
-
-
 class TestPostGenHook:
     @staticmethod
     @pytest.mark.repo_hosting('github.com')
