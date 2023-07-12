@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install poetry
-        run: pipx install poetry==${POETRY_VERSION}
+        run: pipx install poetry=={{ '${{ env.PYTHON_VERSION }}' }}
       - name: Set up Python {{ '${{ matrix.python-version }}' }}
         uses: actions/setup-python@v4
         with:
@@ -82,7 +82,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install poetry
-        run: pipx install poetry==${POETRY_VERSION}
+        run: pipx install poetry=={{ '${{ env.PYTHON_VERSION }}' }}
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -97,7 +97,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install poetry
-        run: pipx install poetry==${POETRY_VERSION}
+        run: pipx install poetry=={{ '${{ env.PYTHON_VERSION }}' }}
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
