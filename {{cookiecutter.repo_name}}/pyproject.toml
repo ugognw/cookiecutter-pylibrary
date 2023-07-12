@@ -41,8 +41,7 @@ include = [
 {%- if 'readthedocs' in cookiecutter.sphinx_docs_hosting %}
     ".readthedocs.yml",
 {%- endif %}
-    "tox.ini"
-    ]
+]
 classifiers = [
         # complete classifier list: http://pypi.python.org/pypi?%3Aaction=list_classifiers
         "Development Status :: 5 - Production/Stable",
