@@ -107,7 +107,7 @@ pytest-cov = "*"
 pytest-datadir = "*"
 {%- endif %}
 {%- if cookiecutter.pytest_xdist %}
-pytest-xdist = ""*"
+pytest-xdist = "*"
 {%- endif %}
 
 [tool.poetry.group.type_check.dependencies]
