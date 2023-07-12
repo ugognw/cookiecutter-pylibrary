@@ -109,6 +109,7 @@ if __name__ == "__main__":
                 'https://python-poetry.org/docs/#installation.'.center(width, "#")
             )
 {%- endif %}
+
     pre_commit_installed = False
 {%- if cookiecutter.pre_commit == 'no' %}
     cwd.joinpath('.pre-commit-config.yaml').unlink()
@@ -130,6 +131,7 @@ if __name__ == "__main__":
     else:
         print('Skipping precommit install.')
 {%- endif %}
+
     success(' Successfully created `{{ cookiecutter.repo_name }}` '.center(width, "#"))
     print('See .cookiecutterrc for instructions on regenerating the project.')
     note('To get started run these:')
@@ -143,7 +145,6 @@ if __name__ == "__main__":
     if not pre_commit_installed:
         commands.extend(('pre-commit install --install-hooks', 'pre-commit autoupdate'))
 {% endif %}
-
     if not package_installed:
         commands.extend('poetry install')
 
