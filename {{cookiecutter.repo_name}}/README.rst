@@ -54,7 +54,7 @@ Overview
     :alt: nox
     :target: https://github.com/wntrblm/nox
 {% if cookiecutter.github_actions == 'yes' %}
-.. |github-actions| image:: {{ cookiecutter.__repo_url }}/actions/workflows/github-actions.yml/badge.svg
+.. |github-actions| image:: {{ cookiecutter.__repo_url }}/actions/workflows/python.yml/badge.svg?branch={{ cookiecutter.default_branch }}
     :alt: GitHub Actions Build Status
     :target: {{ cookiecutter.__repo_url }}/actions
 {%- elif cookiecutter.gitlab_ci_cd == 'yes' %}
