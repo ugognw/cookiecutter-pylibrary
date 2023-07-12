@@ -10,9 +10,11 @@ readme = "README.rst"
 repository = "https://{{ cookiecutter.repo_hosting }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}"
 documentation = "{{ cookiecutter.sphinx_docs_hosting }}"
 keywords = [
+{%- if cookiecutter.keywords | trim != '' %}
     {%- for keyword in cookiecutter.keywords.split(',') %}
     {{ keyword }},
-    {% endfor %}
+    {%- endfor %}
+{%- endif %}
 ]
 packages = [
     { include = "{{ cookiecutter.package_name }}", from = "src" }
