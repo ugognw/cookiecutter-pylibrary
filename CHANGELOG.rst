@@ -14,7 +14,7 @@ Added
 
 * Optional Coveralls_, Codecov_, Codacy_, or `Code Climate`_ integration for GitLab or GitHub
 * Default GitHub actions and GitLab pipelines for documentation and changelog generation, package publishing, dependency tracking, and license compatability tracking
-* Automated dependency updates with Dependabot_ (if hosting with GitHub)
+* Automated dependency updates with Dependabot_ (if hosting with GitHub) or dependabot-standalone_ (if hosting with GitLab)
 * Additional CLI engine options:
   * `Python Fire`_ and Typer_ (with rich_)
 * Badges in ``README.rst`` for Poetry_, mypy_, `Code Climate`_, nox_
@@ -41,6 +41,7 @@ Removed
 * Support for hosting domains other than ``github.com`` and ``gitlab.com``
 * Removed support for version control via tbump_
 * Scrutinizer_ support
+* Option for non-Sphinx docs engine
 
 `0.0.1`_ (2023-06-24)
 ---------------------
@@ -58,6 +59,7 @@ Added
 .. _nox-poetry: https://nox-poetry.readthedocs.io/
 .. _pytest: http://pytest.org/
 .. _Dependabot: https://github.com/dependabot/dependabot-core
+.. _dependabot-standalone: https://gitlab.com/dependabot-gitlab/dependabot-standalone
 .. _Sphinx: http://sphinx-doc.org/
 .. _ReadTheDocs: https://readthedocs.org/
 .. _Black: https://black.readthedocs.io/
