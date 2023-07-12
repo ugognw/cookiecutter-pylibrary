@@ -6,69 +6,77 @@ from nox_poetry import Session, session
 
 nox.options.error_on_external_run = True
 nox.options.reuse_existing_virtualenvs = True
-nox.options.sessions = ["format_check", "lint", "type_check", "test", "docs"]
+nox.options.sessions = ['format_check', 'lint', 'type_check', 'test', 'docs']
 
 
-@session(python=["pypy-3.10", "3.10", "3.11"])
+@session(python=['pypy-3.10', '3.10', '3.11'])
 def test(s: Session) -> None:
-    s.install(".", "pytest", "pytest-cov")
+    s.install('.', 'pytest', 'pytest-cov')
     s.run(
-        "python",
-        "-m",
-        "pytest",
-        "--cov={{ cookiecutter.package_name }}",
-        "--cov-report=html",
-        "--cov-report=lcov",
-        "--cov-report=xml",
-        "--cov-report=term-missing",
-        "tests",
+        'python',
+        '-m',
+        'pytest',
+        '--cov=no_name',
+        '--cov-report=html',
+        '--cov-report=lcov',
+        '--cov-report=xml',
+        '--cov-report=term-missing',
+        'tests',
         *s.posargs,
     )
 
 
 # For some sessions, set venv_backend="none" to simply execute scripts within the existing Poetry
 # environment. This requires that nox is run within `poetry shell` or using `poetry run nox ...`.
-@session(venv_backend="none")
+@session(venv_backend='none')
 def format(s: Session) -> None:
-    s.run("ruff", "check", ".", "--select", "I", "--fix")
-    s.run("black", ".")
+    s.run('ruff', 'check', '.', '--select', 'I', '--fix')
+    s.run('black', '.')
 
 
-@session(venv_backend="none")
+@session(venv_backend='none')
 def format_check(s: Session) -> None:
-    s.run("ruff", "check", ".", "--select", "I")
-    s.run("black", "--check", ".")
+    s.run('ruff', 'check', '.', '--select', 'I')
+    s.run('black', '--check', '.')
 
 
-@session(venv_backend="none")
+@session(venv_backend='none')
 def lint(s: Session) -> None:
-    s.run("ruff", "check", ".")
+    s.run('ruff', 'check', '.')
 
 
-@session(venv_backend="none")
+@session(venv_backend='none')
 def lint_fix(s: Session) -> None:
-    s.run("ruff", "check", ".", "--fix")
+    s.run('ruff', 'check', '.', '--fix')
 
 
-@session(venv_backend="none")
+@session(venv_backend='none')
 def type_check(s: Session) -> None:
-    s.run("mypy", "src", "tests", "noxfile.py")
+    s.run('mypy', 'src', 'tests', 'noxfile.py')
 
 
-@session(venv_backend="none")
+@session(venv_backend='none')
 def docs(s: Session) -> None:
-    s.run("sphinx-build", "--color", "-W", "-b", "html", "docs/source", "docs/build")
+    s.run(
+        'sphinx-build',
+        '--color',
+        '-W',
+        '-b',
+        'html',
+        'docs/source',
+        'docs/build',
+    )
 
 
-@session(venv_backend="none")
+@session(venv_backend='none')
 def docs_check_urls(s: Session) -> None:
-    s.run("sphinx-build", "--color", "-W", "-b", "linkcheck")
+    s.run('sphinx-build', '--color', '-W', '-b', 'linkcheck')
 
 
 {%- if cookiecutter.sphinx_doctest == 'yes' %}
-@session(venv_backend="none")
+@session(venv_backend='none')
 def docs_test(s: Session) -> None:
-    s.run("sphinx-build", "--color", "-W", "-b", "doctest")
+    s.run('sphinx-build', '--color', '-W', '-b', 'doctest')
 {%- endif %}
 
 
@@ -84,13 +92,13 @@ def licenses(s: Session) -> None:
     # Install dependencies without installing the package itself:
     #   https://github.com/cjolowicz/nox-poetry/issues/680
     s.run_always(
-        "poetry",
-        "export",
-        "--without-hashes",
-        f"--output={requirements_file}",
+        'poetry',
+        'export',
+        '--without-hashes',
+        f'--output={requirements_file}',
         external=True,
     )
-    s.install("pip-licenses", "-r", str(requirements_file))
+    s.install('pip-licenses', '-r', str(requirements_file))
     s.run("pip-licenses",
           '--from=all',
           '--no-version',
