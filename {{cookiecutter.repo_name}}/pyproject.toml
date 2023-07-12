@@ -12,7 +12,7 @@ documentation = "{{ cookiecutter.sphinx_docs_hosting }}"
 keywords = [
 {%- if cookiecutter.keywords | trim != '' %}
     {%- for keyword in cookiecutter.keywords.split(',') %}
-    {{ keyword }},
+    "{{ keyword }}",
     {%- endfor %}
 {%- endif %}
 ]
@@ -29,18 +29,18 @@ include = [
     ".cookiecutterrc.",
     ".coveragerc.",
     ".editorconfig",
-{% if cookiecutter.github_actions == 'yes' -%}
+{%- if cookiecutter.github_actions == 'yes' %}
     ".github/workflows/github-actions.yml",
-{% endif -%}
-{% if cookiecutter.gitlab_ci_cd == 'yes' -%}
+{%- endif %}
+{%- if cookiecutter.gitlab_ci_cd == 'yes' %}
     "gitlab-ci.yml",
-{% endif -%}
-{% if cookiecutter.pre_commit == "yes" -%}
+{%- endif %}
+{%- if cookiecutter.pre_commit == "yes" %}
     ".pre-commit-config.yaml",
-{% endif -%}
-{% if 'readthedocs' in cookiecutter.sphinx_docs_hosting -%}
+{%- endif %}
+{%- if 'readthedocs' in cookiecutter.sphinx_docs_hosting %}
     ".readthedocs.yml",
-{% endif -%}
+{%- endif %}
     "tox.ini"
     ]
 classifiers = [
