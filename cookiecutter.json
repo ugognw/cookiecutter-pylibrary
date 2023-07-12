@@ -46,7 +46,6 @@
     "install_precommit_hooks": ["yes", "no"],
     "pytest_datadir": ["yes", "no"],
     "pytest_xdist": ["yes", "no"],
-    "sphinx_docs": ["yes", "no"],
     "sphinx_theme": ["furo", "sphinx-rtd-theme", "python-docs-theme", "sphinx-py3doc-enhanced-theme", "sphinx-book-theme", "pydata-sphinx-theme"],
     "sphinx_doctest": ["yes", "no"],
     "sphinx_docs_hosting": "https://{{ cookiecutter.repo_name|replace('.', '') }}.readthedocs.io/",
