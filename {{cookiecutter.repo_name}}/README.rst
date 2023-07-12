@@ -5,12 +5,10 @@ Overview
 
 .. list-table::
     :stub-columns: 1
-{% if cookiecutter.sphinx_docs == "yes" %}
     * - code
       - |black| |mypy| |ruff|
     * - docs
       - |docs|
-{%- endif %}
     * - tests
       - | |nox|{% if cookiecutter.github_actions == 'yes' %} |github-actions|
       {%- elif cookiecutter.gitlab_ci_cd == 'yes' %} |gitlab-ci/cd|
@@ -40,7 +38,6 @@ Overview
 .. |ruff| image:: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/charliermarsh/ruff/main/assets/badge/v2.json
     :target: https://github.com/astral-sh/ruff
     :alt: Ruff
-{%- if cookiecutter.sphinx_docs == "yes" -%}
 {%- if 'readthedocs' in cookiecutter.sphinx_docs_hosting -%}
 .. |docs| image:: https://readthedocs.org/projects/{{ cookiecutter.repo_name }}/badge/?style=flat
     :target: https://{{ cookiecutter.repo_name|replace('.', '') }}.readthedocs.io/
@@ -49,7 +46,6 @@ Overview
 .. |docs| image:: {{ cookiecutter.__repo_url }}/badges/{{ cookiecutter.repo_main_branch }}/pipeline.svg
     :target: {{ cookiecutter.__repo_url }}/commits/{{ cookiecutter.repo_main_branch }}
     :alt: Documentation Status
-{% endif %}
 {% endif %}
 .. |nox|: image:: https://img.shields.io/badge/%F0%9F%A6%8A-Nox-D85E00.svg
     :alt: nox
@@ -138,9 +134,7 @@ You can also install the in-development version with::
 Documentation
 =============
 
-{% if cookiecutter.sphinx_docs == "yes" %}
 {{ cookiecutter.sphinx_docs_hosting }}
-{% else %}
 To use the project:
 
 .. code-block:: python

@@ -8,9 +8,7 @@ authors = [
 license = "{{ cookiecutter.license }}"
 readme = "README.rst"
 repository = "https://{{ cookiecutter.repo_hosting }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}"
-{%- if cookiecutter.sphinx_docs == 'yes' %}
 documentation = "{{ cookiecutter.sphinx_docs_hosting }}"
-{%- endif %}
 keywords = [
     {%- for keyword in cookiecutter.keywords.split(',') %}
     {{ keyword }},
@@ -38,7 +36,7 @@ include = [
 {% if cookiecutter.pre_commit == "yes" -%}
     ".pre-commit-config.yaml",
 {% endif -%}
-{% if cookiecutter.sphinx_docs == 'yes' and 'readthedocs' in cookiecutter.sphinx_docs_hosting -%}
+{% if 'readthedocs' in cookiecutter.sphinx_docs_hosting -%}
     ".readthedocs.yml",
 {% endif -%}
     "tox.ini"
