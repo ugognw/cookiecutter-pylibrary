@@ -33,7 +33,7 @@ import {{ cookiecutter.package_name }}
 {%- if cookiecutter.command_line_interface == "click" %}
 
 
-@click.command(name='{{ cookiecutter.cli_bin_name }}', invoke_without_command=True)
+@click.command(name='{{ cookiecutter.cli_bin_name }}'x)
 @click.option(
     '-v',
     '--version',
