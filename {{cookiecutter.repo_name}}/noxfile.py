@@ -91,6 +91,11 @@ def licenses(s: Session) -> None:
         external=True,
     )
     s.install("pip-licenses", "-r", str(requirements_file))
-    s.run("pip-licenses", *s.posargs)
+    s.run("pip-licenses",
+          '--from=all',
+          '--no-version',
+          '--format=html',
+          '--output-file=licenses-summary.html',
+          *s.posargs)
     requirements_file.unlink()
     
