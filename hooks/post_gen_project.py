@@ -64,10 +64,10 @@ if __name__ == "__main__":
         _ = subprocess.check_call(['git', 'commit', '-m', '"Add initial project skeleton."'])
         _ = subprocess.check_call(['git', 'tag', 'v{{ cookiecutter.version }}'])
         _ = subprocess.check_call(['git', 'remote', 'add', 'origin', 'git@{{ cookiecutter.repo_hosting }}:{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}.git'])
-        _ = subprocess.check_call(['git', 'push', ' -u', 'origin', '{{ cookiecutter.repo_main_branch }}'])
-        _ = subprocess.check_call(['git', 'push', ' -u', 'origin', '{{ cookiecutter.repo_main_branch }}', 'v{{ cookiecutter.version }}'])
-    except subprocess.CalledProcessError:
-        pass
+        _ = subprocess.check_call(['git', 'push', '-u', 'origin', '{{ cookiecutter.repo_main_branch }}'])
+        _ = subprocess.check_call(['git', 'push', '-u', 'origin', 'v{{ cookiecutter.version }}'])
+    except subprocess.CalledProcessError as err:
+        print(err.args)
 {%- endif %}
     package_installed = False
     venv_activated = False
