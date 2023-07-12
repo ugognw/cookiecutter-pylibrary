@@ -129,8 +129,10 @@ checks:
         POETRY_GROUPS: type_check,main,dev
       - NOX_SESSION: docs
         POETRY_GROUPS: docs
+{%- if cookiecutter.sphinx_doctest == 'yes' %}
       - NOX_SESSION: docs_test
         POETRY_GROUPS: docs
+{%- endif %}
       - NOX_SESSION: docs_check_urls
         POETRY_GROUPS: docs
   script:
