@@ -26,10 +26,7 @@ if __name__ == "__main__":
     cwd = pathlib.Path().resolve()
     src = cwd / 'src'
 
-{% if cookiecutter.sphinx_docs == "no" %}
-    shutil.rmtree(cwd / 'docs', ignore_errors=True)
-    cwd.joinpath('.readthedocs.yml').unlink()
-{%- elif 'readthedocs' not in cookiecutter.sphinx_docs_hosting %}
+{%- if 'readthedocs' not in cookiecutter.sphinx_docs_hosting %}
     cwd.joinpath('.readthedocs.yml').unlink()
 {% endif %}
 
@@ -38,9 +35,9 @@ if __name__ == "__main__":
     src.joinpath('{{ cookiecutter.package_name }}', 'cli.py').unlink()
 {% endif %}
 
-{%- if cookiecutter.github_actions == 'no' %}
+{%- if cookiecutter.github_actions == 'no' or cookiecutter.repo_hosting != 'github.com' %}
     shutil.rmtree(cwd.joinpath('.github'), ignore_errors=True)
-{%- elif cookiecutter.gitlab_ci_cd == 'no' %}
+{%- elif cookiecutter.gitlab_ci_cd == 'no' or cookiecutter.repo_hosting != 'gitlab.com' %}
     shutil.rmtree(cwd.joinpath('.gitlab'), ignore_errors=True)
     cwd.joinpath('.gitlab-ci.yml').unlink(missing_ok=True)
 {% endif %}
@@ -50,32 +47,52 @@ if __name__ == "__main__":
 {%- endif %}
 
 {%- if cookiecutter.pypi_disable_upload == 'yes' %}
-    cwd.joinpath('.github', 'workflows', 'publish.yml').unlink()
+    cwd.joinpath('.github', 'workflows', 'publish.yml').unlink(missing_ok=True)
+    cwd.joinpath('.gitlab', 'templates', 'publish.yml').unlink(missing_ok=True)
 {%- endif %}
 
 {%- if cookiecutter.license == "no" %}
     cwd.joinpath('LICENSE').unlink()
 {%- endif %}
 
-{%- if cookiecutter.initialize_git_repository %}
+    width = min(140, shutil.get_terminal_size(fallback=(140, 0)).columns)
+{%- if cookiecutter.initialize_git_repository == 'yes' %}
     note(' Initializing Git repository '.center(width, "#"))
     subprocess.check_call(['git', 'init'])
 {%- endif %}
 
-{%- if cookiecutter.install_package %}
+{% if cookiecutter.install_package == 'yes' %}
     note(' Installing package and dependencies '.center(width, "#"))
-    subprocess.check_call(['poetry', 'install'])
-{%- endif %}
+    try:
+        _ = subprocess.check_call(['poetry', 'install'])
 
 {%- if cookiecutter.activate_virtual_environment %}
-    note(' Activating virtual environment '.center(width, "#"))
-    subprocess.check_call(['source', '"$(poetry env info --path)"/bin/activate'])
+        note(' Activating virtual environment '.center(width, "#"))
+        _ = subprocess.check_call(['source', '"$(poetry env info --path)"/bin/activate'])
+{%- endif %}
+    except FileNotFoundError as err:
+        if 'no such file' in err.args[1].lower():
+            note('Installing poetry'.center(width, "#"))
+            _ = subprocess.check_call(
+                [
+                    'curl',
+                    '-sSL',
+                    'https://install.python-poetry.org',
+                    '|',
+                    'python3',
+                    '-'
+                ]
+            )
+            note('Poetry successfully installed'.center(width, "#"))
+        else:
+            warn(
+                'Unable to install Poetry. You will need to install Poetry in order to install the project and activate the virtual environment. https://python-poetry.org/docs/#installation.'
+            )
 {%- endif %}
 
 {%- if cookiecutter.pre_commit == 'no' %}
     cwd.joinpath('.pre-commit-config.yaml').unlink()
 {%- elif cookiecutter.install_precommit_hooks %}
-    width = min(140, shutil.get_terminal_size(fallback=(140, 0)).columns)
     note(' Setting up pre-commit '.center(width, "#"))
     if cwd.joinpath('.git').exists():
         subprocess.check_call(['pre-commit', 'install', '--install-hooks'])
