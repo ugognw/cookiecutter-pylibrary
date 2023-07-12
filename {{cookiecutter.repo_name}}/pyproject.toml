@@ -12,7 +12,7 @@ documentation = "{{ cookiecutter.sphinx_docs_hosting }}"
 keywords = [
     {%- for keyword in cookiecutter.keywords.split(',') %}
     {{ keyword }},
-    {{% endfor }}
+    {% endfor %}
 ]
 packages = [
     { include = "{{ cookiecutter.package_name }}", from = "src" }
