@@ -208,7 +208,6 @@ mark-parentheses = false
 
 [tool.ruff.flake8-quotes]
 inline-quotes = "single"
-{%- endif %}
 
 [tool.ruff.flake8-tidy-imports]
 ban-relative-imports = "all"
