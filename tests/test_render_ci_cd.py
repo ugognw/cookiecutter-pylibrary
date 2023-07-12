@@ -7,9 +7,9 @@ import pytest
 @pytest.fixture(name='template_names')
 def fixture_template_names(request):
     if request.node.get_closest_marker('repo_hosting').args[0] == 'github.com':
-        return ('licenses.yml', 'publish.yml', 'python.yml')
+        return ('licenses.yml', 'publish.yml', 'tests.yml')
     elif request.node.get_closest_marker('repo_hosting').args[0] == 'gitlab.com':
-        return ('licenses.yml', 'publish.yml', 'python.yml')
+        return ('licenses.yml', 'publish.yml', 'tests.yml')
 
 
 class TestGithub:
