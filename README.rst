@@ -317,10 +317,7 @@ You will be asked for these fields:
       - .. code:: python
 
             "yes"
-      - Enable the Velocity GitHub Action by `Code Climate`_ and a corresponding badge in
-        ``README.rst``. **Note:** This will not be implemented if you select "gitlab.com""
-        as your repo hosting domain. Further, you will have to set the `VELOCITY_DEPLOYMENT_TOKEN`
-        as a secret on your repo hosting site in order for CI/CD integration to work correctly.
+      - Place a `Code Climate`_ badge in the ``README.rst``.
 
     * - ``gitchangelog``
       - .. code:: python
