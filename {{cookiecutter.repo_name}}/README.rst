@@ -80,7 +80,7 @@ Overview
     :target: https://app.codecov.io/{{ cookiecutter.repo_hosting | trim('.com') }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}
 {%- endif %}
 {% if cookiecutter.codacy == 'yes' and cookiecutter.repo_hosting == 'github.com' %}
-.. |codacy| image:: https://img.shields.io/codacy/grade/{{ cookiecutter.codacy_projectid }}.svg
+.. |codacy| image:: https://app.codacy.com/project/badge/Grade/{{ cookiecutter.codacy_projectid }}
     :target: https://www.codacy.com/{{ repo_abbrev }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}
     :alt: Codacy Code Quality Status
 {%- endif %}
