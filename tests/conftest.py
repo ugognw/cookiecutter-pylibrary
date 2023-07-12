@@ -33,7 +33,7 @@ def fixture_cookie_config(repo_hosting) -> dict:
         "version": "0.0.0",
         "license": "MIT license",
         "command_line_interface": "click",
-        "cli_bin_name": "nameless",
+        "cli_bin_name": "no-name",
         "pypi_badge": "yes",
         "pypi_disable_upload": "no",
         "coveralls": "yes",
@@ -53,10 +53,10 @@ def fixture_cookie_config(repo_hosting) -> dict:
         "sphinx_docs": "yes",
         "sphinx_theme": ["furo", "sphinx-rtd-theme", "python-docs-theme", "sphinx-py3doc-enhanced-theme", "sphinx-book-theme", "pydata-sphinx-theme"],
         "sphinx_doctest": "yes",
-        "sphinx_docs_hosting": "https://nameless.readthedocs.io/",
+        "sphinx_docs_hosting": "https://no-name.readthedocs.io/",
         "initialize_git_repository": "yes",
         "install_package": "yes",
-        "__repo_url": "https://gitlab.com/ugognw/python-nameless",
+        "__repo_url": f"https://{repo_hosting}/ugognw/python-no-name",
     }
 
 
