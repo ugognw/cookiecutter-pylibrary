@@ -40,7 +40,7 @@ To set up `cookiecutter-pylibrary` for local development:
 1. `Fork cookiecutter-pylibrary on GitHub <https://github.com/ugognw/cookiecutter-pylibrary/fork>`_.
 2. Clone your fork locally::
 
-    git clone git@github.com:your_name_here/cookiecutter-pylibrary.git
+    git clone git@github.com:your_username_here/cookiecutter-pylibrary.git
 
 3. Create a branch for local development::
 
@@ -48,9 +48,9 @@ To set up `cookiecutter-pylibrary` for local development:
 
    Now you can make your changes locally.
 
-4. When you're done making changes run all the checks and docs builder with `tox <https://tox.wiki/en/latest/installation.html>`_ one command::
+4. When you're done making changes run all the checks and docs builder with pytest_ one command::
 
-    tox
+    pytest tests
 
 5. Commit your changes and push your branch to GitHub::
 
@@ -67,14 +67,9 @@ If you need some code review or feedback while you're developing the code just m
 
 For merging, you should:
 
-1. Include passing tests (run ``tox``) [1]_.
+1. Include passing tests (run ``pytest tests``).
 2. Update documentation when there's new API, functionality etc.
 3. Add a note to ``CHANGELOG.rst`` about the changes.
-
-.. [1] If you don't have all the necessary python versions available locally you can rely on Travis - it will
-       `run the tests <https://travis-ci.com/github/ugognw/cookiecutter-pylibrary/pull_requests>`_ for each change you add in the pull request.
-
-       It will be slower though ...
 
 Tips
 ----
@@ -84,8 +79,9 @@ If you want to add a context option, you need to:
 * Add the actual option in `cookiecutter.json <https://github.com/ugognw/cookiecutter-pylibrary/blob/main/cookiecutter.json>`_
 * Add it in the cookiecutter test builder suite:
 
-  * Edit `setup.cfg <https://github.com/ugognw/cookiecutter-pylibrary/blob/main/ci/setup.cfg>`_
-  * Run ``./ci/bootstrap.py`` to regenerate the test ``.cookiecutterrc`` files.
-* Change the `bare tox.ini <https://github.com/ugognw/cookiecutter-pylibrary/blob/main/%7B%7Bcookiecutter.repo_name%7D%7D/tox.ini>`_ to have an conditional for it.
-* Change the `template tox.ini <https://github.com/ugognw/cookiecutter-pylibrary/blob/master/%7B%7Bcookiecutter.repo_name%7D%7D/ci/templates/tox.ini>`_
-  (don't forget the raw sections) to have an conditional for it  (this ``tox.ini`` file is used with the ``test_matrix_configurator=yes`` option)
+  * Edit `conftest.py <https://github.com/ugognw/cookiecutter-pylibrary/blob/main/tests/conftest.py>`_
+* Change the `post_gen_hook.py <https://github.com/ugognw/cookiecutter-pylibrary/blob/main/hooks/post_gen_hook.py>`_ to make any necessary changes.
+* Add the option and a description to `README.rst <https://github.com/ugognw/cookiecutter-pylibrary/blob/main/README.rst>`_.
+* Add an entry in the `CHANGELOG.rst <https://github.com/ugognw/cookiecutter-pylibrary/blob/main/CHANGELOG.rst>` under the heading "unreleased".
+
+.. _pytest: http://pytest.org/
