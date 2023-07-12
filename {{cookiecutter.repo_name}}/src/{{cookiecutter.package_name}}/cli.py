@@ -28,6 +28,8 @@ from typer import Argument, Typer
 {%- else %}
 import sys
 {%- endif %}
+
+import {{ cookiecutter.package_name }}
 {%- if cookiecutter.command_line_interface == "click" %}
 
 
