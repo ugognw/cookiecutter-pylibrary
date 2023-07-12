@@ -1,9 +1,19 @@
 import datetime
 import pytest
 
+from jinja2 import Environment, FileSystemLoader
+
+
+@pytest.fixture(name='repo_hosting')
+def fixture_repo_hosting(request) -> str:
+    if request.node.get_closest_marker('repo_hosting'):
+        return request.node.get_closest_marker('repo_hosting').args[0]
+    else:
+        return 'gitlab.com'
+
 
 @pytest.fixture(name='cookie_config')
-def fixture_cookie_config(request) -> dict:
+def fixture_cookie_config(repo_hosting) -> dict:
     return {
         "full_name": "Ugochukwu Nwosu",
         "email": "ugognw@gmail.com",
@@ -13,7 +23,7 @@ def fixture_cookie_config(request) -> dict:
         "package_name": "nameless",
         "distribution_name": "nameless",
         "repo_name": "python-nameless",
-        "repo_hosting": request.node.get_closest_marker('repo_hosting').args[0],
+        "repo_hosting": repo_hosting,
         "repo_username": "ugognw",
         "repo_main_branch": "main",
         "release_date": "today",
@@ -49,3 +59,22 @@ def fixture_cookie_config(request) -> dict:
         "activate_virtual_environment": "yes",
         "__repo_url": "https://gitlab.com/ugognw/python-nameless",
     }
+
+
+@pytest.fixture(name='template_dir')
+def fixture_template_dir(request) -> str:
+    marker = request.node.get_closest_marker('template_dir')
+    if marker:
+        return marker.args[0]
+    else:
+        return '.'
+
+
+@pytest.fixture(name='environment')
+def fixture_environment(template_dir) -> Environment:
+    return Environment(
+        loader=FileSystemLoader(
+            template_dir
+        ),
+    )
+    
