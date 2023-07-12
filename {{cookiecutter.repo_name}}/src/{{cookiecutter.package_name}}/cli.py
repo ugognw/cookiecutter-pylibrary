@@ -41,7 +41,7 @@ import sys
 )
 def main(version):
     if version:
-        click.echo(f'{{ cookiecutter.cli_bin_name }}-{{{ cookiecutter.cli_bin_name }}.__version__}')
+        click.echo(f"{{ cookiecutter.cli_bin_name }}-{{ '{' }}{{ cookiecutter.cli_bin_name }}.__version__{{ '}' }}")
 {%- elif cookiecutter.command_line_interface == "argparse" %}
 
 
