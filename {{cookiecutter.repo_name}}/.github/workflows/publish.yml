@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install poetry
-        run: pipx install poetry==${POETRY_VERSION}
+        run: pipx install poetry==${{ env.POETRY_VERSION }}
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -38,6 +38,6 @@ jobs:
         uses: codeclimate/velocity-deploy-action@master
         with:
           token: {{ '${{ secrets.VELOCITY_DEPLOYMENT_TOKEN }}' }}
-          version: {{ '${{ outputs.version }}' }}
-          environment: {{ '${{ outputs.environment }}' }}
+          version: {{ '${{ github.action_ref }}' }}
+          environment: production
   {%- endif %}
