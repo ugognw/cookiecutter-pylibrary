@@ -79,7 +79,7 @@ app = Typer(add_completion=False)
 def main(n: Annotated[int, Argument(min=0, help="{{ cookiecutter.project_short_description }}")]) -> None:
     """{{ cookiecutter.project_short_description }}"""
 
-    Console().print(f'{{ cookiecutter.cli_bin_name }}-{{{ cookiecutter.cli_bin_name }}.__version__}')
+    Console().print(f'{{ cookiecutter.cli_bin_name }}-{{ "{" }}{{ cookiecutter.cli_bin_name }}.__version__{{ "}" }}')
 {%- else %}
 
 
