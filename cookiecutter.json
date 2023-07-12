@@ -51,7 +51,6 @@
     "sphinx_docs_hosting": "https://{{ cookiecutter.repo_name|replace('.', '') }}.readthedocs.io/",
     "initialize_git_repository": ["yes", "no"],
     "install_package": ["yes", "no"],
-    "activate_virtual_environment": ["yes", "no"],
     "__repo_url": "https://{{ cookiecutter.repo_hosting }}/{{ cookiecutter.repo_username }}/{{ cookiecutter.repo_name }}",
     "_extensions": [
         "pylibrary.JsonQuoteExtension",

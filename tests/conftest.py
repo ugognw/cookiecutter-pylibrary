@@ -56,7 +56,6 @@ def fixture_cookie_config(repo_hosting) -> dict:
         "sphinx_docs_hosting": "https://nameless.readthedocs.io/",
         "initialize_git_repository": "yes",
         "install_package": "yes",
-        "activate_virtual_environment": "yes",
         "__repo_url": "https://gitlab.com/ugognw/python-nameless",
     }
 

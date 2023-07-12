@@ -70,21 +70,15 @@ if __name__ == "__main__":
         print(err.args)
 {%- endif %}
     package_installed = False
-    venv_activated = False
 {% if cookiecutter.install_package == 'yes' %}
     note(' Installing package and dependencies '.center(width, "#"))
     try:
         _ = subprocess.check_call(['poetry', 'install'])
         package_installed = True
-
-{%- if cookiecutter.activate_virtual_environment %}
-        note(' Activating virtual environment '.center(width, "#"))
-        _ = subprocess.check_call(['source', '"$(poetry env info --path)"/bin/activate'])
-        venv_activated = True
-{%- endif %}
-    except FileNotFoundError:
+    except FileNotFoundError as err:
+        print(err.args)
         note('Installing poetry'.center(width, "#"))
-        _ = subprocess.check_call(
+        p = subprocess.run(
             [
                 'curl',
                 '-sSL',
@@ -92,32 +86,25 @@ if __name__ == "__main__":
                 '|',
                 'python3',
                 '-'
-            ]
+            ], stdout=subprocess.PIPE, shell=True
         )
+        _ = subprocess.run(stdin=p.stdout, shell=True)
         note('Poetry successfully installed'.center(width, "#"))
         _ = subprocess.check_call(['poetry', 'install'])
         package_installed = True
-{% if cookiecutter.activate_virtual_environment %}
-        note(' Activating virtual environment '.center(width, "#"))
-        env_path = subprocess.check_output(
-            ['poetry', 'env', 'info', '--path'],
-            encoding='utf-8'
-        ).strip('\n') + '/bin/activate'
-        _ = subprocess.check_call(['source', env_path])
-        venv_activated = True
-{%- endif %}
     except subprocess.CalledProcessError as err:
         print(err.args)
     except Exception:
-            warn(
-                'Unable to install Poetry.'.center(width, "#")
-            )
-            warn(
-                'You will need to install Poetry in order to install the project and activate the virtual environment.'.center(width, "#")
-            )
-            warn(
-                'https://python-poetry.org/docs/#installation.'.center(width, "#")
-            )
+        print(err.args)
+        warn(
+            'Unable to install Poetry.'.center(width, "#")
+        )
+        warn(
+            'You will need to install Poetry in order to install the project and activate the virtual environment.'.center(width, "#")
+        )
+        warn(
+            'https://python-poetry.org/docs/#installation.'.center(width, "#")
+        )
 {%- endif %}
 
     pre_commit_installed = False
@@ -151,15 +138,6 @@ if __name__ == "__main__":
         'git init',
 {%- endif %}
     ]
-{% if cookiecutter.pre_commit == 'yes' %}
-    if not pre_commit_installed:
-        commands.extend(('pre-commit install --install-hooks', 'pre-commit autoupdate'))
-{% endif %}
-    if not package_installed:
-        commands.append('poetry install')
-
-    if not venv_activated:
-        commands.append('source "$(poetry env info --path)"/bin/activate')
 
 {%- if cookiecutter.initialize_git_repository == 'no' %}
     commands.extend(
@@ -173,6 +151,14 @@ if __name__ == "__main__":
         )
     )
 {%- endif %}
+    if not package_installed:
+        commands.append('poetry install')
+
+    commands.append('poetry shell')
+{% if cookiecutter.pre_commit == 'yes' %}
+    if not pre_commit_installed:
+        commands.extend(('pre-commit install --install-hooks', 'pre-commit autoupdate'))
+{% endif %}
 
     print('\n'.join(commands))
     cli_bin_name = '{{ cookiecutter.cli_bin_name }}'

@@ -427,13 +427,6 @@ You will be asked for these fields:
         If a virtual environment is not already active, this will create a new virtual environment
         in which to install the current package.
 
-    * - ``activate_virtual_environment``
-      - .. code:: python
-
-            "yes"
-      - Whether or not to include activate the virtual environment and install package
-        upon project creation.
-
 Developing the project
 ``````````````````````
 

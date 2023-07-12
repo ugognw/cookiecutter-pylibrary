@@ -21,7 +21,7 @@ Added
 * Support for optional `pytest`_ plugins (pytest_datadir_ and pytest_xdist_)
 * Support for optional gitchangelog_
 * Support for furo_ documentation theme with Sphinx_ and ReadTheDocs_
-* Options to initialize git repository, install the package, and activate virtual environment
+* Options to initialize git repository and install the package
 
 Changed
 ~~~~~~~
