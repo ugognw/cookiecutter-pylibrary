@@ -437,11 +437,11 @@ To see all the nox environments::
 
 To only build the docs::
 
-  nox -e docs
+  nox -s docs
 
 To build and verify that the built package is proper and other code QA checks::
 
-  nox -e format,lint
+  nox -s format,lint
 
 Releasing the project
 `````````````````````
@@ -473,7 +473,7 @@ Note:
 
 Then you should check that you got no packaging issues::
 
-    nox -e format
+    nox -s format
 
 And then you can build the ``sdist``, and if possible, the ``bdist_wheel`` too::
 
@@ -482,7 +482,7 @@ And then you can build the ``sdist``, and if possible, the ``bdist_wheel`` too::
 To make a release of the project on PyPI, assuming you got some distributions in
 ``dist/``, the most simple usage is::
 
-    poetry build
+    poetry publish
 
 You should set your PyPI credentials according to
 `here <https://python-poetry.org/docs/repositories/#configuring-credentials>`_.
